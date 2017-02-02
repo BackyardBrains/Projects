@@ -1,1 +1,13 @@
 # Songbird project
+
+## Background 
+
+Climate change is affecting all of the natural world, and the habitat and survival of many species of birds are being threatened. In order to understand the effects of climate change on birds, it is crucial to record and track songbird activity. The goal of this project is to develop a system that can correctly identify the songs of eight common and local birds of Michigan. This device will record the bird song and relevant environmental information, such as start time, end time, and location. In doing so, we must consider and further define our goals for power usage, connectivity, longevity, and cost. Our ultimate goal is to create a product that can automatically report this data and is suitable for deployment in nature spanning weeks or months. Our highest level stakeholder, Backyard Brains, hopes that their investment will help us learn more about the behavior of songbirds and the broader implications of climate change.
+
+## Early Research and Results
+
+There are many different types of recording devices that field ornithologists use to record songs and calls, as well as existing algorithms that automatically recognize and identify songs. Based on research into relevant literature, there seem to be many different projects that cover this topic, but our device will be unique in execution. As of now, we plan to either upcycle phones or create our own devices to be placed in the field that will record bird songs.This data will then be processed by the device or stored for processing post recording. Machine learning techniques have shown to be very successful in identifying birds. We have also explored the ideas of using pitch and timbre data and the difference between calls and songs to help us identify bird species. Some challenges that we may face include noise interference, file storage, and durability of the recording devices.
+
+## Impact of Success 
+
+This project is important to our sponsor because bird song and communication is applicable to the field of neuroscience, and birdsongs can tell us much about their behavior. Additionally, Backyard Brains is a company focused on educational outreach, and this project is a good way of educating the public on bird behavior, climate change, and how they can be a part of data collection for research. More broadly, this is important for ornithologists and ecologists because the project provides an accessible and effective device that can provide insight into the patterns of bird populations. Researchers will be able to use this data to use for further studies in understanding the effects of climate change. The device will not be limited to scientists, but be available to the public as well as a way to be involved in community science. 
