@@ -20,14 +20,10 @@ def train_and_test(list_of_dirs, test_dirs, model_dir, mtWin=1.0, mtStep=1.0, st
 
 
 if __name__ == '__main__':
-    list_of_dirs = ["C:\\Users\\zacha\\PycharmProjects\\untitled\\american_robin",
-                    "C:\\Users\\zacha\\PycharmProjects\\untitled\\baltimore_oriole",
-                    "C:\\Users\\zacha\\PycharmProjects\\untitled\\house_wren",
-                    "C:\\Users\\zacha\\PycharmProjects\\untitled\\wood_thrush"]
-    test_dirs = ["C:\\Users\\zacha\\PycharmProjects\\untitled\\american_robin_test\\",
-                 "C:\\Users\\zacha\\PycharmProjects\\untitled\\baltimore_oriole_test\\",
-                 "C:\\Users\\zacha\\PycharmProjects\\untitled\\house_wren_test\\",
-                 "C:\\Users\\zacha\\PycharmProjects\\untitled\\wood_thrush_test\\"]
+    list_of_dirs = ["F:\\songbird_samples\\Training\\cardinal_song", "F:\\songbird_samples\\Training\\sparrow_song", "F:\\songbird_samples\\Training\\titmouse_song"]
+    test_dirs = ["F:\\songbird_samples\\Testing\\cardinal_song", "F:\\songbird_samples\\Testing\\sparrow_song",  "F:\\songbird_samples\\Testing\\titmouse_song"]
     model_dir = os.getcwd() + '\\'
-    train_and_test(list_of_dirs, test_dirs, model_dir, mtWin=1.0, mtStep=1.0, stWin=0.05,
-                   stStep=0.05, useBeatmap=True)
+    models = ['svm']  # , 'knn', 'gradientboosting', 'randomforest', 'extratrees']
+    for model in models:
+        train_and_test(list_of_dirs, test_dirs, model_dir, mtWin=1.0, mtStep=1.0, stWin=0.05,
+                       stStep=0.05, useBeatmap=False, modelName=model + '_cardinal_sparrow_titmouse_0', classifierType=model)
