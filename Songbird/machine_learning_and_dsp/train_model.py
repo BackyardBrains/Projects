@@ -12,11 +12,11 @@ def train_model(list_of_dirs, mtWin=1.0, mtStep=1.0, stWin=audioTrainTest.shortT
                                    '_'.join([classifierType, modelName]), useBeatmap)
 
 
-def train_and_test(list_of_dirs, test_dirs, model_dir=os.getcwd(), mtWin=1.0, mtStep=1.0,
+def train_and_test(list_of_dirs, test_dirs, mtWin=1.0, mtStep=1.0,
                    stWin=audioTrainTest.shortTermWindow,
                    stStep=audioTrainTest.shortTermStep, classifierType='svm', modelName='svmTest', useBeatmap=False,
                    store_to_mySQL=False):
     # automatically trains a new model and then tests it using a seperate dataset, see test_model.py
     train_model(list_of_dirs, mtWin, mtStep, stWin, stStep, classifierType, modelName, useBeatmap)
-    test_model(test_dirs, model_dir, modelName, classifierType, store_to_mySQL=store_to_mySQL)
+    test_model(test_dirs, os.getcwd(), modelName, classifierType, store_to_mySQL=store_to_mySQL)
     # send_notification('test and train complete') #sms notification; see twillio_test.py
