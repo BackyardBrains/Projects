@@ -88,7 +88,7 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
             if max(P) > level:
                 confidence_corrected_con_matrix[i][int(Result)] += 1
                 confidence_above_90[i] += 1
-                if int(Result) == i:
+                if Result == float(i):
                     correct_above_90[i] += 1
 
     acc_above_90 = map(truediv, correct_above_90, confidence_above_90)
