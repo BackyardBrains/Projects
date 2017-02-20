@@ -2,7 +2,6 @@ import glob
 import os
 import time
 from hashlib import md5
-from operator import truediv
 
 import MySQLdb
 import numpy as np
@@ -10,6 +9,12 @@ from pyAudioAnalysis import audioTrainTest as aT
 
 from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
 
+
+def do_division(a, b):
+    if a == 0 and b == 0:
+        return 0.0
+    else:
+        return float(a) / float(b)
 
 def unshared_copy(inList):
     #https://stackoverflow.com/questions/1601269/how-to-make-a-completely-unshared-copy-of-a-complicated-list-deep-copy-is-not
@@ -91,8 +96,8 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
                 if Result == float(i):
                     correct_above_90[i] += 1
 
-    acc_above_90 = map(truediv, correct_above_90, confidence_above_90)
-    percent_desicive_samples = map(truediv, confidence_above_90, total_num_samples)
+    acc_above_90 = map(do_division, correct_above_90, confidence_above_90)
+    percent_desicive_samples = map(do_division, confidence_above_90, total_num_samples)
 
     print classNames
     print "acc above ", level, ": ", acc_above_90
