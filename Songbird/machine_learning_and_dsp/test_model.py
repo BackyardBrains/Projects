@@ -67,7 +67,7 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
     for i in xrange(0, len(test_dirs)):  # Iterate through each test directory
         dir = test_dirs[i]
         os.chdir(dir)
-        for file in glob.glob("*.wav"):  # Iterate through each wave file in the directory
+        for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
             Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
                                                           classifierType)  # Test the file
 
