@@ -78,7 +78,7 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
 
             if store_to_mySQL:
                 current_file_results = {
-                    'filename': str(md5(file).hexdigest()),
+                    'filename': unicode(md5(file.encode('utf-8')).hexdigest()),
                     'class': str(classNames[i]),
                     'identifiedCorrectly': str(Result == float(i)).upper(),
                     'confidence': str(max(P))
@@ -88,7 +88,10 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
                                        current_file_results['filename'] + "\', \'" + current_file_results[
                                            'class'] + '\', ' + current_file_results['identifiedCorrectly'] + ', ' + \
                                        current_file_results['confidence'] + ");"
-                    cur.execute(insert_statement)
+                    try:
+                        cur.execute(insert_statement)
+                    except:
+                        pass
 
             total_num_samples[i] += 1
             confusion_matrix[i][int(Result)] += 1
