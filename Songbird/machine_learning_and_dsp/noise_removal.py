@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
 import pyAudioAnalysis.audioSegmentation as aS
@@ -68,3 +69,14 @@ def noise_removal(inputFile, smoothingWindow=0.5, weight=0.3, sensitivity=0.5):
     tfs.noisered(amount=sensitivity)
     clean_out = os.path.join(dir, "clean", inputFile)
     tfs.build(activity_out, clean_out)
+
+
+def noise_removal_dir(rootdir, smoothingWindow=0.5, weight=0.3, sensitivity=0.5):
+    for root, dirs, files in os.walk(rootdir):
+        for sub in dirs:
+            if sub == 'activity' or sub == 'noise' or sub == 'clean':
+                shutil.rmtree(os.path.join(root, sub))
+        for file in files:
+            if file.endswith('.wav'):
+                noise_removal(os.path.join(root, file), smoothingWindow=smoothingWindow, weight=weight,
+                              sensitivity=sensitivity)
