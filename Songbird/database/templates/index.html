@@ -1,27 +1,112 @@
 {% extends "base.html" %}
 {% block content %}
-    <title>
-        Backyard Brains
-    </title>
     <body style="background-color:dimgrey;">
-    <h1>
-    <center><img src="../logo.png" alt="Backyard Brains Logo"></center>
-    <meta charset="utf-8">
-    <meta name="description" content="ablums">
-    <meta name="author" content="Weifong, Yuan, Zachary">
-    </h1>
-    <h2 style="color:orange;font-family:normal;"> 
-    	<center>Songbirds Identification System</center>
-    </h2>
-    <h3 style="color:orange;">
-    	<center>Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica
-    </h3>
+    	<h1>
+    		<center><img src="../logo.png" alt="Backyard Brains Logo"></center>
+    		<meta charset="utf-8">
+    		<meta name="description" content="ablums">
+    		<meta name="author" content="Weifong, Yuan, Zachary">
+    	</h1>
 
-    <em class="center">
-    </em><br><br><br><br>
+    	<h2 style="color:orange;font-family:normal;"> 
+    		<center>Songbirds Identification System</center>
+    	</h2>
+
+    	<h3 style="color:orange;">
+    		<center>Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica
+    	</h3>
+
+    	<form method="get" >
+			<input type="hidden" name="op" value="normal" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				normal
+			</button>
+		</form>
+
+    	<form method="get" >
+			<input type="hidden" name="op" value="time" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Time
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="latitude" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Latitude
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="longitude" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Longitide
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="humidity" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Humidity
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="temperature" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Temperature
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="light" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Light
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="species1" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Best Match Species
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="percentage1" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Best Match Percentage
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="species2" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Second Match Species
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="percentage2" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Second Match Percentage
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="species3" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Third Match Species
+			</button>
+		</form>
+
+		<form method="get" >
+			<input type="hidden" name="op" value="percentage3" />
+			<button id ="delete_pic_pic['picid']" type="submit", value="delete">
+				Third Match Percentage
+			</button>
+		</form>
 	</body>
-    
- 
 {% endblock %}
 
 <!--Andale Mono-->
