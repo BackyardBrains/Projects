@@ -1,5 +1,6 @@
 CREATE TABLE sampleInfo (
 	sampleid VARCHAR(20) PRIMARY KEY,
+	deviceid VARCHAR(20),
 	added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	latitude DECIMAL,
 	longitude DECIMAL,
