@@ -36,76 +36,113 @@
     	</h3>
 
         <center><ul>
-    	    <li><form method="get" >
+    	    <li><form method="post" >
 			    <input type="hidden" name="op" value="sampleid" />
 			    <button type="submit", value="normal">Sample ID</button>
 		    </form></li>
 
-            <li><form method="get" >
+            <li><form method="post" >
 			    <input type="hidden" name="op" value="deviceid" />
 			    <button type="submit", value="normal">Device ID</button>
 		    </form></li>
 
-    	    <li><form method="get" >
-			    <input type="hidden" name="op" value="time" />
+    	    <li><form method="post" >
+			    <input type="hidden" name="op" value="added" />
 			    <button type="submit", value="time">Time</button>
 		    </form></li>
 
-		    <li><form method="get" >
+		    <li><form method="post" >
 			    <input type="hidden" name="op" value="latitude" />
 			    <button type="submit", value="latitude">Latitude</button>
 		    </form></li>
 
-		    <li><form method="get" >
+		    <li><form method="post" >
 			    <input type="hidden" name="op" value="longitude" />
 			    <button type="submit", value="longitude">Longitude</button>
 		    </form></li>
 
-		    <li><form method="get" >
+		    <li><form method="post" >
 			    <input type="hidden" name="op" value="humidity" />
 			    <button type="submit", value="humidity">Humidity</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="temperature" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="temp" />
 			    <button type="submit", value="temperature">Temperature</button>
 		    </form></li>
 
-		    <li><form method="get" >
+		    <li><form method="post" >
 			    <input type="hidden" name="op" value="light" />
 			    <button type="submit", value="light">Light</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="species1" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="type1" />
 			    <button type="submit", value="species1">Best Match Species</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="percentage1" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="per1" />
 			    <button type="submit", value="percentage1">Best Match Percentage</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="species2" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="type2" />
 			    <button type="submit", value="species2">Second Match Species</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="percentage2" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="per2" />
 			    <button type="submit", value="percentage2">Second Match Percentage</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="species3" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="type3" />
 			    <button type="submit", value="species3">Third Match Species</button>
 		    </form></li>
 
-		    <li><form method="get" >
-			    <input type="hidden" name="op" value="percentage3" />
+		    <li><form method="post" >
+			    <input type="hidden" name="op" value="per3" />
 			    <button type="submit", value="percentage3">Third Match Percentage</button>
 		    </form></li>
         </ul></center>
+
+        <table style="width:100%">
+			<tr>
+		    	<th>sampleid</th>
+		    	<th>deviceid</th> 
+		    	<th>added</th>
+		    	<th>latitude</th>
+		    	<th>longitude</th>
+		    	<th>humidity</th>
+		    	<th>temperature</th>
+		    	<th>light</th>
+		    	<th>bestmatch</th>
+		    	<th>bestpercentage</th>
+		    	<th>secondmatch</th>
+		    	<th>secondpercentage</th>
+		    	<th>thirdmatch</th>
+		    	<th>thirdpercentage</th>
+			</tr>
+			{% for res in result %}
+				<tr>
+		    		<td>{{res["sampleid"]}}</td>
+		    		<td>{{res["deviceid"]}}</td>
+		    		<td>{{res["added"]}}</td>
+		    		<td>{{res["latitude"]}}</td>
+		    		<td>{{res["longitude"]}}</td>
+		    		<td>{{res["humidity"]}}</td>
+		    		<td>{{res["temp"]}}</td>
+		    		<td>{{res["light"]}}</td>
+		    		<td>{{res["type1"]}}</td>
+		    		<td>{{res["per1"]}}</td>
+		    		<td>{{res["type2"]}}</td>
+		    		<td>{{res["per2"]}}</td>
+		    		<td>{{res["type3"]}}</td>
+		    		<td>{{res["per3"]}}</td>
+		  		</tr>
+        	{% endfor %}
+		</table>
 	</body>
 {% endblock %}
 
