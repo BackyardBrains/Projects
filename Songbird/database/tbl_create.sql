@@ -7,10 +7,10 @@ CREATE TABLE sampleInfo (
 	humidity INTEGER,
 	temp DECIMAL,
 	light DECIMAL,
-	type1 VARCHAR(20),
+	type1 VARCHAR(40),
 	per1 DECIMAL,
-	type2 VARCHAR(20),
+	type2 VARCHAR(40),
 	per2 DECIMAL,
-	type3 VARCHAR(20),
+	type3 VARCHAR(40),
 	per3 DECIMAL
 );
