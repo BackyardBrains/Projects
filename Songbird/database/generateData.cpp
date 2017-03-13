@@ -42,7 +42,7 @@ int main() {
     string b2 = birds[1];
     string b3 = birds[2];
 
-    out << "('" << i << "','" << dev << "',CURRENT_TIMESTAMP,'" << lat << "','" << lon << "','" << hum << "','" << tem << "','" << lig << "','" << birds[0] << "','" << typ1 << "','" << birds[1] << "','" << typ2 << "','" << birds[2] << "','" << typ3 << "')";
+    out << "(" << i << "," << dev << ",CURRENT_TIMESTAMP," << lat << "," << lon << "," << hum << "," << tem << "," << lig << ",'" << birds[0] << "'," << typ1 << ",'" << birds[1] << "'," << typ2 << ",'" << birds[2] << "'," << typ3 << ")";
   }
   out << ";";
 
