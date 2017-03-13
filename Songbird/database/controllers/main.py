@@ -7,11 +7,15 @@ main = Blueprint('main', __name__, template_folder='templates',url_prefix='/panh
 
 @main.route('/')
 def main_route():
-    db=connect_to_database()
-    cur=db.cursor()
+    db = connect_to_database()
+    cur = db.cursor()
+    
+    if request.method == 'GET':
+        button = request.form.get('op')
 
+        cur.execute("SELECT * FROM sampleInfo ORDER BY %s;", button)
 
-    
-    
-    
-    return render_template("index.html",usernames=result)
+    options = {
+        
+    }
+    return render_template("index.html", **options)
