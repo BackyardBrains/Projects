@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
     <body style="background-color:dimgrey;">
-    	<h1>
+        <style>
+            ul {
+                list-style-type: none;
+                margin: auto;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            li {
+                float: left;
+            }
+
+            li a {
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+            }
+        </style>
+    	
+        <h1>
     		<center><img src="../logo.png" alt="Backyard Brains Logo"></center>
     		<meta charset="utf-8">
     		<meta name="description" content="ablums">
@@ -16,103 +35,77 @@
     		<center>Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica
     	</h3>
 
-    	<form method="get" >
-			<input type="hidden" name="op" value="sampleid" />
-			<button type="submit", value="normal">
-				Sample ID
-			</button>
-		</form>
+        <center><ul>
+    	    <li><form method="get" >
+			    <input type="hidden" name="op" value="sampleid" />
+			    <button type="submit", value="normal">Sample ID</button>
+		    </form></li>
 
-        <form method="get" >
-			<input type="hidden" name="op" value="deviceid" />
-			<button type="submit", value="normal">
-				Device ID
-			</button>
-		</form>
+            <li><form method="get" >
+			    <input type="hidden" name="op" value="deviceid" />
+			    <button type="submit", value="normal">Device ID</button>
+		    </form></li>
 
-    	<form method="get" >
-			<input type="hidden" name="op" value="time" />
-			<button type="submit", value="time">
-				Time
-			</button>
-		</form>
+    	    <li><form method="get" >
+			    <input type="hidden" name="op" value="time" />
+			    <button type="submit", value="time">Time</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="latitude" />
-			<button type="submit", value="latitude">
-				Latitude
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="latitude" />
+			    <button type="submit", value="latitude">Latitude</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="longitude" />
-			<button type="submit", value="longitude">
-				Longitude
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="longitude" />
+			    <button type="submit", value="longitude">Longitude</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="humidity" />
-			<button type="submit", value="humidity">
-				Humidity
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="humidity" />
+			    <button type="submit", value="humidity">Humidity</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="temperature" />
-			<button type="submit", value="temperature">
-				Temperature
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="temperature" />
+			    <button type="submit", value="temperature">Temperature</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="light" />
-			<button type="submit", value="light">
-				Light
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="light" />
+			    <button type="submit", value="light">Light</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="species1" />
-			<button type="submit", value="species1">
-				Best Match Species
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="species1" />
+			    <button type="submit", value="species1">Best Match Species</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="percentage1" />
-			<button type="submit", value="percentage1">
-				Best Match Percentage
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="percentage1" />
+			    <button type="submit", value="percentage1">Best Match Percentage</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="species2" />
-			<button type="submit", value="species2">
-				Second Match Species
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="species2" />
+			    <button type="submit", value="species2">Second Match Species</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="percentage2" />
-			<button type="submit", value="percentage2">
-				Second Match Percentage
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="percentage2" />
+			    <button type="submit", value="percentage2">Second Match Percentage</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="species3" />
-			<button type="submit", value="species3">
-				Third Match Species
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="species3" />
+			    <button type="submit", value="species3">Third Match Species</button>
+		    </form></li>
 
-		<form method="get" >
-			<input type="hidden" name="op" value="percentage3" />
-			<button type="submit", value="percentage3">
-				Third Match Percentage
-			</button>
-		</form>
+		    <li><form method="get" >
+			    <input type="hidden" name="op" value="percentage3" />
+			    <button type="submit", value="percentage3">Third Match Percentage</button>
+		    </form></li>
+        </ul></center>
 	</body>
 {% endblock %}
 
