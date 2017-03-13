@@ -1,16 +1,16 @@
 CREATE TABLE sampleInfo (
-	sampleid VARCHAR(20) PRIMARY KEY,
-	deviceid VARCHAR(20),
+	sampleid INTEGER PRIMARY KEY,
+	deviceid INTEGER,
 	added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	latitude DECIMAL,
-	longitude DECIMAL,
+	latitude FLOAT,
+	longitude FLOAT,
 	humidity INTEGER,
-	temp DECIMAL,
-	light DECIMAL,
+	temp FLOAT,
+	light FLOAT,
 	type1 VARCHAR(40),
-	per1 DECIMAL,
+	per1 FLOAT,
 	type2 VARCHAR(40),
-	per2 DECIMAL,
+	per2 FLOAT,
 	type3 VARCHAR(40),
-	per3 DECIMAL
+	per3 FLOAT
 );
