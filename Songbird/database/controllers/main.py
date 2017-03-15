@@ -13,75 +13,75 @@ def main_route():
 	cur = db.cursor()
 	
 	result = ''
-	button = ''
+	button = 'Sample ID'
 	if request.method == 'POST':
 		if (request.form.get('op') == 'sampleid'):
-			#button = 'sampleid'
+			button = 'Sample ID'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY sampleid")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'deviceid'):
-			#button = 'deviceid'
+			button = 'Device ID'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY deviceid")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'added'):
-			#button = 'added'
+			button = 'Time'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY added")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'latitude'):
-			#button = 'latitude'
+			button = 'Latitude'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY latitude")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'longitude'):
-			#button = 'longitude'
+			button = 'Longitude'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY longitude")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'humidity'):
-			#button = 'humidity'
+			button = 'Humidity'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY humidity")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'temp'):
-			#button = 'temp'
+			button = 'Temperature'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY temp")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'light'):
-			#button = 'light'
+			button = 'Light'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY light")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'type1'):
-			#button = 'type1'
+			button = 'First Match Species'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY type1")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'per1'):
-			#button = 'per1'
+			button = 'First Match Percentage'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY per1")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'type2'):
-			#button = 'type2'
+			button = 'Second Match Species'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY type2")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'per2'):
-			#button = 'per2'
+			button = 'Second Match Percentage'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY per2")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'type3'):
-			#button = 'type3'
+			button = 'Third Match Species'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY type3")
 			result = cur.fetchall()
 		elif (request.form.get('op') == 'per3'):
-			#button = 'per3'
+			button = 'Third Match Percentage'
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY per3")
 			result = cur.fetchall()
@@ -89,9 +89,9 @@ def main_route():
 		cur = db.cursor()
 		cur.execute("SELECT * FROM sampleInfo")
 		result = cur.fetchall()
-		#print("button: ", button)
 
 	options = {
-		"result": result
+		"result": result,
+        "button": button
 	}
 	return render_template("index.html", **options)
