@@ -2,21 +2,16 @@
 {% block content %}
     <body style="background-color:dimgrey;">
         <style>
-            ul {
-                list-style-type: none;
-                margin: auto;
-                width: 100%;
-                overflow: hidden;
-            }
-
-            li {
-                float: left;
-            }
-
-            li a {
-                display: inline-block;
+            .button {
+                background-color: #FFA500;
+                border: none;
+                color: black;
+                padding: 5px 5px;
                 text-align: center;
                 text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                cursor: pointer;
             }
         </style>
     	
@@ -32,94 +27,66 @@
     		<center>Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica
     	</h3>
 
-        <ul>
-    	    <li><form method="post" >
-			    <input type="hidden" name="op" value="sampleid" />
-			    <button type="submit", value="normal">Sample ID</button>
-		    </form></li>
+        <h3 style="color:orange;">Choose a column to sort the database by:</h3>
 
-            <li><form method="post" >
-			    <input type="hidden" name="op" value="deviceid" />
-			    <button type="submit", value="normal">Device ID</button>
-		    </form></li>
-
-    	    <li><form method="post" >
-			    <input type="hidden" name="op" value="added" />
-			    <button type="submit", value="time">Time</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="latitude" />
-			    <button type="submit", value="latitude">Latitude</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="longitude" />
-			    <button type="submit", value="longitude">Longitude</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="humidity" />
-			    <button type="submit", value="humidity">Humidity</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="temp" />
-			    <button type="submit", value="temperature">Temperature</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="light" />
-			    <button type="submit", value="light">Light</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="type1" />
-			    <button type="submit", value="species1">Best Match Species</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="per1" />
-			    <button type="submit", value="percentage1">Best Match Percentage</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="type2" />
-			    <button type="submit", value="species2">Second Match Species</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="per2" />
-			    <button type="submit", value="percentage2">Second Match Percentage</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="type3" />
-			    <button type="submit", value="species3">Third Match Species</button>
-		    </form></li>
-
-		    <li><form method="post" >
-			    <input type="hidden" name="op" value="per3" />
-			    <button type="submit", value="percentage3">Third Match Percentage</button>
-		    </form></li>
-        </ul>
-
-        <table style="width:100%">
+        <font color="orange"><table style="width:100%">
 			<tr>
-		    	<th>sampleid</th>
-		    	<th>deviceid</th> 
-		    	<th>added</th>
-		    	<th>latitude</th>
-		    	<th>longitude</th>
-		    	<th>humidity</th>
-		    	<th>temperature</th>
-		    	<th>light</th>
-		    	<th>bestmatch</th>
-		    	<th>bestpercentage</th>
-		    	<th>secondmatch</th>
-		    	<th>secondpercentage</th>
-		    	<th>thirdmatch</th>
-		    	<th>thirdpercentage</th>
+		    	<th><form method="post" >
+			            <input type="hidden" name="op" value="sampleid" />
+			            <button type="submit", value="normal" class="button">Sample ID</button>
+		            </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="deviceid" />
+			        <button type="submit", value="normal" class="button">Device ID</button>
+		        </form></th> 
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="added" />
+			        <button type="submit", value="time" class="button">Time</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="latitude" />
+			        <button type="submit", value="latitude" class="button">Latitude</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="longitude" />
+			        <button type="submit", value="longitude" class="button">Longitude</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="humidity" />
+			        <button type="submit", value="humidity" class="button">Humidity</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="temp" />
+			        <button type="submit", value="temperature" class="button">Temperature</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="light" />
+			        <button type="submit", value="light" class="button">Light</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="type1" />
+			        <button type="submit", value="species1" class="button">First Match Species</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="per1" />
+			        <button type="submit", value="percentage1" class="button">First Match Percentage</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="type2" />
+			        <button type="submit", value="species2" class="button">Second Match Species</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="per2" />
+			        <button type="submit", value="percentage2" class="button">Second Match Percentage</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="type3" />
+			        <button type="submit", value="species3" class="button">Third Match Species</button>
+		        </form></th>
+		    	<th><form method="post" >
+			        <input type="hidden" name="op" value="per3" />
+			        <button type="submit", value="percentage3" class="button">Third Match Percentage</button>
+		        </form></th>
 			</tr>
 			{% for res in result %}
 				<tr>
@@ -139,7 +106,7 @@
 		    		<td>{{res["per3"]}}</td>
 		  		</tr>
         	{% endfor %}
-		</table>
+		</table></font>
 	</body>
 {% endblock %}
 

@@ -7,6 +7,7 @@ using namespace std;
 
 int main() {
   ofstream out;
+  out.precision(4);
   out.open("load_data.sql");
 
   out << "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3)\nvalues\n";
