@@ -33,10 +33,10 @@ int main() {
     swap(birds[0], birds[spe1]);
     double typ1 = (double)rand() / RAND_MAX;
     int spe2 = rand() % 7 + 1;
-    swap(birds[1], birds[spe1]);
+    swap(birds[1], birds[spe2]);
     double typ2 = (double)rand() / RAND_MAX;
     int spe3 = rand() % 6 + 1;
-    swap(birds[2], birds[spe1]);
+    swap(birds[2], birds[spe3]);
     double typ3 = (double)rand() / RAND_MAX;
 
     string b1 = birds[0];

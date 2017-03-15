@@ -13,7 +13,7 @@ def main_route():
 	cur = db.cursor()
 	
 	result = ''
-	button = 'Sample ID'
+	button = 'Not Sorted'
 	if request.method == 'POST':
 		if (request.form.get('op') == 'sampleid'):
 			button = 'Sample ID'
