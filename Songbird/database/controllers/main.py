@@ -85,7 +85,10 @@ def main_route():
 			cur = db.cursor()
 			cur.execute("SELECT * FROM sampleInfo ORDER BY per3")
 			result = cur.fetchall()
-
+	else:
+		cur = db.cursor()
+		cur.execute("SELECT * FROM sampleInfo")
+		result = cur.fetchall()
 		#print("button: ", button)
 
 	options = {
