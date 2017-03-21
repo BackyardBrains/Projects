@@ -13,7 +13,7 @@ def main_route():
 	cur = db.cursor()
 	
 	result = ''
-	button = 'Not Sorted'
+	button = 'Sample ID'
 	if request.method == 'POST':
 		if (request.form.get('op') == 'sampleid'):
 			button = 'Sample ID'
@@ -87,7 +87,7 @@ def main_route():
 			result = cur.fetchall()
 	else:
 		cur = db.cursor()
-		cur.execute("SELECT * FROM sampleInfo")
+		cur.execute("SELECT * FROM sampleInfo ORDER BY sampleid")
 		result = cur.fetchall()
 
 	options = {
