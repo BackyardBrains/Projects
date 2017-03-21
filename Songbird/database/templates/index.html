@@ -18,7 +18,8 @@
                 display: inline-block; margin: 4px 2px; font-family: Times New Roman; }
         </style>
 
-        <center><img src="/static/logo.png" alt="Backyard Brains Logo" class="fit"/></center>
+        <center><a href="https://backyardbrains.com/">
+            <img src="/static/logo.png" alt="Backyard Brains Logo" class="fit"/></a></center>
 
     	<h1 class="header">Songbirds Identification System
             <br><span style="font-size:20px;">Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica</span></h1>
@@ -43,11 +44,12 @@
                     <option value="per2">Second Match Percentage</option>
 				    <option value="type3">Third Match Species</option>
                     <option value="per3">Third Match Percentage</option>
-                    <option value="sqlpage">SQL page for other options</option>
                 </optgroup>
             </select>
             <input class="button" type="submit">
         </form>
+
+        <p class="para">Or visit the <a href="{{url_for('sqlpage.sqlpage_route')}}" class="button">SQL page</a> for other options</p>
 
         <font color="orange"><table style="width:100%">
 			<tr>
@@ -87,5 +89,3 @@
 		</table></font>
 	</body>
 {% endblock %}
-
-<!--Andale Mono-->

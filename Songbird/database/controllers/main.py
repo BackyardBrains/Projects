@@ -1,5 +1,4 @@
 from flask import *
-
 from extensions import connect_to_database
 from flask import url_for
 
