@@ -1,3 +1,3 @@
-from main import *
-from sqlpage import *
+from .main import *
+from .sqlpage import *
 
