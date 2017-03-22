@@ -16,6 +16,9 @@
             .button { background-color: dimgrey; border: none; color: orange;
                 padding: 5px 5px; text-align: center; text-decoration: none;
                 display: inline-block; margin: 4px 2px; font-family: Times New Roman; }
+        
+            input[type=text]{ background-color: dimgrey; color: orange; border: none;
+                font-family: Times New Roman; font-size: 18px; }
         </style>
 
         <center><a href="https://backyardbrains.com/">
@@ -23,13 +26,10 @@
 
     	<h1 class="header">Songbirds Identification System
             <br><span style="font-size:20px;">Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica</span></h1>
-
-        <p class="para">Database has been sorted by: {{button}}
-            <br>Choose an option to sort the database by:</p>
-
+        
+        <p class="para">Options to sort the database:</p>
         <form method="post">
-            <select name="op" class="options">
-                <optgroup label="Options:" class="options">
+            <select name="sort" class="options">
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Time</option>
@@ -44,12 +44,40 @@
                     <option value="per2">Second Match Percentage</option>
 				    <option value="type3">Third Match Species</option>
                     <option value="per3">Third Match Percentage</option>
-                </optgroup>
             </select>
+            <select name="dir" class="options">
+                    <option value="ascending"selected>Ascending</option>
+                    <option value="descending">Descending</option>
+            </select>
+            <p class="para">(Optional: </p>
+            <select name="col" class="options">
+                    <option value="">Choose a column:</option>
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="added">Time</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">First Match Species</option>
+                    <option value="per1">First Match Percentage</option>
+				    <option value="type2">Second Match Species</option>
+                    <option value="per2">Second Match Percentage</option>
+				    <option value="type3">Third Match Species</option>
+                    <option value="per3">Third Match Percentage</option>
+            </select>
+            <select name="equ" class="options">
+                    <option value="">Operator</option>
+                    <option value="equal">=</option>
+                    <option value="equal">&#8800</option>
+                    <option value="great">></option>
+                    <option value="less"><</option>
+            </select>
+            <input type="text" name="criteria" placeholder="Value" class="para" />
+            <p class="para"> )</p>
             <input class="button" type="submit">
         </form>
-
-        <p class="para">Or visit the <a href="{{url_for('sqlpage.sqlpage_route')}}" class="button">SQL page</a> for other options</p>
 
         <font color="orange"><table style="width:100%">
 			<tr>
