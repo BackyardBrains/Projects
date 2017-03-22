@@ -58,34 +58,22 @@
 		    	<th>Sample ID</th>
 		    	<th>Device ID</th> 
 		    	<th>Time</th>
-		    	<th>Latitude</th>
-		    	<th>Longitude</th>
-		    	<th>Humidity</th>
-		    	<th>Temperature</th> 
-		    	<th>Light</th>
 		    	<th>First Match Species</th>
 		    	<th>First Match Percentage</th> 
-		    	<th>Second Match Species</th>
-		    	<th>Second Match Percentage</th>
-		    	<th>Third Match Species</th>
-		    	<th>Third Match Percentage</th>
+                <th>Link</th>
 			</tr>
 			{% for res in result %}
 				<tr>
 		    		<td>{{res["sampleid"]}}</td>
 		    		<td>{{res["deviceid"]}}</td>
 		    		<td>{{res["added"]}}</td>
-		    		<td>{{res["latitude"]}}</td>
-		    		<td>{{res["longitude"]}}</td>
-		    		<td>{{res["humidity"]}}</td>
-		    		<td>{{res["temp"]}}</td>
-		    		<td>{{res["light"]}}</td>
 		    		<td>{{res["type1"]}}</td>
 		    		<td>{{res["per1"]}}</td>
-		    		<td>{{res["type2"]}}</td>
-		    		<td>{{res["per2"]}}</td>
-		    		<td>{{res["type3"]}}</td>
-		    		<td>{{res["per3"]}}</td>
+                    <td>
+                        <form action="{{url_for('sqlpage.sqlpage_route' )}}">
+                            <button type="submit", name="sampleid"  value="{{result['sample']}}">More Info</button>
+                        </form>
+                    </td>
 		  		</tr>
         	{% endfor %}
 		</table></font>
