@@ -14,17 +14,42 @@ def main_route():
     result = ''
     button = ''
 
-
     search = 'SELECT * FROM sampleInfo '
     where = ' WHERE '
-    order = ' ORDERED BY '
+    order = ' ORDER BY '
     des = ' DESC'
     equal = ' = '
-    less = ' < '
-    great = ' > '
+    notequal = ' = '
+    greater = ' > '
+    lesser = ' < '
+    greaterand = ' >= '
+    lesserand = ' <= '
 
     if request.method == 'POST':
         button = request.form.get('sort')
+        direction = request.form.get('dir')
+        column = request.form.get('col')
+        equation = request.form.get('equ')
+        match = request.form.get('crit')
+
+        if column != '' and equation != '' and match != '':
+            search = search + where + column
+            if equation == 'equal': search += equal
+            elif equation == 'notequal': search += notequal
+            elif equation == 'greater': search += greater
+            elif equation == 'lesser': search += lesser
+            elif equation == 'greaterand': search += greaterand
+            elif equation == 'lesserand': search += lesserand
+            if column == 'type1': search += " '"
+            search += match
+            if column == 'type1': search += "' "
+
+        search = search + order + button
+
+        if direction == 'descending':
+            search += des
+
+        print(search)
 
         cur.execute(search)
         result = cur.fetchall()

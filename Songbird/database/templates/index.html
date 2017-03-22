@@ -12,70 +12,65 @@
                     <option value="humidity">Humidity</option>
                     <option value="temp">Temperature</option>
                     <option value="light">Light</option>
-                    <option value="type1">First Match Species</option>
-                    <option value="per1">First Match Percentage</option>
-				    <option value="type2">Second Match Species</option>
-                    <option value="per2">Second Match Percentage</option>
-				    <option value="type3">Third Match Species</option>
-                    <option value="per3">Third Match Percentage</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
             </select>
             <select name="dir" class="options">
-                    <option value="ascending"selected>Ascending</option>
+                    <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
             </select>
             <p class="para">(Optional: </p>
             <select name="col" class="options">
-                    <option value="">Choose a column:</option>
+                    <option value="">Column</option>
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
-                    <option value="added">Time</option>
                     <option value="latitude">Latitude</option>
                     <option value="longitude">Longitude</option>
                     <option value="humidity">Humidity</option>
                     <option value="temp">Temperature</option>
                     <option value="light">Light</option>
-                    <option value="type1">First Match Species</option>
-                    <option value="per1">First Match Percentage</option>
-				    <option value="type2">Second Match Species</option>
-                    <option value="per2">Second Match Percentage</option>
-				    <option value="type3">Third Match Species</option>
-                    <option value="per3">Third Match Percentage</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
             </select>
             <select name="equ" class="options">
                     <option value="">Operator</option>
                     <option value="equal">=</option>
-                    <option value="equal">&#8800</option>
-                    <option value="great">></option>
-                    <option value="less"><</option>
+                    <option value="notequal">&#8800</option>
+                    <option value="greater">></option>
+                    <option value="lesser"><</option>
+                    <option value="greaterand">> =</option>
+                    <option value="lesserand">< =</option>
             </select>
-            <input type="text" name="criteria" placeholder="Value" class="para" />
+            <input type="text" name="crit" placeholder="Value" class="para" />
             <p class="para"> )</p>
             <input class="button" type="submit">
         </form>
 
-        <font color="orange"><table style="width:100%">
-			<tr>
-		    	<th>Sample ID</th>
-		    	<th>Device ID</th> 
-		    	<th>Time</th>
-		    	<th>First Match Species</th>
-		    	<th>First Match Percentage</th> 
-                <th>Link</th>
-			</tr>
-			{% for res in result %}
-				<tr>
-		    		<td>{{res["sampleid"]}}</td>
-		    		<td>{{res["deviceid"]}}</td>
-		    		<td>{{res["added"]}}</td>
-		    		<td>{{res["type1"]}}</td>
-		    		<td>{{res["per1"]}}</td>
-                    <td>
-                        <form action="{{url_for('sqlpage.sqlpage_route' )}}">
-                            <button type="submit", name="sampleid"  value="{{result['sample']}}" class="button">More Info</button>
-                        </form>
-                    </td>
-		  		</tr>
-        	{% endfor %}
-		</table></font>
+        {% if result %}
+            <font color="orange"><table style="width:100%">
+			    <tr>
+		    	    <th>Sample ID</th>
+		    	    <th>Device ID</th> 
+		    	    <th>Time</th>
+		    	    <th>Best Match Species</th>
+		    	    <th>Best Match Percentage</th> 
+                    <th>Link</th>
+			    </tr>
+			    {% for res in result %}
+				    <tr>
+		    		    <td>{{res["sampleid"]}}</td>
+		    		    <td>{{res["deviceid"]}}</td>
+		    		    <td>{{res["added"]}}</td>
+		    		    <td>{{res["type1"]}}</td>
+		    		    <td>{{res["per1"]}}</td>
+                        <td>
+                            <form action="{{url_for('sqlpage.sqlpage_route' )}}">
+                                <button type="submit" name="sampleid" value="{{result['sampleid']}}" class="button">More Info</button>
+                            </form>
+                        </td>
+		  		    </tr>
+        	    {% endfor %}
+		    </table></font>
+        {% endif %}
 	</body>
 {% endblock %}
