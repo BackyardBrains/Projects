@@ -6,5 +6,9 @@ sqlpage = Blueprint('sqlpage', __name__, template_folder='templates')
 
 db = connect_to_database()
 
-@sqlpage.route('/', methods = ['GET', 'POST'])
+@sqlpage.route('/sqlpage', methods = ['GET', 'POST'])
 def sqlpage_route():
+	options = {
+		
+	}
+	return render_template("sqlpage.html", **options)
