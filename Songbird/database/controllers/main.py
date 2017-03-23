@@ -13,6 +13,10 @@ def main_route():
 
     result = ''
     button = ''
+    direction = ''
+    column = ''
+    equation = ''
+    match = ''
 
     search = 'SELECT * FROM sampleInfo '
     where = 'WHERE '
@@ -31,6 +35,30 @@ def main_route():
         column = request.form.get('col')
         equation = request.form.get('equ')
         match = request.form.get('crit')
+
+        if column == '' and button == '':
+            options = {
+                "noColumn": True
+            }
+            return render_template("index.html", **options)
+
+        if column != '' and equation == '' and match != '':
+            options = {
+                "noOperator": True
+            }
+            return render_template("index.html", **options)
+
+        if column != '' and equation != '' and match == '':
+            options = {
+                "noValue": True
+            }
+            return render_template("index.html", **options)
+
+        if column != '' and equation == '' and match == '':
+            options = {
+                "noBoth": True
+            }
+            return render_template("index.html", **options)
 
         if column != '' and equation != '' and match != '':
             search = search + where + column

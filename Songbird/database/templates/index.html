@@ -46,6 +46,7 @@
             <p class="para"> )</p>
             <input class="button" type="submit">
         </form>
+        <br/>
 
         {% if button %}
             <p> Ordered by {{button}}, {{direction}} </p>
@@ -53,6 +54,22 @@
         
         {% if column %}
             <p> Match {{column}} {{equation}} {{match}} </p>
+        {% endif %}
+
+        {% if noColumn %}
+            <p> Please select a column! </p>
+        {% endif %}
+
+        {% if noValue %}
+            <p> Please set a value! </p>
+        {% endif %}
+
+        {% if noOperator %}
+            <p> Please set an operator! </p>
+        {% endif %}
+
+        {% if noBoth %}
+            <p> Please set an operator and a value! </p>
         {% endif %}
 
         {% if result %}
