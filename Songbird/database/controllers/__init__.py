@@ -1,3 +1,4 @@
 from .main import *
-from .sqlpage import *
+from .info import *
+from .pattern import *
 
