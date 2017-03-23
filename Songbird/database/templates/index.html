@@ -4,6 +4,7 @@
         <p class="para">Options to sort the database:</p>
         <form method="post">
             <select name="sort" class="options">
+                    <option value="">Column</option>
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Time</option>
@@ -46,6 +47,14 @@
             <input class="button" type="submit">
         </form>
 
+        {% if button %}
+            <p> Ordered by {{button}}, {{direction}} </p>
+        {% endif %}
+        
+        {% if column %}
+            <p> Match {{column}} {{equation}} {{match}} </p>
+        {% endif %}
+
         {% if result %}
             <font color="orange"><table style="width:100%">
 			    <tr>
@@ -64,8 +73,8 @@
 		    		    <td>{{res["type1"]}}</td>
 		    		    <td>{{res["per1"]}}</td>
                         <td>
-                            <form action="{{url_for('sqlpage.sqlpage_route' )}}">
-                                <button type="submit" name="sampleid" value="{{result['sampleid']}}" class="button">More Info</button>
+                            <form action="{{url_for('sqlpage.sqlpage_route')}}">
+                                <button type="submit" name="sampleid" value="{{res['sampleid']}}" class="button">More Info</button>
                             </form>
                         </td>
 		  		    </tr>

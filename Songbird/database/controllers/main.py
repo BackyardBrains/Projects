@@ -15,7 +15,7 @@ def main_route():
     button = ''
 
     search = 'SELECT * FROM sampleInfo '
-    where = ' WHERE '
+    where = 'WHERE '
     order = ' ORDER BY '
     des = ' DESC'
     equal = ' = '
@@ -44,7 +44,11 @@ def main_route():
             search += match
             if column == 'type1': search += "' "
 
-        search = search + order + button
+        if button != '':
+            search = search + order + button
+        else:
+            search = search + order + "sampleid"
+        print(search)
 
         if direction == 'descending':
             search += des
@@ -55,6 +59,11 @@ def main_route():
         result = cur.fetchall()
 
     options = {
-		"result": result
+		"result": result,
+        "button": button,
+        "direction": direction,
+        "column": column,
+        "equation": equation,
+        "match": match
 	}
     return render_template("index.html", **options)
