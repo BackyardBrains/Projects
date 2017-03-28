@@ -35,7 +35,10 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
 
     create_subdirectory(dir, 'noise')
     create_subdirectory(dir, 'activity')
-    create_subdirectory(dir, 'clean')
+
+    root, current_sub_dir = os.path.split(dir)
+    clean_dir = '_'.join([current_sub_dir, 'clean'])
+    create_subdirectory(dir, clean_dir)
 
     segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
     prev_end = 0
@@ -67,14 +70,14 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
     tfs.build(noise_out, '-n')
     tfs.clear_effects()
     tfs.noisered(amount=sensitivity)
-    clean_out = os.path.join(dir, "clean", inputFile)
+    clean_out = os.path.join(dir, clean_dir, inputFile)
     tfs.build(activity_out, clean_out)
 
 
 def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
     for root, dirs, files in os.walk(rootdir):
         for sub in dirs:
-            if sub == 'activity' or sub == 'noise' or sub == 'clean':
+            if sub == 'activity' or sub == 'noise' or '_clean' in sub:
                 shutil.rmtree(os.path.join(root, sub))
         for file in files:
             if file.endswith('.wav'):
