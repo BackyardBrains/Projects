@@ -1,9 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
-    <title>Backyard Brains Songbird Detection Data</title>
+    <title>Backyard Brains Songbird Identidication System</title>
 </head>
-<body>
+<body style="background-color:grey;">
+	<style>
+        .header{ color :orange; text-align: center; font-size: 40px; }
+
+        .fit { max-width: 100%; max-height: 100%; }
+
+        p, form{ display: inline; }
+
+        .para{ color: orange; font-size: 18px; }
+
+        .options{ background-color: dimgrey; color: orange;
+            font-size: 16px; font-family: Times New Roman; }
+
+        .button { background-color: dimgrey; border: none; color: orange;
+            padding: 5px 5px; text-align: center; text-decoration: none;
+            display: inline-block; margin: 4px 2px; font-family: Times New Roman; }
+        
+        input[type=text]{ background-color: dimgrey; color: orange; border: none;
+            font-family: Times New Roman; font-size: 18px; }
+
+        ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: orange; }
+
+        li { float: left; }
+
+        li a { display: block; color: dimgrey; text-align: center; padding: 14px 16px; text-decoration: none; }
+
+        li a:hover { background-color: darkorange; color: black; }
+    </style>
+
+    <ul>
+        <li><a href="{{url_for('main.main_route')}}"><b>Main</b></a></li>
+        <li><a href="{{url_for('pattern.pattern_route')}}"><b>Migration Pattern</b></a></li>
+        <li><a href="{{url_for('upload.upload_route')}}"><b>Upload</b></a></li>
+    </ul>
+
+    <center><a href="https://backyardbrains.com/">
+        <img src="/static/logo.png" alt="Backyard Brains Logo" class="fit"/></a></center>
+
+    <h1 class="header">Songbirds Identification System
+        <br><span style="font-size:20px;">Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica</span></h1>
+
     {% block content %}{% endblock %}
 </body>
 </html>

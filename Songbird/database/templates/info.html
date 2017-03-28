@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<font color="orange"><table style="width:100%">
+    <tr>
+	    <th>Sample ID</th>
+	    <td>{{res["sampleid"]}}</td>
+	</tr>
+	<tr>
+		<th>Device ID</th>
+		<td>{{res["deviceid"]}}</td>
+	</tr>
+	<tr>
+		<th>Time</th>
+		<td>{{res["added"]}}</td>	   
+	</tr> 
+	<tr>
+		<th>Latitude</th>
+		<td>{{res["latitude"]}}</td>	   
+	</tr>
+	<tr>
+		<th>Longitude</th>
+		<td>{{res["longitude"]}}</td>	   
+	</tr>
+	<tr>
+		<th>Humidity</th>
+		<td>{{res["humidity"]}}</td>	   
+	</tr>
+	<tr>
+		<th>Temperature</th>
+		<td>{{res["temp"]}}</td>	   
+	</tr>
+	<tr>
+		<th>Light</th>
+		<td>{{res["light"]}}</td>	   
+	</tr>
+	<tr>
+		<th>Best Match Species</th>
+		<td>{{res["type1"]}}</td>
+	</tr>  
+    <tr>
+    	<th>Best Match Percentage</th>
+    	<td>{{res["per1"]}}</td>
+    </tr>
+    <tr>
+		<th>Second Match Species</th>
+		<td>{{res["type2"]}}</td>	   
+	</tr>
+	<tr>
+    	<th>Second Match Percentage</th>
+    	<td>{{res["per2"]}}</td>
+    </tr>
+    <tr>
+		<th>Third Match Species</th>
+		<td>{{res["type3"]}}</td>	   
+	</tr>
+	<tr>
+    	<th>Third Match Percentage</th>
+    	<td>{{res["per3"]}}</td>
+    </tr>
+</table></font>
+{% endblock %}

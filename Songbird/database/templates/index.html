@@ -1,120 +1,102 @@
 {% extends "base.html" %}
 {% block content %}
-    <body style="background-color:dimgrey;">
-        <style>
-            .button {
-                background-color: #FFA500;
-                border: none;
-                color: black;
-                padding: 5px 5px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                margin: 4px 2px;
-                cursor: pointer;
-            }
+    <body style="background-color:grey;">
+        <p class="para">Options to sort the database:</p>
+        <form method="post">
+            <select name="sort" class="options">
+                    <option value="">Column</option>
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="added">Time</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
+            </select>
+            <select name="dir" class="options">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+            </select>
+            <p class="para">(Optional: </p>
+            <select name="col" class="options">
+                    <option value="">Column</option>
+                    <option value="sampleid">Sample ID</option>
+                    <option value="deviceid">Device ID</option>
+                    <option value="latitude">Latitude</option>
+                    <option value="longitude">Longitude</option>
+                    <option value="humidity">Humidity</option>
+                    <option value="temp">Temperature</option>
+                    <option value="light">Light</option>
+                    <option value="type1">Best Match Species</option>
+                    <option value="per1">Best Match Percentage</option>
+            </select>
+            <select name="equ" class="options">
+                    <option value="">Operator</option>
+                    <option value="equal">=</option>
+                    <option value="notequal">&#8800</option>
+                    <option value="greater">></option>
+                    <option value="lesser"><</option>
+                    <option value="greaterand">> =</option>
+                    <option value="lesserand">< =</option>
+            </select>
+            <input type="text" name="crit" placeholder="Value" class="para" />
+            <p class="para"> )</p>
+            <input class="button" type="submit">
+        </form>
+        <br/>
 
-            .fit {
-                max-width: 100%;
-                max-height: 100%;
-            }
-        </style>
-    	
-        <h1>
-    		<center><img src="/static/logo.png" alt="Backyard Brains Logo" class="fit"/></center>
-    	</h1>
+        {% if button %}
+            <p> Ordered by {{button}}, {{direction}} </p>
+        {% endif %}
+        
+        {% if column %}
+            <p> Match {{column}} {{equation}} {{match}} </p>
+        {% endif %}
 
-    	<h2 style="color:orange;font-family:normal;"> 
-    		<center>Songbirds Identification System</center>
-    	</h2>
+        {% if noColumn %}
+            <p> Please select a column! </p>
+        {% endif %}
 
-    	<center><p style="color:orange;;font-size:20px">
-    		Raghu, Weifong, Matthew, Abhinav, Zachary, Yuan, Jessica
-    	</p></center>
+        {% if noValue %}
+            <p> Please set a value! </p>
+        {% endif %}
 
-        <p style="color:orange;font-size:20px">
-            Database has been sorted by <i><b>{{button}}</b></i>. Choose a new column to sort the database by:
-        </p>
+        {% if noOperator %}
+            <p> Please set an operator! </p>
+        {% endif %}
 
-        <font color="orange"><table style="width:100%">
-			<tr>
-		    	<th><form method="post" >
-			            <input type="hidden" name="op" value="sampleid" />
-			            <button type="submit", value="normal" class="button">Sample ID</button>
-		            </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="deviceid" />
-			        <button type="submit", value="normal" class="button">Device ID</button>
-		        </form></th> 
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="added" />
-			        <button type="submit", value="time" class="button">Time</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="latitude" />
-			        <button type="submit", value="latitude" class="button">Latitude</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="longitude" />
-			        <button type="submit", value="longitude" class="button">Longitude</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="humidity" />
-			        <button type="submit", value="humidity" class="button">Humidity</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="temp" />
-			        <button type="submit", value="temperature" class="button">Temperature</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="light" />
-			        <button type="submit", value="light" class="button">Light</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="type1" />
-			        <button type="submit", value="species1" class="button">First Match Species</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="per1" />
-			        <button type="submit", value="percentage1" class="button">First Match Percentage</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="type2" />
-			        <button type="submit", value="species2" class="button">Second Match Species</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="per2" />
-			        <button type="submit", value="percentage2" class="button">Second Match Percentage</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="type3" />
-			        <button type="submit", value="species3" class="button">Third Match Species</button>
-		        </form></th>
-		    	<th><form method="post" >
-			        <input type="hidden" name="op" value="per3" />
-			        <button type="submit", value="percentage3" class="button">Third Match Percentage</button>
-		        </form></th>
-			</tr>
-			{% for res in result %}
-				<tr>
-		    		<td>{{res["sampleid"]}}</td>
-		    		<td>{{res["deviceid"]}}</td>
-		    		<td>{{res["added"]}}</td>
-		    		<td>{{res["latitude"]}}</td>
-		    		<td>{{res["longitude"]}}</td>
-		    		<td>{{res["humidity"]}}</td>
-		    		<td>{{res["temp"]}}</td>
-		    		<td>{{res["light"]}}</td>
-		    		<td>{{res["type1"]}}</td>
-		    		<td>{{res["per1"]}}</td>
-		    		<td>{{res["type2"]}}</td>
-		    		<td>{{res["per2"]}}</td>
-		    		<td>{{res["type3"]}}</td>
-		    		<td>{{res["per3"]}}</td>
-		  		</tr>
-        	{% endfor %}
-		</table></font>
+        {% if noBoth %}
+            <p> Please set an operator and a value! </p>
+        {% endif %}
+
+        {% if result %}
+            <font color="orange"><table style="width:100%">
+			    <tr>
+		    	    <th>Sample ID</th>
+		    	    <th>Device ID</th> 
+		    	    <th>Time</th>
+		    	    <th>Best Match Species</th>
+		    	    <th>Best Match Percentage</th> 
+                    <th>Link</th>
+			    </tr>
+			    {% for res in result %}
+				    <tr>
+		    		    <td>{{res["sampleid"]}}</td>
+		    		    <td>{{res["deviceid"]}}</td>
+		    		    <td>{{res["added"]}}</td>
+		    		    <td>{{res["type1"]}}</td>
+		    		    <td>{{res["per1"]}}</td>
+                        <td>
+                            <form action="{{url_for('info.info_route')}}">
+                                <button type="submit" name="sampleid" value="{{res['sampleid']}}" class="button">More Info</button>
+                            </form>
+                        </td>
+		  		    </tr>
+        	    {% endfor %}
+		    </table></font>
+        {% endif %}
 	</body>
 {% endblock %}
-
-<!--Andale Mono-->
