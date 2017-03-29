@@ -1,4 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-	<p> Upload here! </p>
+<tr><td>
+<form method="post" enctype="multipart/form-data">
+	<input type="file" name="file" accept="audio/*">
+	<input type="submit" value="Upload">
+</form>
+</td></tr>
+{% if noFile %}
+	<p> No file part! </p>
+{% endif %}
+
+{% if emptyname %}
+	<p> The filename is empty! </p>
+{% endif %}
+
+{% if filename %}
+	<p> The upload file is {{filename}} </p>
+{% endif %}
 {% endblock %}

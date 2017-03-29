@@ -1,5 +1,11 @@
+CREATE TABLE userInfo(
+	username VARCHAR(20) PRIMARY KEY,
+	password VARCHAR(20)
+);
+
 CREATE TABLE sampleInfo (
 	sampleid INTEGER PRIMARY KEY,
+	format VARCHAR(5),
 	deviceid INTEGER,
 	added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	latitude FLOAT,
@@ -16,8 +22,9 @@ CREATE TABLE sampleInfo (
 );
 
 CREATE TABLE uploadInfo(
-	sampleid INTEGER PRIMARY KEY,
-	uploader VARCHAR(20),
+	uploadid INTEGER PRIMARY KEY,
+	format VARCHAR(5),
+	username VARCHAR(20),
 	added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	latitude FLOAT,
 	longitude FLOAT,
@@ -29,5 +36,6 @@ CREATE TABLE uploadInfo(
 	type2 VARCHAR(40),
 	per2 FLOAT,
 	type3 VARCHAR(40),
-	per3 FLOAT
+	per3 FLOAT,
+	FOREIGN KEY (username) REFERENCES userInfo(username)
 );
