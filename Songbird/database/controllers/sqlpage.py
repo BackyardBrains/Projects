@@ -15,14 +15,33 @@ def sqlpage_route():
     search = ''
     error = ''
 
+    update = 'update'
+    delete = 'delete'
+    insert = 'insert'
+    create = 'create'
+    alter = 'alter'
+    drop = 'drop'
+    select = 'select'
+
     if request.method == 'POST':
         search = request.form.get('command')
 
-        try:
-            cur.execute(search)
-            result = cur.fetchall()
-        except:
-            error = True
+        if update in search.lower() or delete in search.lower() or insert in search.lower():
+            error = 'Command not allowed, please only use the SELECT command.'
+        elif create in search.lower() or alter in search.lower() or drop in search.lower():
+            error = 'Command not allowed, please only use the SELECT command.'
+        elif select not in search.lower():
+            error = 'Command not allowed, please only use the SELECT command.'
+
+        if not error:
+            try:
+                cur.execute(search)
+                result = cur.fetchall()
+            except:
+                error = 'The SQL command returned an error.'
+
+        if not result and not error:
+            error = 'Search did not return any results.'
 
     options = {
 		"result": result,

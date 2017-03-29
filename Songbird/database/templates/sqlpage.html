@@ -21,13 +21,13 @@
 
         <p class="para">SQL command:</p>
         <form method="post">
-            <input type="text" name="command" class="para" />
+            <input type="text" name="command" class="para" style="width: 50%;" />
             <input class="button" type="submit">
         </form>
         <p class="para">(Data will be displayed as retreived.)</p>
 
         {% if error %}
-            <p class="para"><br>There was either an error or the command did not return results.</p>
+            <p class="para"><br>{{error}}</p>
         {% endif %}
         {% if result %}
             <p class="para"><br>Results from query: <i>{{search}}</i><br></p>
