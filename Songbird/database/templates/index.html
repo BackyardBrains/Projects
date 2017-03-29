@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     <body style="background-color:grey;">
-        <p class="para">Options to sort the database:</p>
+        <p class="para">Sort the database by column </p>
         <form method="post">
             <select name="sort" class="options">
-                    <option value="">Column</option>
                     <option value="sampleid">Sample ID</option>
                     <option value="deviceid">Device ID</option>
                     <option value="added">Time</option>
@@ -16,11 +15,12 @@
                     <option value="type1">Best Match Species</option>
                     <option value="per1">Best Match Percentage</option>
             </select>
+            <p class="para">in </p>
             <select name="dir" class="options">
                     <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
             </select>
-            <p class="para">(Optional: </p>
+            <p class="para"> direction.<br>(Optional selection: </p>
             <select name="col" class="options">
                     <option value="">Column</option>
                     <option value="sampleid">Sample ID</option>
@@ -46,33 +46,9 @@
             <p class="para"> )</p>
             <input class="button" type="submit">
         </form>
-        <br/>
-
-        {% if button %}
-            <p> Ordered by {{button}}, {{direction}} </p>
-        {% endif %}
-        
-        {% if column %}
-            <p> Match {{column}} {{equation}} {{match}} </p>
-        {% endif %}
-
-        {% if noColumn %}
-            <p> Please select a column! </p>
-        {% endif %}
-
-        {% if noValue %}
-            <p> Please set a value! </p>
-        {% endif %}
-
-        {% if noOperator %}
-            <p> Please set an operator! </p>
-        {% endif %}
-
-        {% if noBoth %}
-            <p> Please set an operator and a value! </p>
-        {% endif %}
 
         {% if result %}
+            <p class="para"><br>Results from query: <i>{{search}}</i><br></p>
             <font color="orange"><table style="width:100%">
 			    <tr>
 		    	    <th>Sample ID</th>

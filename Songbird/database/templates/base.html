@@ -11,7 +11,7 @@
 
         p, form{ display: inline; }
 
-        .para{ color: orange; font-size: 18px; }
+        .para{ background-color:grey; color: orange; font-size: 18px; }
 
         .options{ background-color: dimgrey; color: orange;
             font-size: 16px; font-family: Times New Roman; }
@@ -23,19 +23,24 @@
         input[type=text]{ background-color: dimgrey; color: orange; border: none;
             font-family: Times New Roman; font-size: 18px; }
 
-        ul { list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: orange; }
+        ul.cols { background-color:grey; color: orange; font-size: 18px; list-style-type: none; columns: 3; }
 
-        li { float: left; }
+        ul.navbar { list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: orange; }
 
-        li a { display: block; color: dimgrey; text-align: center; padding: 14px 16px; text-decoration: none; }
+        li.navbar { float: left; }
 
-        li a:hover { background-color: darkorange; color: black; }
+        li.navbar a { display: block; color: dimgrey; text-align: center; padding: 14px 16px; text-decoration: none; }
+
+        li.navbar a:hover { background-color: darkorange; color: black; }
+
+        p + ul { margin-top: 0px; }
     </style>
 
-    <ul>
-        <li><a href="{{url_for('main.main_route')}}"><b>Main</b></a></li>
-        <li><a href="{{url_for('pattern.pattern_route')}}"><b>Migration Pattern</b></a></li>
-        <li><a href="{{url_for('upload.upload_route')}}"><b>Upload</b></a></li>
+    <ul class="navbar">
+        <li class="navbar"><a href="{{url_for('main.main_route')}}"><b>Main</b></a></li>
+        <li class="navbar"><a href="{{url_for('sqlpage.sqlpage_route')}}"><b>SQL Page</b></a></li>
+        <li class="navbar"><a href="{{url_for('pattern.pattern_route')}}"><b>Migration Pattern</b></a></li>
+        <li class="navbar"><a href="{{url_for('upload.upload_route')}}"><b>Upload</b></a></li>
     </ul>
 
     <center><a href="https://backyardbrains.com/">

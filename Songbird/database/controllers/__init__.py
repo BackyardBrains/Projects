@@ -1,5 +1,5 @@
 from .main import *
-from .info import *
+from .sqlpage import *
 from .pattern import *
 from .upload import *
-
+from .info import *

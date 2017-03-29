@@ -13,10 +13,6 @@ def main_route():
 
     result = ''
     button = ''
-    direction = ''
-    column = ''
-    equation = ''
-    match = ''
 
     search = 'SELECT * FROM sampleInfo '
     where = 'WHERE '
@@ -36,30 +32,6 @@ def main_route():
         equation = request.form.get('equ')
         match = request.form.get('crit')
 
-        if column == '' and button == '':
-            options = {
-                "noColumn": True
-            }
-            return render_template("index.html", **options)
-
-        if column != '' and equation == '' and match != '':
-            options = {
-                "noOperator": True
-            }
-            return render_template("index.html", **options)
-
-        if column != '' and equation != '' and match == '':
-            options = {
-                "noValue": True
-            }
-            return render_template("index.html", **options)
-
-        if column != '' and equation == '' and match == '':
-            options = {
-                "noBoth": True
-            }
-            return render_template("index.html", **options)
-
         if column != '' and equation != '' and match != '':
             search = search + where + column
             if equation == 'equal': search += equal
@@ -72,26 +44,16 @@ def main_route():
             search += match
             if column == 'type1': search += "' "
 
-        if button != '':
-            search = search + order + button
-        else:
-            search = search + order + "sampleid"
-        print(search)
+        search = search + order + button
 
         if direction == 'descending':
             search += des
-
-        print(search)
 
         cur.execute(search)
         result = cur.fetchall()
 
     options = {
 		"result": result,
-        "button": button,
-        "direction": direction,
-        "column": column,
-        "equation": equation,
-        "match": match
+        "search": search
 	}
     return render_template("index.html", **options)
