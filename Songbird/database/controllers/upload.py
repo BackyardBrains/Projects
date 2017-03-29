@@ -1,6 +1,6 @@
 from flask import *
 from extensions import connect_to_database
-from flask import url_for, request, Flask
+from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import os
 import config
@@ -27,7 +27,7 @@ def upload_route():
 
 		else:
 			filename = secure_filename(file.filename)
-			file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
+			#file.save(os.path.join(config.env['UPLOAD_FOLDER'], filename))
 			options = {
 				"filename": filename
 			}

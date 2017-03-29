@@ -7,5 +7,5 @@ env = dict(
 	user = 'root', 
 	password = 'root',
 	db = 'songbirds', 
-	UPLOAD_FOLDER = '/static/'
+	UPLOAD_FOLDER = '/static/songs/users/'
 )
