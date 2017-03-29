@@ -25,7 +25,7 @@ def recombine_wavfiles(infiles, outfile):
         os.remove(file)
 
 
-def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
+def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
     if not os.path.isfile(inputFile):
         raise Exception("Input audio file not found!")
 
@@ -72,6 +72,12 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
     tfs.noisered(amount=sensitivity)
     clean_out = os.path.join(dir, clean_dir, inputFile)
     tfs.build(activity_out, clean_out)
+
+    if not debug:
+        os.remove(noise_out)
+        os.remove(activity_out)
+
+    return clean_out
 
 
 def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
