@@ -80,7 +80,7 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     return clean_out
 
 
-def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4):
+def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
     for root, dirs, files in os.walk(rootdir):
         for sub in dirs:
             if sub == 'activity' or sub == 'noise' or '_clean' in sub:
@@ -88,4 +88,4 @@ def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4)
         for file in files:
             if file.endswith('.wav'):
                 noise_removal(os.path.join(root, file), smoothingWindow=smoothingWindow, weight=weight,
-                              sensitivity=sensitivity)
+                              sensitivity=sensitivity, debug=debug)
