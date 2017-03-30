@@ -74,8 +74,8 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     tfs.build(activity_out, clean_out)
 
     if not debug:
-        os.remove(noise_out)
-        os.remove(activity_out)
+        shutil.rmtree(os.path.join(dir, "noise"))
+        shutil.rmtree(os.path.join(dir, "activity"))
 
     return clean_out
 

@@ -1,7 +1,9 @@
-from pyAudioAnalysis import audioTrainTest as aT
-from noise_removal import noise_removal
 import glob
 import os
+
+from pyAudioAnalysis import audioTrainTest as aT
+
+from noise_removal import noise_removal
 
 
 def clean_and_test(test_wav, model_file, classifierType='gradientboosting'):
@@ -11,7 +13,7 @@ def clean_and_test(test_wav, model_file, classifierType='gradientboosting'):
 
 if __name__ == '__main__':
     for file in glob.glob(u"*.wav"):
-        Result, P, classNames = clean_and_test(file, os.path.join(os.getcwd(), 'model'))
+        Result, P, classNames = clean_and_test(os.path.join(os.getcwd(), file), os.path.join(os.getcwd(), 'model'))
         print file
         print Result
         print classNames
