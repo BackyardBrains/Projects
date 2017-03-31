@@ -4,9 +4,8 @@ import shutil
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
 import pyAudioAnalysis.audioSegmentation as aS
 import scipy.io.wavfile as wavfile
-from pydub import AudioSegment
-
 import sox
+from pydub import AudioSegment
 
 
 def create_subdirectory(dir, subdir):
@@ -66,10 +65,12 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     recombine_wavfiles(activity_files, activity_out)
 
     tfs = sox.Transformer()
-    tfs.noiseprof()
+    full_inputFile_path = os.path.join(dir, inputFile)
+    noise_profile_path = '.'.join([full_inputFile_path, 'prof'])
+    tfs.noiseprof(full_inputFile_path, noise_profile_path)
     tfs.build(noise_out, '-n')
     tfs.clear_effects()
-    tfs.noisered(amount=sensitivity)
+    tfs.noisered(noise_profile_path, amount=sensitivity)
     clean_out = os.path.join(dir, clean_dir, inputFile)
     tfs.build(activity_out, clean_out)
 
