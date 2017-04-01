@@ -76,7 +76,6 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     if not debug:
         shutil.rmtree(os.path.join(dir, "noise"))
         shutil.rmtree(os.path.join(dir, "activity"))
-        os.remove(noise_profile_path)
 
     return clean_out
 

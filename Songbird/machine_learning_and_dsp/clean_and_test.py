@@ -12,6 +12,7 @@ def clean_and_test(test_wav, model_file, classifierType='gradientboosting'):
     return Result, P, classNames
 
 if __name__ == '__main__':
+    os.chdir("C:\\Users\\zacha\\Desktop\\testign")
     for file in glob.glob(u"*.wav"):
         Result, P, classNames = clean_and_test(os.path.join(os.getcwd(), file), os.path.join(os.getcwd(), 'model'))
         print file
