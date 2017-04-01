@@ -65,9 +65,8 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     recombine_wavfiles(activity_files, activity_out)
 
     tfs = sox.Transformer()
-    full_inputFile_path = os.path.join(dir, inputFile)
-    noise_profile_path = '.'.join([full_inputFile_path, 'prof'])
-    tfs.noiseprof(full_inputFile_path, noise_profile_path)
+    noise_profile_path = '.'.join([noise_out, 'prof'])
+    tfs.noiseprof(noise_out, noise_profile_path)
     tfs.build(noise_out, '-n')
     tfs.clear_effects()
     tfs.noisered(noise_profile_path, amount=sensitivity)
