@@ -40,7 +40,6 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
 
     start_time = time.clock()
 
-    modelName = '_'.join([classifierType, modelName])
 
     table_setup = '(filename VARCHAR(1024), class VARCHAR(1024), identifiedCorrectly VARCHAR(1024), confidence DOUBLE, PRIMARY KEY (filename));'
 
@@ -55,11 +54,21 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
 
             cur.execute("CREATE TABLE " + modelName + table_setup)
 
+    os.chdir(test_dirs[0])
+    for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
+        Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
+                                                      classifierType)  # Test the file
+        break
+
+    if classNames == -1:
+        raise Exception("Model file " + os.path.join(model_dir, modelName) + " not found!")
+
+    num_cats = len(classNames)
     temp = []
-    for j in test_dirs:
+    for j in xrange(0, num_cats):
         temp.append(0)
     confusion_matrix = []
-    for k in test_dirs:
+    for k in xrange(0, num_cats):
         confusion_matrix.append(unshared_copy(temp))
 
     confidence_above_90 = unshared_copy(temp)
@@ -69,18 +78,16 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
     for i in xrange(0, len(test_dirs)):  # Iterate through each test directory
         dir = test_dirs[i]
         os.chdir(dir)
+        rootdir, correct_cat = os.path.split(dir)
         for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
             Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
                                                           classifierType)  # Test the file
 
-            if classNames == -1:
-                raise Exception("Model file " + os.path.join(model_dir, modelName) + " not found!")
-
             if store_to_mySQL:
                 current_file_results = {
                     'filename': unicode(md5(file.encode('utf-8')).hexdigest()),
-                    'class': str(classNames[i]),
-                    'identifiedCorrectly': str(Result == float(i)).upper(),
+                    'class': correct_cat,
+                    'identifiedCorrectly': str(unicode(correct_cat) == unicode(classNames[int(Result)])).upper(),
                     'confidence': str(max(P))
                 }
                 with MySQLdb.connect(host=host, user=user, passwd=passwd, db=database) as cur:
@@ -93,20 +100,27 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
                     except:
                         pass
 
-            total_num_samples[i] += 1
-            confusion_matrix[i][int(Result)] += 1
+            indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
+            if not len(indexes):
+                raise Exception(correct_cat + "is not a correctly named category for this model!")
+            elif len(indexes) != 1:
+                raise Exception(correct_cat + "matches multiple categories in the model file!")
+            cat_index = indexes[0]
+            total_num_samples[cat_index] += 1
+            confusion_matrix[cat_index][int(Result)] += 1
             if max(P) > level:
-                confidence_corrected_con_matrix[i][int(Result)] += 1
-                confidence_above_90[i] += 1
-                if Result == float(i):
-                    correct_above_90[i] += 1
+                confidence_corrected_con_matrix[cat_index][int(Result)] += 1
+                confidence_above_90[cat_index] += 1
+                if unicode(correct_cat) == unicode(classNames[int(Result)]):
+                    correct_above_90[cat_index] += 1
 
     acc_above_90 = map(do_division, correct_above_90, confidence_above_90)
     percent_desicive_samples = map(do_division, confidence_above_90, total_num_samples)
 
     print classNames
     print "acc above ", level, ": ", acc_above_90
-    print "percent samples above ", level, ": ", percent_desicive_samples, '\n'
+    print "percent samples above ", level, ": ", percent_desicive_samples
+    print "total samples tested in each category: ", total_num_samples, '\n'
     print "confusion matrix:"
     aT.printConfusionMatrix(np.array(confusion_matrix), classNames)
     print "\n", "confidence adjusted confustion matrix:"

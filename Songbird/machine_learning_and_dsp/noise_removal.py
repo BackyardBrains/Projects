@@ -81,10 +81,15 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
 
 
 def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
+    if not os.path.exists(rootdir):
+        raise Exception(rootdir + " not found!")
+
+
     for root, dirs, files in os.walk(rootdir):
-        for sub in dirs:
-            if sub == 'activity' or sub == 'noise' or '_clean' in sub:
-                shutil.rmtree(os.path.join(root, sub))
+        parent, folder_name = os.path.split(root)
+        if folder_name == 'activity' or folder_name == 'noise' or '_clean' in folder_name:
+            shutil.rmtree(root)
+    for root, dirs, files in os.walk(rootdir):
         for file in files:
             if file.endswith('.wav'):
                 noise_removal(os.path.join(root, file), smoothingWindow=smoothingWindow, weight=weight,
