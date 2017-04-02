@@ -80,9 +80,12 @@ def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, d
     return clean_out
 
 
-def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
+def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True, verbose=False):
     if not os.path.exists(rootdir):
         raise Exception(rootdir + " not found!")
+
+    if verbose:
+        print ''
 
 
     for root, dirs, files in os.walk(rootdir):
@@ -92,5 +95,10 @@ def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4,
     for root, dirs, files in os.walk(rootdir):
         for file in files:
             if file.endswith('.wav'):
+                if verbose:
+                    print "Now cleaning: ", os.path.join(root, file)
                 noise_removal(os.path.join(root, file), smoothingWindow=smoothingWindow, weight=weight,
                               sensitivity=sensitivity, debug=debug)
+
+    if verbose:
+        print ''

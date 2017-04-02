@@ -19,7 +19,7 @@ def test_params(dir, categories):
     return test_dirs
 
 
-def clean_and_test(directory, model_file, classifierType, birds):
+def clean_and_test(directory, model_file, classifierType, birds, verbose):
     if not len(birds):
         raise Exception("Must specify at least on folder/category to test!")
 
@@ -35,10 +35,10 @@ def clean_and_test(directory, model_file, classifierType, birds):
     try:
         for dir in test_dirs:
             rootdir, subdir = os.path.split(dir)
-            noise_removal_dir(rootdir)
+            noise_removal_dir(rootdir, verbose=verbose)
         model_dir, model_name = os.path.split(model_file)
         test_model(test_dirs, modelName=model_name, model_dir=directory, classifierType=classifierType,
-                   store_to_mySQL=True)
+                   store_to_mySQL=True, verbose=verbose)
     except Exception:
         send_notification("Clean and test process failed.")
         raise
@@ -52,9 +52,10 @@ if __name__ == '__main__':
     directory = os.getcwd()
     classifierType = 'gradientboosting'
     birds = []
+    verbose = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:", ["dir=", "model=", "classifier=", "bird="])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:v", ["dir=", "model=", "classifier=", "bird=", "verbose"])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -68,6 +69,8 @@ if __name__ == '__main__':
             classifierType = arg
         elif opt in ("-b", "--bird"):
             birds.append(arg)
+        elif opt in ("-v", "--verbose"):
+            verbose = True
         else:
             assert False, "unhandled option"
 
@@ -78,4 +81,4 @@ if __name__ == '__main__':
     if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
         raise Exception(classifierType + " is not a valid model type!")
 
-    clean_and_test(directory, model_file, classifierType, birds)
+    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose)
