@@ -26,7 +26,7 @@ def recombine_wavfiles(infiles, outfile):
 
 def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
     if not os.path.isfile(inputFile):
-        raise Exception("Input audio file not found!")
+        raise Exception(inputFile + " not found!")
 
     [Fs, x] = audioBasicIO.readAudioFile(inputFile)  # read audio signal
 
