@@ -6,7 +6,7 @@ import os
 import sys
 import time
 
-from noise_removal import noise_removal_dir
+from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
 from test_model import test_model
 from twillio_test import send_notification
@@ -37,7 +37,8 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose):
         sanatize_filenames(directory, verbose=verbose)
         for dir in test_dirs:
             rootdir, subdir = os.path.split(dir)
-            noise_removal_dir(rootdir, verbose=verbose)
+            cleaner = noiseCleaner(verbose=verbose)
+            cleaner.noise_removal_dir(rootdir)
         model_dir, model_name = os.path.split(model_file)
         test_model(test_dirs, modelName=model_name, model_dir=directory, classifierType=classifierType,
                    store_to_mySQL=True, verbose=verbose)

@@ -1,10 +1,12 @@
 import os
 import shutil
 
+import pathos.multiprocessing as mp
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
 import pyAudioAnalysis.audioSegmentation as aS
 import scipy.io.wavfile as wavfile
 import sox
+from pathos.multiprocessing import Pool
 from pydub import AudioSegment
 
 
@@ -24,81 +26,100 @@ def recombine_wavfiles(infiles, outfile):
         os.remove(file)
 
 
-def noise_removal(inputFile, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True):
-    if not os.path.isfile(inputFile):
-        raise Exception(inputFile + " not found!")
+class noiseCleaner:
+    def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
+                 verbose=False):
+        self.smoothingWindow = smoothingWindow
+        self.weight = weight
+        self.sensitivity = sensitivity
+        self.debug = debug
+        self.verbose = verbose
 
-    [Fs, x] = audioBasicIO.readAudioFile(inputFile)  # read audio signal
+    def noise_removal(self, inputFile):
+        smoothingWindow = self.smoothingWindow
+        weight = self.weight
+        sensitivity = self.sensitivity
+        debug = self.debug
+        verbose = self.verbose
 
-    dir, inputFile = os.path.split(inputFile)
+        if verbose:
+            print inputFile
 
-    create_subdirectory(dir, 'noise')
-    create_subdirectory(dir, 'activity')
+        if not os.path.isfile(inputFile):
+            raise Exception(inputFile + " not found!")
 
-    root, current_sub_dir = os.path.split(dir)
-    clean_dir = '_'.join([current_sub_dir, 'clean'])
-    create_subdirectory(dir, clean_dir)
+        [Fs, x] = audioBasicIO.readAudioFile(inputFile)  # read audio signal
 
-    segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
-    prev_end = 0
-    activity_files = []
-    noise_files = []
-    for i, s in enumerate(segmentLimits):
-        strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, s[0]))
-        wavfile.write(strOut, Fs, x[int(Fs * prev_end):int(Fs * s[0])])
+        dir, inputFile = os.path.split(inputFile)
+
+        create_subdirectory(dir, 'noise')
+        create_subdirectory(dir, 'activity')
+
+        root, current_sub_dir = os.path.split(dir)
+        clean_dir = '_'.join([current_sub_dir, 'clean'])
+        create_subdirectory(dir, clean_dir)
+
+        segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
+        prev_end = 0
+        activity_files = []
+        noise_files = []
+        for i, s in enumerate(segmentLimits):
+            strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, s[0]))
+            wavfile.write(strOut, Fs, x[int(Fs * prev_end):int(Fs * s[0])])
+            noise_files.append(strOut)
+
+            strOut = os.path.join(dir, "activity", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], s[0], s[1]))
+            wavfile.write(strOut, Fs, x[int(Fs * s[0]):int(Fs * s[1])])
+            activity_files.append(strOut)
+
+            prev_end = s[1]
+
+        strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, len(x) / Fs))
+        wavfile.write(strOut, Fs, x[int(Fs * prev_end):len(x) / Fs])
         noise_files.append(strOut)
 
-        strOut = os.path.join(dir, "activity", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], s[0], s[1]))
-        wavfile.write(strOut, Fs, x[int(Fs * s[0]):int(Fs * s[1])])
-        activity_files.append(strOut)
+        activity_out = os.path.join(dir, "activity", inputFile)
+        noise_out = os.path.join(dir, "noise", inputFile)
 
-        prev_end = s[1]
+        recombine_wavfiles(noise_files, noise_out)
+        recombine_wavfiles(activity_files, activity_out)
 
-    strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, len(x) / Fs))
-    wavfile.write(strOut, Fs, x[int(Fs * prev_end):len(x) / Fs])
-    noise_files.append(strOut)
+        tfs = sox.Transformer()
+        noise_profile_path = '.'.join([noise_out, 'prof'])
+        tfs.noiseprof(noise_out, noise_profile_path)
+        tfs.build(noise_out, '-n')
+        tfs.clear_effects()
+        tfs.noisered(noise_profile_path, amount=sensitivity)
+        clean_out = os.path.join(dir, clean_dir, inputFile)
+        tfs.build(activity_out, clean_out)
 
-    activity_out = os.path.join(dir, "activity", inputFile)
-    noise_out = os.path.join(dir, "noise", inputFile)
+        if not debug:
+            shutil.rmtree(os.path.join(dir, "noise"))
+            shutil.rmtree(os.path.join(dir, "activity"))
 
-    recombine_wavfiles(noise_files, noise_out)
-    recombine_wavfiles(activity_files, activity_out)
+        return clean_out
 
-    tfs = sox.Transformer()
-    noise_profile_path = '.'.join([noise_out, 'prof'])
-    tfs.noiseprof(noise_out, noise_profile_path)
-    tfs.build(noise_out, '-n')
-    tfs.clear_effects()
-    tfs.noisered(noise_profile_path, amount=sensitivity)
-    clean_out = os.path.join(dir, clean_dir, inputFile)
-    tfs.build(activity_out, clean_out)
+    def noise_removal_dir(self, rootdir):
 
-    if not debug:
-        shutil.rmtree(os.path.join(dir, "noise"))
-        shutil.rmtree(os.path.join(dir, "activity"))
+        if not os.path.exists(rootdir):
+            raise Exception(rootdir + " not found!")
 
-    return clean_out
+        for root, dirs, files in os.walk(rootdir):
+            parent, folder_name = os.path.split(root)
+            if folder_name == 'activity' or folder_name == 'noise' or '_clean' in folder_name:
+                shutil.rmtree(root)
+        num_samples_processed = 0
+        wav_files = []
+        for root, dirs, files in os.walk(rootdir):
+            for file in files:
+                if file.endswith('.wav'):
+                    wav_files.append(os.path.join(root, file))
+                    num_samples_processed += 1
 
+        print "Now beginning preprocessing for: ", num_samples_processed, " samples."
 
-def noise_removal_dir(rootdir, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True, verbose=False):
-    if not os.path.exists(rootdir):
-        raise Exception(rootdir + " not found!")
+        num_threads = mp.cpu_count()
+        pros = Pool(num_threads)
+        pros.map(self.noise_removal, wav_files)
 
-    if verbose:
-        print ''
-
-
-    for root, dirs, files in os.walk(rootdir):
-        parent, folder_name = os.path.split(root)
-        if folder_name == 'activity' or folder_name == 'noise' or '_clean' in folder_name:
-            shutil.rmtree(root)
-    for root, dirs, files in os.walk(rootdir):
-        for file in files:
-            if file.endswith('.wav'):
-                if verbose:
-                    print "Now cleaning: ", os.path.join(root, file)
-                noise_removal(os.path.join(root, file), smoothingWindow=smoothingWindow, weight=weight,
-                              sensitivity=sensitivity, debug=debug)
-
-    if verbose:
-        print ''
+        print "Preprocessing complete!\n"
