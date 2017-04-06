@@ -40,8 +40,7 @@ def test_model(test_dirs, model_dir=os.getcwd(), modelName='Test', classifierTyp
 
     start_time = time.clock()
 
-
-    table_setup = '(filename VARCHAR(1024), class VARCHAR(1024), identifiedCorrectly VARCHAR(1024), confidence DOUBLE, PRIMARY KEY (filename));'
+    table_setup = '(filename VARCHAR(512), class VARCHAR(512), identifiedCorrectly VARCHAR(512), confidence DOUBLE, PRIMARY KEY (filename));'
 
     if store_to_mySQL:
         with MySQLdb.connect(host=host, user=user, passwd=passwd,
