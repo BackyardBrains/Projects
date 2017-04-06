@@ -22,7 +22,7 @@ def test_params(dir, categories):
 
 def clean_and_test(directory, model_file, classifierType, birds, verbose):
     if not len(birds):
-        raise Exception("Must specify at least on folder/category to test!")
+        raise Exception("Must specify at least one folder/category to test!")
 
     start_time = time.clock()
 
