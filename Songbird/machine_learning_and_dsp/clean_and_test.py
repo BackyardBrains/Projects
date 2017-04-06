@@ -56,6 +56,7 @@ if __name__ == '__main__':
     classifierType = 'gradientboosting'
     birds = []
     verbose = False
+    model_file = os.path.join(directory, 'model')
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:v", ["dir=", "model=", "classifier=", "bird=", "verbose"])
@@ -77,7 +78,6 @@ if __name__ == '__main__':
         else:
             assert False, "unhandled option"
 
-    model_file = os.path.join(directory, 'model')
     if not os.path.isfile(model_file):
         raise Exception("Model file:" + model_file + " not found!")
 
