@@ -96,4 +96,4 @@ if __name__ == '__main__':
         raise Exception(classifierType + " is not a valid model type!")
 
     clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
-                   no_sanitize=no_sanitize
+                   no_sanitize=no_sanitize)
