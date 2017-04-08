@@ -6,7 +6,7 @@ import os
 import sys
 import time
 
-from noise_removal import noise_removal_dir
+from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
 from test_model import test_model
 from twillio_test import send_notification
@@ -20,9 +20,9 @@ def test_params(dir, categories):
     return test_dirs
 
 
-def clean_and_test(directory, model_file, classifierType, birds, verbose):
+def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean):
     if not len(birds):
-        raise Exception("Must specify at least on folder/category to test!")
+        raise Exception("Must specify at least one folder/category to test!")
 
     start_time = time.clock()
 
@@ -35,11 +35,15 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose):
 
     try:
         sanatize_filenames(directory, verbose=verbose)
-        for dir in test_dirs:
-            rootdir, subdir = os.path.split(dir)
-            noise_removal_dir(rootdir, verbose=verbose)
+        if not skip_clean:
+            for dir in test_dirs:
+                rootdir, subdir = os.path.split(dir)
+                cleaner = noiseCleaner(verbose=verbose)
+                cleaner.noise_removal_dir(rootdir)
         model_dir, model_name = os.path.split(model_file)
-        test_model(test_dirs, modelName=model_name, model_dir=directory, classifierType=classifierType,
+        if not len(model_dir):
+            model_dir = os.getcwd()
+        test_model(test_dirs, modelName=model_name, model_dir=model_dir, classifierType=classifierType,
                    store_to_mySQL=True, verbose=verbose)
     except Exception:
         send_notification("Clean and test process failed.")
@@ -55,9 +59,12 @@ if __name__ == '__main__':
     classifierType = 'gradientboosting'
     birds = []
     verbose = False
+    model_file = os.path.join(directory, 'model')
+    skip_clean = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:v", ["dir=", "model=", "classifier=", "bird=", "verbose"])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vs",
+                                   ["dir=", "model=", "classifier=", "bird=", "verbose", "skip-clean"])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -73,14 +80,15 @@ if __name__ == '__main__':
             birds.append(arg)
         elif opt in ("-v", "--verbose"):
             verbose = True
+        elif opt in ("-s", "--skip-clean"):
+            skip_clean = True
         else:
             assert False, "unhandled option"
 
-    model_file = os.path.join(directory, 'model')
     if not os.path.isfile(model_file):
         raise Exception("Model file:" + model_file + " not found!")
 
     if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
         raise Exception(classifierType + " is not a valid model type!")
 
-    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose)
+    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean)

@@ -22,6 +22,8 @@ def sqlpage_route():
     alter = 'alter'
     drop = 'drop'
     select = 'select'
+    searchFrom = 'from sampleinfo'
+    sampleInfo = 'sampleInfo'
 
     if request.method == 'POST':
         search = request.form.get('command')
@@ -30,7 +32,7 @@ def sqlpage_route():
             error = 'Command not allowed, please only use the SELECT command.'
         elif create in search.lower() or alter in search.lower() or drop in search.lower():
             error = 'Command not allowed, please only use the SELECT command.'
-        elif select not in search.lower():
+        elif select not in search.lower() or searchFrom not in search.lower() or sampleInfo not in search:
             error = 'Command not allowed, please only use the SELECT command.'
 
         if not error:

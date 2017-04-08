@@ -3,10 +3,9 @@ import sys
 
 
 def sanatize_filenames(directory=os.getcwd(), verbose=False):
-    os.chdir(directory)
     if verbose:
         print "Now sanitizing filenames in root directory: ", directory, '\n'
-    for root, dirs, files in os.walk(os.getcwd()):
+    for root, dirs, files in os.walk(directory):
         for file in files:
             if file.endswith('.wav'):
                 filename, fileextension = os.path.splitext(file)
