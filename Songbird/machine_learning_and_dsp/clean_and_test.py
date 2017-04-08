@@ -20,7 +20,7 @@ def test_params(dir, categories):
     return test_dirs
 
 
-def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean):
+def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_clean, no_sanitize):
     if not len(birds):
         raise Exception("Must specify at least one folder/category to test!")
 
@@ -34,7 +34,8 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
     test_dirs = test_params(directory, birds)
 
     try:
-        sanatize_filenames(directory, verbose=verbose)
+        if not no_sanitize:
+            sanatize_filenames(directory, verbose=verbose)
         if not skip_clean:
             for dir in test_dirs:
                 rootdir, subdir = os.path.split(dir)
@@ -61,10 +62,11 @@ if __name__ == '__main__':
     verbose = False
     model_file = os.path.join(directory, 'model')
     skip_clean = False
+    no_sanitize = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vs",
-                                   ["dir=", "model=", "classifier=", "bird=", "verbose", "skip-clean"])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vsn",
+                                   ["dir=", "model=", "classifier=", "bird=", "verbose", "skip-clean", "no-sanitize"])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -82,6 +84,8 @@ if __name__ == '__main__':
             verbose = True
         elif opt in ("-s", "--skip-clean"):
             skip_clean = True
+        elif opt in ("-n", "--no-sanitize"):
+            no_sanitize = True
         else:
             assert False, "unhandled option"
 
@@ -91,4 +95,5 @@ if __name__ == '__main__':
     if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
         raise Exception(classifierType + " is not a valid model type!")
 
-    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean)
+    clean_and_test(directory, model_file, classifierType, birds, verbose=verbose, skip_clean=skip_clean,
+                   no_sanitize=no_sanitize
