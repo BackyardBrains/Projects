@@ -60,7 +60,8 @@ def classify(directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'
 
     try:
         export_file = crc32(str(time.time()))
-        if os.system("mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info > export/%s.sql" % (
+        if os.system(
+                        "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
         user, database, passwd, export_file)):
             raise Exception("mysqldump export failed!")
     except:
