@@ -13,6 +13,8 @@ upload = Blueprint('upload', __name__, template_folder='templates')
 
 db = extensions.connect_to_database()
 
+ALLOWED_EXTENSIONS = set(['pcm', 'wav', 'aiff', 'mp3', 'aac', 'ogg', 'wma', 'flac', 'alac', 'wma'])
+
 @upload.route('/upload', methods = ['GET','POST'])
 def upload_route():
 	if request.method == 'POST':
@@ -65,7 +67,7 @@ def upload_route():
 
 			cur = db.cursor()
 			add_song = ("INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-			data_song = (1002, -1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
+			data_song = (200, -1, datetime.datetime.now(), latitude, longitude, humidity, temp, light, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
 			#data_song = (1111, -1, datetime.datetime.now(), latitude, longitude, 90, 80, 70, "bird1", 0.85, "bird2", 0.35, "bird3", 0.05)
 			cur.execute(add_song, data_song)
 
