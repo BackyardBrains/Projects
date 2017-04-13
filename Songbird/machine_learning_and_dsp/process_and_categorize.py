@@ -37,7 +37,7 @@ class classifier:
                 added = time.strftime('\'' + '-'.join(['%Y', '%m', '%d']) + ' ' + ':'.join(['%H', '%M', '%S']) + '\'',
                                       added)
 
-                cleaner = noiseCleaner(verbose=verbose)
+                cleaner = noiseCleaner(verbose=verbose, debug=False)
                 clean_wav = cleaner.noise_removal(file)
                 Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
 
