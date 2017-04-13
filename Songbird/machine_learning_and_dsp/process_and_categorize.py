@@ -136,8 +136,8 @@ if __name__ == '__main__':
     classifier0 = classifier(directory, model_file, classifierType, verbose=verbose)
     if run:
         classifier0.classify()
-    elif export:
+    if export:
         classifier0.export()
-    else:
+    if not run and not export:
         sys.stderr.out("No operator flags set: exiting!")
         exit(1)
