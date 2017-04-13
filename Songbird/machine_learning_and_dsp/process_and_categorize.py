@@ -102,10 +102,11 @@ if __name__ == '__main__':
     verbose = False
     model_file = os.path.join(directory, 'model')
     export = False
+    run = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:ve",
-                                   ["dir=", "model=", "classifier=", "verbose", "export"])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:ver",
+                                   ["dir=", "model=", "classifier=", "verbose", "export", "run"])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -121,6 +122,8 @@ if __name__ == '__main__':
             verbose = True
         elif opt in ("-e", "--export"):
             export = True
+        elif opt in ("-r", "--run"):
+            run = True
         else:
             assert False, "unhandled option"
 
@@ -131,6 +134,10 @@ if __name__ == '__main__':
         raise Exception(classifierType + " is not a valid model type!")
 
     classifier0 = classifier(directory, model_file, classifierType, verbose=verbose)
-    classifier0.classify()
-    if export:
+    if run:
+        classifier0.classify()
+    elif export:
         classifier0.export()
+    else:
+        sys.stderr.out("No operator flags set: exiting!")
+        exit(1)
