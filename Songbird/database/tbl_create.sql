@@ -17,6 +17,6 @@ CREATE TABLE sampleInfo (
 
 CREATE TABLE songInfo (
 	sampleid INTEGER PRIMARY KEY,
-	songid VARCHAR(20),
-	format VARCHAR
-)
+	songid   VARCHAR(20),
+	format   VARCHAR(20)
+);
