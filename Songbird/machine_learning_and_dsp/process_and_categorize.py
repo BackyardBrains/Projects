@@ -25,52 +25,57 @@ class classifier:
 
     def classify(self):
         directory = self.directory
-        model_file = self.model_file
-        classifierType = self.classifierType
-        verbose = self.verbose
 
         for file in os.listdir(directory):
             if file.endswith('.wav'):
                 file = os.path.join(directory, file)
-                added = os.path.getmtime(file)
-                added = time.gmtime(added)
-                added = time.strftime('\'' + '-'.join(['%Y', '%m', '%d']) + ' ' + ':'.join(['%H', '%M', '%S']) + '\'',
-                                      added)
+                self.classFile(file)
 
-                cleaner = noiseCleaner(verbose=verbose, debug=False)
-                clean_wav = cleaner.noise_removal(file)
-                Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
+    def classFile(self, file):
+        model_file = self.model_file
+        classifierType = self.classifierType
+        verbose = self.verbose
 
-                result_dict = {}
-                for i in xrange(0, len(classNames)):
-                    result_dict[classNames[i]] = P[i]
 
-                result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
+        added = os.path.getmtime(file)
+        added = time.gmtime(added)
+        added = time.strftime('\'' + '-'.join(['%Y', '%m', '%d']) + ' ' + ':'.join(['%H', '%M', '%S']) + '\'',
+                              added)
 
-                sample_id = crc32(file)
-                device_id = -1  # tbi
-                latitude = -1  # tbi
-                longitute = -1  # tbi
-                humidity = -1  # tbi
-                temp = -1  # tbi
-                light = -1  # tbi
-                type1 = '\'' + result_dict[0][0] + '\''
-                type2 = '\'' + result_dict[1][0] + '\''
-                type3 = '\'' + result_dict[2][0] + '\''
-                per1 = result_dict[0][1]
-                per2 = result_dict[1][1]
-                per3 = result_dict[2][1]
+        cleaner = noiseCleaner(verbose=verbose, debug=False)
+        clean_wav = cleaner.noise_removal(file)
+        Result, P, classNames = aT.fileClassification(clean_wav, model_file, classifierType)
 
-                values = [sample_id, device_id, added, latitude, longitute, humidity, temp, light, type1, per1, type2,
-                          per2,
-                          type3, per3]
-                values = [str(x) for x in values]
+        result_dict = {}
+        for i in xrange(0, len(classNames)):
+            result_dict[classNames[i]] = P[i]
 
-                with MySQLdb.connect(host=host, user=user, passwd=passwd,
-                                     db=database) as cur:  # config is in config.py: see above
-                    query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
-                        values) + ");"
-                    cur.execute(query_text)
+        result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
+
+        sample_id = crc32(file)
+        device_id = -1  # tbi
+        latitude = -1  # tbi
+        longitute = -1  # tbi
+        humidity = -1  # tbi
+        temp = -1  # tbi
+        light = -1  # tbi
+        type1 = '\'' + result_dict[0][0] + '\''
+        type2 = '\'' + result_dict[1][0] + '\''
+        type3 = '\'' + result_dict[2][0] + '\''
+        per1 = result_dict[0][1]
+        per2 = result_dict[1][1]
+        per3 = result_dict[2][1]
+
+        values = [sample_id, device_id, added, latitude, longitute, humidity, temp, light, type1, per1, type2,
+                  per2,
+                  type3, per3]
+        values = [str(x) for x in values]
+
+        with MySQLdb.connect(host=host, user=user, passwd=passwd,
+                             db=database) as cur:  # config is in config.py: see above
+            query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
+                values) + ");"
+            cur.execute(query_text)
 
     def export(self):
         try:
