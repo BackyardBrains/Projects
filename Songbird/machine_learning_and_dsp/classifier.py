@@ -2,6 +2,8 @@ import getopt
 import os
 import sys
 
+import pathos.multiprocessing as mp
+
 from process_and_categorize import classiFier
 
 if __name__ == '__main__':
@@ -13,10 +15,11 @@ if __name__ == '__main__':
     model_file = os.path.join(directory, 'model')
     export = False
     run = False
+    num_threads = mp.cpu_count()
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:ver",
-                                   ["dir=", "model=", "classifier=", "verbose", "export", "run"])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vern:",
+                                   ["dir=", "model=", "classifier=", "verbose", "export", "run", "num-threads="])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -34,6 +37,8 @@ if __name__ == '__main__':
             export = True
         elif opt in ("-r", "--run"):
             run = True
+        elif opt in ("-n", "--num-threads"):
+            num_threads = int(arg)
         else:
             assert False, "unhandled option"
 
@@ -43,7 +48,7 @@ if __name__ == '__main__':
     if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
         raise Exception(classifierType + " is not a valid model type!")
 
-    classifier0 = classiFier(directory, model_file, classifierType, verbose=verbose)
+    classifier0 = classiFier(directory, model_file, classifierType, verbose=verbose, num_threads=num_threads)
     if run:
         classifier0.classify()
     if export:
