@@ -18,14 +18,16 @@ from noise_removal import noiseCleaner
 class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
                  classifierType='gradientboosting',
-                 verbose=False):
+                 verbose=False, num_threads=mp.cpu_count()):
         self.directory = directory
         self.model_file = model_file
         self.classifierType = classifierType
         self.verbose = verbose
+        self.num_threads = num_threads
 
     def classify(self):
         directory = self.directory
+        num_threads = self.num_threads
 
         wav_files = []
         for file in os.listdir(directory):
@@ -33,7 +35,6 @@ class classiFier:
                 file = os.path.join(directory, file)
                 wav_files.append(file)
 
-        num_threads = mp.cpu_count()
         pros = Pool(num_threads)
         pros.map(self.classFile, wav_files)
         shutil.rmtree(os.path.join(directory, "noise"))

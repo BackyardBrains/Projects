@@ -29,13 +29,14 @@ def unshared_copy(inList):
 
 class tester:
     def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='Test', classifierType='gradientboosting', level=0.7,
-                 verbose=False):
+                 verbose=False, num_threads=mp.cpu_count()):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
         self.modelName = modelName
         self.classifierType = classifierType
         self.level = level
         self.verbose = verbose
+        self.num_threads = num_threads
 
     def test_model(self):
 
@@ -44,6 +45,7 @@ class tester:
         modelName = self.modelName
         classifierType = self.classifierType
         level = self.level
+        num_threads = self.num_threads
 
         # Used to test an existing model against new samples;
         # Test directories should contain the same categories and be in the same order as the original training data, but should contain seperate samples
@@ -100,7 +102,6 @@ class tester:
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
                 file_objects.append([os.path.join(dir, file), correct_cat])
 
-        num_threads = mp.cpu_count()
         pros = Pool(num_threads)
         pros.map(self.test_file, file_objects)
 

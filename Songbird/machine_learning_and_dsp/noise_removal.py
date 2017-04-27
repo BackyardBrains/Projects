@@ -28,12 +28,13 @@ def recombine_wavfiles(infiles, outfile):
 
 class noiseCleaner:
     def __init__(self, smoothingWindow=0.4, weight=0.4, sensitivity=0.4, debug=True,
-                 verbose=False):
+                 verbose=False, num_threads=mp.cpu_count()):
         self.smoothingWindow = smoothingWindow
         self.weight = weight
         self.sensitivity = sensitivity
         self.debug = debug
         self.verbose = verbose
+        self.num_threads = num_threads
 
     def noise_removal(self, inputFile):
         smoothingWindow = self.smoothingWindow
@@ -101,6 +102,8 @@ class noiseCleaner:
 
     def noise_removal_dir(self, rootdir):
 
+        num_threads = self.num_threads
+
         if not os.path.exists(rootdir):
             raise Exception(rootdir + " not found!")
 
@@ -118,7 +121,6 @@ class noiseCleaner:
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
 
-        num_threads = mp.cpu_count()
         pros = Pool(num_threads)
         pros.map(self.noise_removal, wav_files)
 
