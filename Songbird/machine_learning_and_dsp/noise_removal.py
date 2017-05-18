@@ -97,8 +97,10 @@ class noiseCleaner:
             tfs.build(activity_out, clean_out)
 
         except:
-            sys.stderr.write("Sox error in noise reduction of file: %s" % os.path.join(dir, inputFile))
-            sys.exit(1)
+            original_file = os.path.join(dir, inputFile)
+            sys.stderr.write("Sox error in noise reduction of file: %s.\n" % original_file)
+            clean_out = os.path.join(dir, clean_dir, inputFile)
+            shutil.copyfile(original_file, clean_out)
 
         if not debug:
             shutil.rmtree(os.path.join(dir, "noise"))
