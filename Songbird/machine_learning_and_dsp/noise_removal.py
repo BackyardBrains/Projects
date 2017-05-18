@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 import pathos.multiprocessing as mp
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
@@ -85,14 +86,19 @@ class noiseCleaner:
         recombine_wavfiles(noise_files, noise_out)
         recombine_wavfiles(activity_files, activity_out)
 
-        tfs = sox.Transformer()
-        noise_profile_path = '.'.join([noise_out, 'prof'])
-        tfs.noiseprof(noise_out, noise_profile_path)
-        tfs.build(noise_out, '-n')
-        tfs.clear_effects()
-        tfs.noisered(noise_profile_path, amount=sensitivity)
-        clean_out = os.path.join(dir, clean_dir, inputFile)
-        tfs.build(activity_out, clean_out)
+        try:
+            tfs = sox.Transformer()
+            noise_profile_path = '.'.join([noise_out, 'prof'])
+            tfs.noiseprof(noise_out, noise_profile_path)
+            tfs.build(noise_out, '-n')
+            tfs.clear_effects()
+            tfs.noisered(noise_profile_path, amount=sensitivity)
+            clean_out = os.path.join(dir, clean_dir, inputFile)
+            tfs.build(activity_out, clean_out)
+
+        except:
+            sys.stderr.write("Sox error in noise reduction of file: %s" % os.path.join(dir, inputFile))
+            sys.exit(1)
 
         if not debug:
             shutil.rmtree(os.path.join(dir, "noise"))
