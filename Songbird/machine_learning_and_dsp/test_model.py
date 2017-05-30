@@ -92,7 +92,8 @@ def unshared_copy(inList):
 
 
 class tester:
-    def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='Test', classifierType='gradientboosting', level=0.7,
+    def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='model', classifierType='gradientboosting',
+                 level=0.7,
                  verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
@@ -105,7 +106,6 @@ class tester:
 
         test_dirs = self.test_dirs
         level = self.level
-        num_threads = self.num_threads
         model_dir = self.model_dir
         modelName = self.modelName
         classifierType = self.classifierType
@@ -215,14 +215,9 @@ class tester:
 
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
 
-        #Stats on original
-        base_stats = find_stats(confusion_matrix, num_threads)
+        stats = find_stats(stats_matrix)
 
-        #Threshold stats
-        print "Threshold Stats:"
-        threshold_stats = find_stats(confidence_corrected_con_matrix, num_threads)
-
-        return base_stats, threshold_stats
+        return stats
 
 
 if __name__ == '__main__':
