@@ -10,8 +10,14 @@ import numpy as np
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
 from pyAudioAnalysis import audioTrainTest as aT
+from numpy import mean
 
 from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
+
+
+def f_score(prec, recall, Beta=1):
+    fscore = (1 + Beta ** 2) * (prec * recall) / (Beta ** 2 * prec + recall)
+    return fscore
 
 class class_stats:
     def __init__(self, confusion_matrix, i):
@@ -199,6 +205,18 @@ class tester:
 
         for obj in stats:
             obj.stats_eval()
+
+        #Find micro-average F1
+        micro_prec = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_pos for i in stats])
+        micro_recall = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_neg for i in stats])
+        micro_f1 = f_score(micro_prec, micro_recall)
+        print "Micro-averaged F1 is %s \n" % micro_f1
+
+        #Find macro-average F1
+        macro_prec = mean([i.prec for i in stats])
+        macro_recall = mean([i.recall for i in stats])
+        macro_f1 = f_score(macro_prec, macro_recall)
+        print "Macro-averaged F1 is %s \n" % macro_f1
 
         return stats
 
