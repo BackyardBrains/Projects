@@ -15,6 +15,27 @@ from numpy import mean
 from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
 
 
+def find_stats(confusion_matrix):
+    stats = [class_stats(confusion_matrix, i) for i in xrange(0, len(confusion_matrix))]
+
+    for obj in stats:
+        obj.stats_eval()
+
+    # Find micro-average F1
+    micro_prec = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_pos for i in stats])
+    micro_recall = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_neg for i in stats])
+    micro_f1 = f_score(micro_prec, micro_recall)
+    print "Micro-averaged F1 is %s \n" % micro_f1
+
+    # Find macro-average F1
+    macro_prec = mean([i.prec for i in stats])
+    macro_recall = mean([i.recall for i in stats])
+    macro_f1 = f_score(macro_prec, macro_recall)
+    print "Macro-averaged F1 is %s \n" % macro_f1
+
+    return stats
+
+
 def f_score(prec, recall, Beta=1):
     fscore = (1 + Beta ** 2) * (prec * recall) / (Beta ** 2 * prec + recall)
     return fscore
@@ -201,24 +222,12 @@ class tester:
 
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
 
-        stats = [class_stats(confusion_matrix,i) for i in xrange(0,len(confusion_matrix))]
+        #Stats on original
+        find_stats(confusion_matrix)
 
-        for obj in stats:
-            obj.stats_eval()
-
-        #Find micro-average F1
-        micro_prec = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_pos for i in stats])
-        micro_recall = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_neg for i in stats])
-        micro_f1 = f_score(micro_prec, micro_recall)
-        print "Micro-averaged F1 is %s \n" % micro_f1
-
-        #Find macro-average F1
-        macro_prec = mean([i.prec for i in stats])
-        macro_recall = mean([i.recall for i in stats])
-        macro_f1 = f_score(macro_prec, macro_recall)
-        print "Macro-averaged F1 is %s \n" % macro_f1
-
-        return stats
+        #Threshold stats
+        print "Threshold Stats:"
+        find_stats(confidence_corrected_con_matrix)
 
     def test_file(self, file_object):
 
