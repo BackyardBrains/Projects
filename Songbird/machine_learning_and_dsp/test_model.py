@@ -13,6 +13,55 @@ from pyAudioAnalysis import audioTrainTest as aT
 
 from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
 
+class class_stats:
+    def __init__(self, confusion_matrix, i):
+        self.confusion_matrix = confusion_matrix
+        self.i = i
+
+    def stats_eval(self):
+        i = self.i
+        confusion_matrix = self.confusion_matrix
+        numrows = len(confusion_matrix)
+        numcols = len(confusion_matrix[0])
+        assert(numcols == numrows) #Sanity Check
+        numclasses = numrows
+
+        full_matrix_sum = sum([sum(k) for k in confusion_matrix])
+
+        true_pos = confusion_matrix[i][i] #The diagonals represent the true positives for each class
+        row_sum = sum(confusion_matrix[i])
+        false_neg = row_sum - true_pos
+        sum_column = 0
+        for j in xrange(0, numclasses):
+            sum_column = sum_column + confusion_matrix[j][i]
+        false_pos = sum_column - true_pos
+        true_neg = full_matrix_sum - true_pos - false_neg - false_pos
+
+        accu = (true_pos + true_neg) / full_matrix_sum
+        sens = true_pos / (true_pos + false_neg)
+        spec = true_neg / (true_neg + false_pos)
+
+        prec = true_pos / (true_pos + false_pos)
+        recall = sens
+
+        self.true_pos = true_pos
+        self.true_neg = true_neg
+        self.false_pos = false_pos
+        self.false_neg = false_neg
+
+        self.accu = accu
+        self.sens = sens
+        self.spec = spec
+        self.prec = prec
+        self.recall = recall
+
+    def f_score(self, Beta=1):
+        prec = self.prec
+        recall = self.recall
+        fscore = (1 + Beta**2) * (prec * recall) / (Beta**2 * prec + recall)
+        return fscore
+
+
 
 def do_division(a, b):
     if a == 0 and b == 0:
@@ -145,6 +194,13 @@ class tester:
         aT.printConfusionMatrix(np.array(confidence_corrected_con_matrix), classNames)
 
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
+
+        stats = [class_stats(confidence_corrected_con_matrix,i) for i in xrange(0,len(confidence_corrected_con_matrix))]
+
+        for obj in stats:
+            obj.stats_eval()
+
+        return stats
 
     def test_file(self, file_object):
 
