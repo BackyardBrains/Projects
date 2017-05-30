@@ -15,11 +15,15 @@ from numpy import mean
 from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
 
 
-def find_stats(confusion_matrix):
+def find_stats(confusion_matrix, num_threads):
     stats = [class_stats(confusion_matrix, i) for i in xrange(0, len(confusion_matrix))]
 
     for obj in stats:
         obj.stats_eval()
+
+    #Hopefully working paralellization for this part:
+    #pros = Pool(num_threads)
+    #pros.map(class_stats.stats_eval, stats)
 
     # Find micro-average F1
     micro_prec = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_pos for i in stats])
@@ -223,11 +227,11 @@ class tester:
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
 
         #Stats on original
-        base_stats = find_stats(confusion_matrix)
+        base_stats = find_stats(confusion_matrix, num_threads)
 
         #Threshold stats
         print "Threshold Stats:"
-        threshold_stats = find_stats(confidence_corrected_con_matrix)
+        threshold_stats = find_stats(confidence_corrected_con_matrix, num_threads)
 
         return base_stats, threshold_stats
 
