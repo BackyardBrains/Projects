@@ -223,11 +223,13 @@ class tester:
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
 
         #Stats on original
-        find_stats(confusion_matrix)
+        base_stats = find_stats(confusion_matrix)
 
         #Threshold stats
         print "Threshold Stats:"
-        find_stats(confidence_corrected_con_matrix)
+        threshold_stats = find_stats(confidence_corrected_con_matrix)
+
+        return base_stats, threshold_stats
 
     def test_file(self, file_object):
 
