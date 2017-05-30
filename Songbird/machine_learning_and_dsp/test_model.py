@@ -195,7 +195,7 @@ class tester:
 
         print '\n', "Processed ", sum(total_num_samples), " samples in ", time.clock() - start_time, " seconds."
 
-        stats = [class_stats(confidence_corrected_con_matrix,i) for i in xrange(0,len(confidence_corrected_con_matrix))]
+        stats = [class_stats(confusion_matrix,i) for i in xrange(0,len(confusion_matrix))]
 
         for obj in stats:
             obj.stats_eval()

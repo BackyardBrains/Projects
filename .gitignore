@@ -3,3 +3,11 @@ __pycache__/*
 controllers/__pycache__/*
 controllers/*.pyc
 config.py
+.idea/
+Songbird/machine_learning_and_dsp/noise.prof
+Test*
+k_means*
+hash*
+*extract*
+Songbird/machine_learning_and_dsp/sox
+.gitignore
