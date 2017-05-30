@@ -3,20 +3,15 @@
 import glob
 import os
 import time
-from hashlib import md5
 
-import MySQLdb
 import numpy as np
 import pathos.multiprocessing as mp
-from pathos.multiprocessing import Pool
-from pyAudioAnalysis import audioTrainTest as aT
 from numpy import mean
+from pyAudioAnalysis import audioTrainTest as aT
 
-from config import *  # Set mysql parameter is a file called config.py: host=, user=, passwd=, database=
 
-
-def find_stats(confusion_matrix, num_threads):
-    stats = [class_stats(confusion_matrix, i) for i in xrange(0, len(confusion_matrix))]
+def find_stats(stats_matrix):
+    stats = [class_stats(q) for q in stats_matrix]
 
     for obj in stats:
         obj.stats_eval()
@@ -45,28 +40,18 @@ def f_score(prec, recall, Beta=1):
     return fscore
 
 class class_stats:
-    def __init__(self, confusion_matrix, i):
-        self.confusion_matrix = confusion_matrix
-        self.i = i
+    def __init__(self, stats_row):
+        self.stats_row = stats_row
 
     def stats_eval(self):
-        i = self.i
-        confusion_matrix = self.confusion_matrix
-        numrows = len(confusion_matrix)
-        numcols = len(confusion_matrix[0])
-        assert(numcols == numrows) #Sanity Check
-        numclasses = numrows
+        stats_row = self.stats_row
 
-        full_matrix_sum = sum([sum(k) for k in confusion_matrix])
+        true_pos = stats_row[0]
+        false_pos = stats_row[1]
+        true_neg = stats_row[2]
+        false_neg = stats_row[3]
 
-        true_pos = confusion_matrix[i][i] #The diagonals represent the true positives for each class
-        row_sum = sum(confusion_matrix[i])
-        false_neg = row_sum - true_pos
-        sum_column = 0
-        for j in xrange(0, numclasses):
-            sum_column = sum_column + confusion_matrix[j][i]
-        false_pos = sum_column - true_pos
-        true_neg = full_matrix_sum - true_pos - false_neg - false_pos
+        full_matrix_sum = sum(stats_row)
 
         accu = (true_pos + true_neg) / full_matrix_sum
         sens = true_pos / (true_pos + false_neg)
@@ -121,11 +106,12 @@ class tester:
     def test_model(self):
 
         test_dirs = self.test_dirs
+        level = self.level
+        num_threads = self.num_threads
         model_dir = self.model_dir
         modelName = self.modelName
         classifierType = self.classifierType
-        level = self.level
-        num_threads = self.num_threads
+        verbose = self.verbose
 
         # Used to test an existing model against new samples;
         # Test directories should contain the same categories and be in the same order as the original training data, but should contain seperate samples
@@ -139,19 +125,6 @@ class tester:
         # The following sets up a new table in the given db to store information about each classification; The table will be given the same name as the model file; the table will be dropped initially if a table with the same name already exists.
 
         start_time = time.clock()
-
-        table_setup = '(filename VARCHAR(128), class VARCHAR(128), identifiedCorrectly VARCHAR(128), confidence DOUBLE, identifiedAs VARCHAR(128), PRIMARY KEY (filename));'
-
-
-        with MySQLdb.connect(host=host, user=user, passwd=passwd,
-                             db=database) as cur:  # config is in config.py: see above
-
-            try:
-                cur.execute("DROP TABLE " + modelName)
-            except:
-                pass
-
-            cur.execute("CREATE TABLE " + modelName + table_setup)
 
         os.chdir(test_dirs[0])
         for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
@@ -182,34 +155,52 @@ class tester:
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
                 file_objects.append([os.path.join(dir, file), correct_cat])
 
-        pros = Pool(num_threads)
-        pros.map(self.test_file, file_objects)
+                Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
+                                                              classifierType)  # Test the file
 
-        with MySQLdb.connect(host=host, user=user, passwd=passwd,
-                             db=database) as cur:  # config is in config.py: see above
-            cur.execute("SELECT * FROM %s;" % modelName)
-            all_results = cur.fetchall()
+                if verbose:
+                    print '\n', file
+                    print Result
+                    print classNames
+                    print P, '\n'
 
-        for entry in all_results:
-            correct_cat = entry[1]
-            confidence = float(entry[3])
-            identified_correctly = bool(entry[2])
-            Result = float(entry[4])
+                stats_matrix = [[0, 0, 0, 0] for x in xrange(0, len(P))]
 
-            indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
-            if not len(indexes):
-                raise Exception(correct_cat + "is not a correctly named category for this model!")
-            elif len(indexes) != 1:
-                raise Exception(correct_cat + "matches multiple categories in the model file!")
-            cat_index = indexes[0]
-            total_num_samples[cat_index] += 1
-            confusion_matrix[cat_index][int(Result)] += 1
-            if confidence > level:
-                confidence_corrected_con_matrix[cat_index][int(Result)] += 1
-                confidence_above_90[cat_index] += 1
-                if unicode(correct_cat) == unicode(classNames[int(Result)]):
-                    assert (identified_correctly)
-                    correct_above_90[cat_index] += 1
+                threshold = level
+
+                for cls in xrange(0, len(P)):
+                    if P[cls] > threshold:
+                        if unicode(correct_cat) == unicode(classNames[cls]):
+                            # True Positive
+                            stats_matrix[cls][0] = stats_matrix[cls][0] + 1
+                        else:
+                            # False Positive
+                            stats_matrix[cls][1] = stats_matrix[cls][1] + 1
+                    else:
+                        if unicode(correct_cat) == unicode(classNames[cls]):
+                            # False Negative
+                            stats_matrix[cls][2] = stats_matrix[cls][2] + 1
+                        else:
+                            # True Negative
+                            stats_matrix[cls][3] = stats_matrix[cls][3] + 1
+
+                identified_correctly = (unicode(correct_cat) == unicode(classNames[int(Result)]))
+                confidence = max(P)
+
+                indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
+                if not len(indexes):
+                    raise Exception(correct_cat + "is not a correctly named category for this model!")
+                elif len(indexes) != 1:
+                    raise Exception(correct_cat + "matches multiple categories in the model file!")
+                cat_index = indexes[0]
+                total_num_samples[cat_index] += 1
+                confusion_matrix[cat_index][int(Result)] += 1
+                if confidence > level:
+                    confidence_corrected_con_matrix[cat_index][int(Result)] += 1
+                    confidence_above_90[cat_index] += 1
+                    if unicode(correct_cat) == unicode(classNames[int(Result)]):
+                        assert (identified_correctly)
+                        correct_above_90[cat_index] += 1
 
         acc_above_90 = map(do_division, correct_above_90, confidence_above_90)
         percent_desicive_samples = map(do_division, confidence_above_90, total_num_samples)
@@ -234,37 +225,3 @@ class tester:
         threshold_stats = find_stats(confidence_corrected_con_matrix, num_threads)
 
         return base_stats, threshold_stats
-
-    def test_file(self, file_object):
-
-        model_dir = self.model_dir
-        modelName = self.modelName
-        classifierType = self.classifierType
-        verbose = self.verbose
-        file, correct_cat = file_object
-
-        Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
-                                                      classifierType)  # Test the file
-
-        if verbose:
-            print '\n', file
-            print Result
-            print classNames
-            print P, '\n'
-
-        current_file_results = {
-            'filename': unicode(md5(file.encode('utf-8')).hexdigest()),
-            'class': correct_cat,
-            'identifiedCorrectly': str(unicode(correct_cat) == unicode(classNames[int(Result)])).upper(),
-            'confidence': str(max(P)),
-            'identifiedAs': str(Result)
-        }
-        with MySQLdb.connect(host=host, user=user, passwd=passwd, db=database) as cur:
-            insert_statement = "INSERT INTO " + modelName + " (filename, class, identifiedCorrectly, confidence, identifiedAs) VALUES (\'" + \
-                               current_file_results['filename'] + "\', \'" + current_file_results[
-                                   'class'] + '\', ' + current_file_results['identifiedCorrectly'] + ', ' + \
-                               current_file_results['confidence'] + ', ' + current_file_results['identifiedAs'] + ");"
-            try:
-                cur.execute(insert_statement)
-            except:
-                pass
