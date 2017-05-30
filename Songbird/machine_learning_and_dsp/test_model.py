@@ -5,7 +5,6 @@ import os
 import time
 
 import numpy as np
-import pathos.multiprocessing as mp
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
 
@@ -94,14 +93,13 @@ def unshared_copy(inList):
 
 class tester:
     def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='Test', classifierType='gradientboosting', level=0.7,
-                 verbose=False, num_threads=mp.cpu_count()):
+                 verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
         self.modelName = modelName
         self.classifierType = classifierType
         self.level = level
         self.verbose = verbose
-        self.num_threads = num_threads
 
     def test_model(self):
 
@@ -225,3 +223,9 @@ class tester:
         threshold_stats = find_stats(confidence_corrected_con_matrix, num_threads)
 
         return base_stats, threshold_stats
+
+
+if __name__ == '__main__':
+    new_test = tester(test_dirs=["C:\\Users\\zacha\\Desktop\\testign\\titmouse_song\\titmouse_song_clean"],
+                      model_dir="C:\\Users\\zacha\\Desktop\\testign")
+    new_test.test_model()
