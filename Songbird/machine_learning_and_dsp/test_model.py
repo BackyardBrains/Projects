@@ -15,9 +15,9 @@ def find_stats(stats_matrix):
 
     marker = 0
     for obj in stats:
-        marker = marker +1
         obj.stats_eval()
         print "F-score for class %s is %s" % (marker, obj.f_score())
+        marker = marker + 1
 
     #Hopefully working paralellization for this part:
     #pros = Pool(num_threads)
@@ -248,7 +248,7 @@ if __name__ == '__main__':
     #new_test.test_model()
 
     print ''
-    thresholds = [0.1, 0.5, 0.9]#[0.1,0.2,0.3]#,0.4,0.5,0.6,0.7,0.8,0.9]
+    thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     tests = []
     for t in thresholds:
         tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test", level=t))
@@ -259,16 +259,16 @@ if __name__ == '__main__':
     # pros = Pool(mp.cpu_count())
     # pros.map(t.test_model() for t in tests)
 
-    num_classes = len(birds)
-    per_class_fpr = [[] for a in xrange(num_classes)]
-    per_class_tpr = [[] for a in xrange(num_classes)]
-    for v in tests:
-        for q in xrange(0, num_classes):
-            per_class_fpr[q].append(1 - v.stats[q].spec)
-            per_class_tpr[q].append(v.stats[q].sens)
-
-    for g in xrange(num_classes):
-        basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
+    # num_classes = len(birds)
+    # per_class_fpr = [[] for a in xrange(num_classes)]
+    # per_class_tpr = [[] for a in xrange(num_classes)]
+    # for v in tests:
+    #     for q in xrange(0, num_classes):
+    #         per_class_fpr[q].append(1 - v.stats[q].spec)
+    #         per_class_tpr[q].append(v.stats[q].sens)
+    #
+    # for g in xrange(num_classes):
+    #     basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
 
 
 
