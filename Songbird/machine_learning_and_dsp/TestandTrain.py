@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # from noise_removal import noise_removal_dir
 import time
-
+import os
 from test_model import tester
+from train_model import train_model
 
 
 def test_params(categories):
@@ -61,15 +62,11 @@ if __name__ == '__main__':
 
     birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song',
              'sparrow_song', 'titmouse_song']
-    list_of_dirs, test_dirs = test_params(birds)
-    model = 'gradientboosting'  # , 'knn', 'gradientboosting', 'randomforest', 'extratrees']
-    modelName = 'model'
+    list_of_dirs = [os.path.join("/run/media/zach/untitled/ML Recordings/xeno-canto/training", bird, bird+'_clean') for bird in birds]
+    train_model(list_of_dirs=list_of_dirs)
 
     # noise_removal_dir("C:\\Users\\zacha\\Desktop\\testign")
     start_time = time.clock()
-    t1 = tester(test_dirs, modelName=modelName, classifierType=model, model_dir="C:\\Users\\zacha\\Desktop\\testign",
-                verbose=True)
-    t1.test_model()
     # train_and_test(list_of_dirs, test_dirs, modelName=modelName, classifierType=model, store_to_mySQL=True)
     # plus_zero_one()
     print "Total CPU time is: ", time.clock() - start_time

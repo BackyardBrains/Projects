@@ -3,7 +3,8 @@
 import glob
 import os
 import time
-
+import pathos.multiprocessing as mp
+from pathos.multiprocessing import Pool
 import numpy as np
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
@@ -216,11 +217,51 @@ class tester:
 
         stats = find_stats(stats_matrix)
 
+        self.stats = stats
         return stats
 
+def basic_roc_plot(fpr, tpr):
+    #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
+    import matplotlib.pyplot as plt
+    from sklearn import metrics
+    roc_auc = metrics.auc(fpr, tpr)
+    plt.title('Receiver Operating Characteristic')
+    plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
+    plt.legend(loc='lower right')
+    plt.plot([0, 1], [0, 1], 'r--')
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
 
 if __name__ == '__main__':
     birds = ['bluejay_all_clean', 'cardinal_song_clean', 'chickadee_song_clean', 'crow_all_clean', 'goldfinch_song_clean', 'robin_song_clean', 'sparrow_song_clean', 'titmouse_song_clean']
     birds = [os.path.join("/home/zach/Documents/bird_samples", bird) for bird in birds]
-    new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples")
+
+    new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
     new_test.test_model()
+
+    print ''
+    # thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+    # tests = []
+    # for t in thresholds:
+    #     tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", level=t))
+    #
+    # pros = Pool(mp.cpu_count())
+    # pros.map(tester.test_model(), tests)
+    #
+    # num_classes = len(birds)
+    # per_class_fpr = [[] for a in xrange(num_classes)]
+    # per_class_tpr = [[] for a in xrange(num_classes)]
+    # for v in tests:
+    #     for q in xrange(0, num_classes):
+    #         per_class_fpr[q].append(1 - v[q].spec)
+    #         per_class_tpr[q].append(v[q].sens)
+    #
+    # for g in xrange(num_classes):
+    #     basic_roc_plot(per_class_fpr[g], per_class_tpr[g])
+
+
+
+
