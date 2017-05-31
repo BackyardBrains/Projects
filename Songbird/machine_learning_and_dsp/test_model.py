@@ -47,8 +47,9 @@ class class_stats:
 
         true_pos = stats_row[0]
         false_pos = stats_row[1]
-        true_neg = stats_row[2]
-        false_neg = stats_row[3]
+        false_neg = stats_row[2]
+        true_neg = stats_row[3]
+
 
         full_matrix_sum = sum(stats_row)
 
@@ -166,14 +167,14 @@ class tester:
 
                 for cls in xrange(0, len(P)):
                     if P[cls] > threshold:
-                        if unicode(correct_cat) == unicode(classNames[int(Result)]):
+                        if unicode(correct_cat) == unicode(classNames[cls]):
                             # True Positive
                             stats_matrix[cls][0] = stats_matrix[cls][0] + 1
                         else:
                             # False Positive
                             stats_matrix[cls][1] = stats_matrix[cls][1] + 1
                     else:
-                        if unicode(correct_cat) == unicode(classNames[int(Result)]):
+                        if unicode(correct_cat) == unicode(classNames[cls]):
                             # False Negative
                             stats_matrix[cls][2] = stats_matrix[cls][2] + 1
                         else:
