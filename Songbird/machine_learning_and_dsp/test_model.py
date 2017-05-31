@@ -186,7 +186,7 @@ class tester:
                 confidence = max(P)
 
                 indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
-                if not len(indexes) && unicode(correct_cat) != u'no_cat':
+                if not len(indexes) and unicode(correct_cat) != u'no_cat':
                     raise Exception(correct_cat + "is not a correctly named category for this model!")
                 elif len(indexes) != 1:
                     raise Exception(correct_cat + "matches multiple categories in the model file!")
@@ -220,30 +220,16 @@ class tester:
         self.stats = stats
         return stats
 
-def basic_roc_plot(fpr, tpr, className):
-    #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
-    import matplotlib.pyplot as plt
-    from sklearn import metrics
-    roc_auc = metrics.auc(fpr, tpr)
-    plt.title('Receiver Operating Characteristic for %s' % className)
-    plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
-    plt.legend(loc='lower right')
-    plt.plot([0, 1], [0, 1], 'r--')
-    plt.xlim([0, 1])
-    plt.ylim([0, 1])
-    plt.ylabel('True Positive Rate')
-    plt.xlabel('False Positive Rate')
-    plt.show()
 
 if __name__ == '__main__':
     birds = ['bluejay_all_clean', 'cardinal_song_clean', 'chickadee_song_clean', 'crow_all_clean', 'goldfinch_song_clean', 'robin_song_clean', 'sparrow_song_clean', 'titmouse_song_clean']
     birds = [os.path.join("/home/zach/Documents/bird_samples", bird) for bird in birds]
 
-    new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
-    new_test.test_model()
+    #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
+    #new_test.test_model()
 
     print ''
-    thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    thresholds = [0.1,0.2,0.3]#,0.4,0.5,0.6,0.7,0.8,0.9]
     tests = []
     for t in thresholds:
         tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test", level=t))
@@ -251,19 +237,6 @@ if __name__ == '__main__':
     for r in tests:
         r.test_model()
 
-    # pros = Pool(mp.cpu_count())
-    # pros.map(t.test_model() for t in tests)
-
-    num_classes = len(birds)
-    per_class_fpr = [[] for a in xrange(num_classes)]
-    per_class_tpr = [[] for a in xrange(num_classes)]
-    for v in tests:
-        for q in xrange(0, num_classes):
-            per_class_fpr[q].append(1 - v[q].spec)
-            per_class_tpr[q].append(v[q].sens)
-
-    for g in xrange(num_classes):
-        basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
 
 
 
