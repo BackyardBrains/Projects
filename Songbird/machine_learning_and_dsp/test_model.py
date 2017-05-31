@@ -220,6 +220,7 @@ class tester:
 
 
 if __name__ == '__main__':
-    new_test = tester(test_dirs=["C:\\Users\\zacha\\Desktop\\testign\\titmouse_song\\titmouse_song_clean"],
-                      model_dir="C:\\Users\\zacha\\Desktop\\testign")
+    birds = ['bluejay_all_clean', 'cardinal_song_clean', 'chickadee_song_clean', 'crow_all_clean', 'goldfinch_song_clean', 'robin_song_clean', 'sparrow_song_clean', 'titmouse_song_clean']
+    birds = [os.path.join("/home/zach/Documents/bird_samples", bird) for bird in birds]
+    new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples")
     new_test.test_model()
