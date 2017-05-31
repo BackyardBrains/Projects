@@ -35,7 +35,7 @@ def find_stats(stats_matrix):
 
 
 def f_score(prec, recall, Beta=1):
-    fscore = (1 + Beta ** 2) * (prec * recall) / (Beta ** 2 * prec + recall)
+    fscore = do_division((1 + Beta ** 2) * (prec * recall), (Beta ** 2 * prec + recall))
     return fscore
 
 class class_stats:
@@ -52,11 +52,11 @@ class class_stats:
 
         full_matrix_sum = sum(stats_row)
 
-        accu = (true_pos + true_neg) / full_matrix_sum
-        sens = true_pos / (true_pos + false_neg)
-        spec = true_neg / (true_neg + false_pos)
+        accu = do_division((true_pos + true_neg), full_matrix_sum)
+        sens = do_division(true_pos, (true_pos + false_neg))
+        spec = do_division(true_neg, (true_neg + false_pos))
 
-        prec = true_pos / (true_pos + false_pos)
+        prec = do_division(true_pos, (true_pos + false_pos))
         recall = sens
 
         self.true_pos = true_pos
@@ -145,13 +145,12 @@ class tester:
         correct_above_90 = unshared_copy(temp)
         total_num_samples = unshared_copy(temp)
         confidence_corrected_con_matrix = unshared_copy(confusion_matrix)
-        file_objects = []
+        stats_matrix = [[0, 0, 0, 0] for x in xrange(0, num_cats)]
         for i in xrange(0, len(test_dirs)):  # Iterate through each test directory
             dir = test_dirs[i]
             os.chdir(dir)
             rootdir, correct_cat = os.path.split(dir)
             for file in glob.glob(u"*.wav"):  # Iterate through each wave file in the directory
-                file_objects.append([os.path.join(dir, file), correct_cat])
 
                 Result, P, classNames = aT.fileClassification(file, os.path.join(model_dir, modelName),
                                                               classifierType)  # Test the file
@@ -162,20 +161,19 @@ class tester:
                     print classNames
                     print P, '\n'
 
-                stats_matrix = [[0, 0, 0, 0] for x in xrange(0, len(P))]
 
                 threshold = level
 
                 for cls in xrange(0, len(P)):
                     if P[cls] > threshold:
-                        if unicode(correct_cat) == unicode(classNames[cls]):
+                        if unicode(correct_cat) == unicode(classNames[int(Result)]):
                             # True Positive
                             stats_matrix[cls][0] = stats_matrix[cls][0] + 1
                         else:
                             # False Positive
                             stats_matrix[cls][1] = stats_matrix[cls][1] + 1
                     else:
-                        if unicode(correct_cat) == unicode(classNames[cls]):
+                        if unicode(correct_cat) == unicode(classNames[int(Result)]):
                             # False Negative
                             stats_matrix[cls][2] = stats_matrix[cls][2] + 1
                         else:
