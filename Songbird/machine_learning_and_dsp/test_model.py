@@ -262,7 +262,18 @@ if __name__ == '__main__':
     num_classes = len(birds)
     per_class_fpr = [[] for a in xrange(num_classes)]
     per_class_tpr = [[] for a in xrange(num_classes)]
+    micro_average_fpr = []
+    micro_average_tpr = []
+    macro_average_fpr = []
+    macro_average_tpr = []
     for v in tests:
+        macro_average_fpr.append(mean([1 - v.stats[f].spec for f in xrange(num_classes)]))
+        macro_average_tpr.append(mean([v.stats[f].sens for f in xrange(num_classes)]))
+
+        micro_average_tpr.append(do_division(sum([i.true_pos for i in v.stats[i]]), sum([i.true_pos + i.false_neg for i in v.stats[i]])))
+        micro_average_tpr.append(
+            do_division(1 - sum([i.true_neg for i in v.stats[i]]), sum([i.true_neg + i.false_pos for i in v.stats[i]])))
+
         for q in xrange(0, num_classes):
             per_class_fpr[q].append(1 - v.stats[q].spec)
             per_class_tpr[q].append(v.stats[q].sens)
@@ -271,7 +282,8 @@ if __name__ == '__main__':
     for g in xrange(num_classes):
         auc_scores.append(basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g]))
 
-    print "Macro-average ROC-AUC is %s" % mean(auc_scores)
+    basic_roc_plot(micro_average_fpr, micro_average_tpr, "Micro-average")
+    basic_roc_plot(macro_average_fpr, macro_average_tpr, "Macro-average")
 
 
 
