@@ -78,7 +78,7 @@ class class_stats:
     def f_score(self, Beta=1):
         prec = self.prec
         recall = self.recall
-        fscore = (1 + Beta**2) * (prec * recall) / (Beta**2 * prec + recall)
+        fscore = do_division((1 + Beta**2) * (prec * recall), (Beta**2 * prec + recall))
         return fscore
 
 
@@ -242,7 +242,7 @@ def basic_roc_plot(fpr, tpr, className):
 
 if __name__ == '__main__':
     birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
-    birds = [os.path.join("/run/media/zach/untitled/ML Recordings/xeno-canto/testing", bird, bird+'_clean') for bird in birds]
+    birds = [os.path.join("/home/zach/Documents/bird_samples", bird+'_clean') for bird in birds]
 
     #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
     #new_test.test_model()
@@ -270,7 +270,7 @@ if __name__ == '__main__':
         macro_average_fpr.append(mean([1 - v.stats[f].spec for f in xrange(num_classes)]))
         macro_average_tpr.append(mean([v.stats[f].sens for f in xrange(num_classes)]))
 
-        micro_average_tpr.append(do_division(sum([i.true_pos for i in v.stats[i]]), sum([i.true_pos + i.false_neg for i in v.stats[i]])))
+        micro_average_fpr.append(do_division(sum([i.true_pos for i in v.stats]), sum([i.true_pos + i.false_neg for i in v.stats])))
         micro_average_tpr.append(
             1 - do_division(sum([i.true_neg for i in v.stats]), sum([i.true_neg + i.false_pos for i in v.stats])))
 
