@@ -220,12 +220,12 @@ class tester:
         self.stats = stats
         return stats
 
-def basic_roc_plot(fpr, tpr):
+def basic_roc_plot(fpr, tpr, className):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
     import matplotlib.pyplot as plt
     from sklearn import metrics
     roc_auc = metrics.auc(fpr, tpr)
-    plt.title('Receiver Operating Characteristic')
+    plt.title('Receiver Operating Characteristic for %s' % className)
     plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
     plt.legend(loc='lower right')
     plt.plot([0, 1], [0, 1], 'r--')
@@ -260,7 +260,7 @@ if __name__ == '__main__':
     #         per_class_tpr[q].append(v[q].sens)
     #
     # for g in xrange(num_classes):
-    #     basic_roc_plot(per_class_fpr[g], per_class_tpr[g])
+    #     basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
 
 
 
