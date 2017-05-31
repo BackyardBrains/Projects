@@ -186,7 +186,7 @@ class tester:
                 confidence = max(P)
 
                 indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
-                if not len(indexes):
+                if not len(indexes) && unicode(correct_cat) != u'no_cat':
                     raise Exception(correct_cat + "is not a correctly named category for this model!")
                 elif len(indexes) != 1:
                     raise Exception(correct_cat + "matches multiple categories in the model file!")
@@ -243,13 +243,16 @@ if __name__ == '__main__':
     new_test.test_model()
 
     print ''
-    thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+    thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     tests = []
     for t in thresholds:
-        tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", level=t))
+        tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test", level=t))
 
-    pros = Pool(mp.cpu_count())
-    pros.map(tester.test_model(), tests)
+    for r in tests:
+        r.test_model()
+
+    # pros = Pool(mp.cpu_count())
+    # pros.map(t.test_model() for t in tests)
 
     num_classes = len(birds)
     per_class_fpr = [[] for a in xrange(num_classes)]
