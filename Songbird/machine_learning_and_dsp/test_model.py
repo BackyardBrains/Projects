@@ -21,8 +21,8 @@ def find_stats(stats_matrix):
     #pros.map(class_stats.stats_eval, stats)
 
     # Find micro-average F1
-    micro_prec = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_pos for i in stats])
-    micro_recall = sum([i.true_pos for i in stats]) / sum([i.true_pos + i.false_neg for i in stats])
+    micro_prec = do_division(sum([i.true_pos for i in stats]), sum([i.true_pos + i.false_pos for i in stats]))
+    micro_recall = do_division(sum([i.true_pos for i in stats]), sum([i.true_pos + i.false_neg for i in stats]))
     micro_f1 = f_score(micro_prec, micro_recall)
     print "Micro-averaged F1 is %s \n" % micro_f1
 
@@ -243,24 +243,24 @@ if __name__ == '__main__':
     new_test.test_model()
 
     print ''
-    # thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
-    # tests = []
-    # for t in thresholds:
-    #     tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", level=t))
-    #
-    # pros = Pool(mp.cpu_count())
-    # pros.map(tester.test_model(), tests)
-    #
-    # num_classes = len(birds)
-    # per_class_fpr = [[] for a in xrange(num_classes)]
-    # per_class_tpr = [[] for a in xrange(num_classes)]
-    # for v in tests:
-    #     for q in xrange(0, num_classes):
-    #         per_class_fpr[q].append(1 - v[q].spec)
-    #         per_class_tpr[q].append(v[q].sens)
-    #
-    # for g in xrange(num_classes):
-    #     basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
+    thresholds = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+    tests = []
+    for t in thresholds:
+        tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", level=t))
+
+    pros = Pool(mp.cpu_count())
+    pros.map(tester.test_model(), tests)
+
+    num_classes = len(birds)
+    per_class_fpr = [[] for a in xrange(num_classes)]
+    per_class_tpr = [[] for a in xrange(num_classes)]
+    for v in tests:
+        for q in xrange(0, num_classes):
+            per_class_fpr[q].append(1 - v[q].spec)
+            per_class_tpr[q].append(v[q].sens)
+
+    for g in xrange(num_classes):
+        basic_roc_plot(per_class_fpr[g], per_class_tpr[g], birds[g])
 
 
 
