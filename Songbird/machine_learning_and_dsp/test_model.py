@@ -272,7 +272,7 @@ if __name__ == '__main__':
 
         micro_average_tpr.append(do_division(sum([i.true_pos for i in v.stats[i]]), sum([i.true_pos + i.false_neg for i in v.stats[i]])))
         micro_average_tpr.append(
-            do_division(1 - sum([i.true_neg for i in v.stats[i]]), sum([i.true_neg + i.false_pos for i in v.stats[i]])))
+            1 - do_division(sum([i.true_neg for i in v.stats[i]]), sum([i.true_neg + i.false_pos for i in v.stats[i]])))
 
         for q in xrange(0, num_classes):
             per_class_fpr[q].append(1 - v.stats[q].spec)
