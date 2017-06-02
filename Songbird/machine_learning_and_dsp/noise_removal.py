@@ -54,12 +54,18 @@ class noiseCleaner:
 
         dir, inputFile = os.path.split(inputFile)
 
-        create_subdirectory(dir, 'noise')
-        create_subdirectory(dir, 'activity')
+        try:
+            create_subdirectory(dir, 'noise')
+            create_subdirectory(dir, 'activity')
 
-        root, current_sub_dir = os.path.split(dir)
-        clean_dir = '_'.join([current_sub_dir, 'clean'])
-        create_subdirectory(dir, clean_dir)
+            root, current_sub_dir = os.path.split(dir)
+            clean_dir = '_'.join([current_sub_dir, 'clean'])
+            create_subdirectory(dir, clean_dir)
+        except OSError, e:
+            if e.errno != 17:
+                raise
+                # time.sleep might help here
+            pass
 
         segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
         prev_end = 0
