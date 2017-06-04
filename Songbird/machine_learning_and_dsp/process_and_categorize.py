@@ -49,15 +49,10 @@ class classiFier:
         except cPickle.PicklingError:
             for wfile in wav_files:
                 self.classFile(wfile)
-
-        try:
+        if os.path.exists(os.path.join(directory, "noise")):
             shutil.rmtree(os.path.join(directory, "noise"))
+        if os.path.exists(os.path.join(directory, "activity")):
             shutil.rmtree(os.path.join(directory, "activity"))
-        except WindowsError, e:
-            if e.errno != 3:
-                pass
-            else:
-                raise
 
     def classFile(self, file):
         model_file = self.model_file
