@@ -60,6 +60,7 @@ if __name__ == '__main__':
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)
+
         # if not debug:
         #     shutil.rmtree(directory)
         #     os.mkdir(directory)
