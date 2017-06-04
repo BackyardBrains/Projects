@@ -1,5 +1,6 @@
 import getopt
 import os
+import shutil
 import sys
 
 import pathos.multiprocessing as mp
@@ -16,10 +17,12 @@ if __name__ == '__main__':
     export = False
     run = False
     num_threads = mp.cpu_count()
+    debug = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vern:",
-                                   ["dir=", "model=", "classifier=", "verbose", "export", "run", "num-threads="])
+        opts, args = getopt.getopt(sys.argv[1:], "d:m:c:b:vern:x",
+                                   ["dir=", "model=", "classifier=", "verbose", "export", "run", "num-threads=",
+                                    "debug"])
     except getopt.GetoptError as err:
         # print help information and exit:
         print str(err)  # will print something like "option -a not recognized"
@@ -39,6 +42,8 @@ if __name__ == '__main__':
             run = True
         elif opt in ("-n", "--num-threads"):
             num_threads = int(arg)
+        elif opt in ("-x", "--debug"):
+            debug = True
         else:
             assert False, "unhandled option"
 
@@ -56,3 +61,6 @@ if __name__ == '__main__':
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)
+    if not debug:
+        shutil.rmtree(directory)
+        os.mkdir(directory)
