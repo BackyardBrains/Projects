@@ -124,10 +124,10 @@ class classiFier:
     def export(self):
         try:
             export_file = str(time.time())
-            if os.system(
-                            "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
-                            user, database, passwd, export_file)):
-                raise Exception("mysqldump export failed!")
+            dump_command = "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
+            user, database, passwd, export_file)
+            if os.system(dump_command):
+                raise Exception("mysqldump export failed! Rerun for details:%s" % dump_command)
         except:
             raise
         else:
