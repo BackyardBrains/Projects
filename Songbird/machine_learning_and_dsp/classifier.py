@@ -1,6 +1,5 @@
 import getopt
 import os
-import shutil
 import sys
 
 import pathos.multiprocessing as mp
@@ -61,6 +60,7 @@ if __name__ == '__main__':
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)
-    if not debug:
-        shutil.rmtree(directory)
-        os.mkdir(directory)
+        # if not debug:
+        #     shutil.rmtree(directory)
+        #     os.mkdir(directory)
+        # TODO rework so that files won't be deleted if recoreded during process
