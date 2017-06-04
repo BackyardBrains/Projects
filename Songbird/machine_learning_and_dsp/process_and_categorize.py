@@ -4,6 +4,7 @@
 import cPickle
 import os
 import shutil
+import sys
 import time
 from zlib import crc32
 
@@ -113,6 +114,11 @@ class classiFier:
                     raise
                 else:
                     tbl_create()
+            except _mysql_exceptions.IntegrityError, e:
+                if e[0] != 1062:
+                    raise
+                else:
+                    sys.stderr.write("Warning: Duplicate key entry.\n")
 
 
     def export(self):
