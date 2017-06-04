@@ -8,6 +8,7 @@ import time
 from zlib import crc32
 
 import MySQLdb
+import _mysql_exceptions
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
 from pyAudioAnalysis import audioTrainTest as aT
@@ -15,6 +16,11 @@ from pyAudioAnalysis import audioTrainTest as aT
 from config import *
 from noise_removal import noiseCleaner
 
+
+def tbl_create():
+    tbl_create = os.path.join(os.getcwd(), 'tbl_create.sql')
+    if os.system("mysql -u %s -p %s --password=%s < %s" % (user, database, passwd, tbl_create)):
+        raise Exception("tbl_create.sql error!")
 
 class classiFier:
     def __init__(self, directory=os.getcwd(), model_file=os.path.join(os.getcwd(), 'model'),
@@ -94,7 +100,14 @@ class classiFier:
                              db=database) as cur:  # config is in config.py: see above
             query_text = "INSERT INTO sampleInfo (sampleid, deviceid, added, latitude, longitude, humidity, temp, light, type1, per1, type2, per2, type3, per3) values(" + ','.join(
                 values) + ");"
-            cur.execute(query_text)
+            try:
+                cur.execute(query_text)
+            except _mysql_exceptions.ProgrammingError, e:
+                if e.errno != 1146:
+                    raise
+                else:
+                    tbl_create()
+
 
     def export(self):
         try:
@@ -111,6 +124,4 @@ class classiFier:
                 cur.execute("DROP DATABASE %s;" % database)
                 cur.execute("CREATE DATABASE %s;" % database)
 
-            tbl_create = os.path.join(os.getcwd(), 'tbl_create.sql')
-            if os.system("mysql -u %s -p %s --password=%s < %s" % (user, database, passwd, tbl_create)):
-                raise Exception("tbl_create.sql error!")
+            tbl_create()
