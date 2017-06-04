@@ -109,7 +109,7 @@ class classiFier:
             try:
                 cur.execute(query_text)
             except _mysql_exceptions.ProgrammingError, e:
-                if e.errno != 1146:
+                if e[0] != 1146:
                     raise
                 else:
                     tbl_create()
