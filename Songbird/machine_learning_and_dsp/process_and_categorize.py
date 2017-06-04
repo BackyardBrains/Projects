@@ -49,8 +49,14 @@ class classiFier:
             for wfile in wav_files:
                 self.classFile(wfile)
 
-        shutil.rmtree(os.path.join(directory, "noise"))
-        shutil.rmtree(os.path.join(directory, "activity"))
+        try:
+            shutil.rmtree(os.path.join(directory, "noise"))
+            shutil.rmtree(os.path.join(directory, "activity"))
+        except WindowsError, e:
+            if e.errno != 3:
+                pass
+            else:
+                raise
 
     def classFile(self, file):
         model_file = self.model_file
