@@ -60,8 +60,8 @@ if __name__ == '__main__':
     if not run and not export:
         sys.stderr.write("No operator flags set: exiting!")
         exit(1)
-
-        # if not debug:
+    if not debug:
+        pass
         #     shutil.rmtree(directory)
         #     os.mkdir(directory)
         # TODO rework so that files won't be deleted if recoreded during process
