@@ -126,6 +126,8 @@ class classiFier:
             export_file = str(time.time())
             dump_command = "mysqldump -u %s -p %s --password=%s --skip-add-drop-table --no-create-info --skip-add-locks > export/%s.sql" % (
             user, database, passwd, export_file)
+            if not os.path.exists('export'):
+                os.mkdir('export')
             if os.system(dump_command):
                 raise Exception("mysqldump export failed! Rerun for details: %s" % dump_command)
         except:
