@@ -131,10 +131,13 @@ class noiseCleaner:
                 if file.endswith('.wav'):
                     wav_files.append(os.path.join(root, file))
                     num_samples_processed += 1
+                    if not num_threads:
+                        self.noise_removal(os.path.join(root,file))
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
-
-        pros = Pool(num_threads)
-        pros.map(self.noise_removal, wav_files)
+        
+        if num_threads:
+            pros = Pool(num_threads)
+            pros.map(self.noise_removal, wav_files)
 
         print "Preprocessing complete!\n"
