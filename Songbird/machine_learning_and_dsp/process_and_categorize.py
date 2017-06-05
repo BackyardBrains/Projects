@@ -42,13 +42,16 @@ class classiFier:
             if file.endswith('.wav'):
                 file = os.path.join(directory, file)
                 wav_files.append(file)
-
-        pros = Pool(num_threads)
-        try:
-            pros.map(self.classFile, wav_files)
-        except cPickle.PicklingError:
-            for wfile in wav_files:
-                self.classFile(wfile)
+                if not num_threads:
+                    self.classFile(wfile)
+        
+        if num_threads:
+            try:
+                pros = Pool(num_threads)
+                pros.map(self.classFile, wav_files)
+            except cPickle.PicklingError:
+                for wfile in wav_files:
+                    self.classFile(wfile)
         if os.path.exists(os.path.join(directory, "noise")):
             shutil.rmtree(os.path.join(directory, "noise"))
         if os.path.exists(os.path.join(directory, "activity")):
