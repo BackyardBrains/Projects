@@ -43,7 +43,7 @@ class classiFier:
                 file = os.path.join(directory, file)
                 wav_files.append(file)
                 if not num_threads:
-                    self.classFile(wfile)
+                    self.classFile(file)
         
         if num_threads:
             try:
