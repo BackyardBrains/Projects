@@ -1,9 +1,6 @@
-# Projects
+# Sleep and Memory
+Targeted Memory Reactivation During Sleep
 
-Backyard Brains hosts experiment development projects throughout the year. Some of these turn into our experiments, some of these are for our own intellectual curiosity, and some turn into publications in peer reviewed journals. Here you will find each project which contains our open-source schematics, docs, and code.
+Who wouldn't love acing a geography exam and remembering the locations of all the countries on the map? Or, avoiding the embarrassment of suddenly forgetting the name of the person standing right in front of you? Memory, like any other muscle in our body or a language we know how to speak, can be strengthened and enhanced. How? By simply using two ingredients: sleep and sound. It has been recently shown that playing distinctive sounds when people are learning a task and then replaying those same sounds when people are asleep, leads to improvement in recall of such cued vs. uncued memories.  This targeted memory reactivation (TMR) is said to be most effective during Slow Wave Sleep (SWS) or stage 3 of our sleep cycle. Exploring this incredible relationship, and understanding the selectivity of memory consolidation can cause a paradigm shift in the way we learn and teach. For that, we are aiming to produce a complete experiment were people can download an application along with our EEG headband and be able to detect SWS sleep, perform memory tasks, and cue sounds during sleep. This will yet to be another potential way Backyard Brains is paving the way for a more inclusive and accessible citizen science, where having a mini sleep lab in the comfort of our own homes is possible!   
 
-The projects are:
 
- * Songbird - A device that can collect environmental and geo-positioning data while detecting and identifying birdsongs automatically.
-
- * Electric Fish - A collection of projects designed around the recording and micro-stimulation of weakly electric fish. For electric fish that produce "spikes", we are developing a long-term recording device to listen for spiking activity and record the waveforms at highspeed.  For "wave" electric fish, we are developing a device that listens to the frequency of the electric fish, and to initiate a jamming avoidance response by adding an artifical fish in the water next to it that emits a frequency similar to the fish.
