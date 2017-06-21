@@ -188,7 +188,9 @@ class tester:
                 confidence = max(P)
 
                 indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
-                if not len(indexes) and unicode(correct_cat) != u'no_cat':
+                if unicode(correct_cat) == u'no_cat':
+                    pass
+                elif not len(indexes):
                     raise Exception(correct_cat + "is not a correctly named category for this model!")
                 elif len(indexes) != 1:
                     raise Exception(correct_cat + "matches multiple categories in the model file!")
