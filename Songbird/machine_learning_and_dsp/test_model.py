@@ -3,8 +3,7 @@
 import glob
 import os
 import time
-import pathos.multiprocessing as mp
-from pathos.multiprocessing import Pool
+
 import numpy as np
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
@@ -98,7 +97,7 @@ def unshared_copy(inList):
 
 class tester:
     def __init__(self, test_dirs, model_dir=os.getcwd(), modelName='model', classifierType='gradientboosting',
-                 level=0.7,
+                 level=0.5,
                  verbose=False):
         self.test_dirs = test_dirs
         self.model_dir = model_dir
@@ -225,7 +224,6 @@ class tester:
 
 def basic_roc_plot(fpr, tpr, className):
     #https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
-    import matplotlib.pyplot as plt
     from sklearn import metrics
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
