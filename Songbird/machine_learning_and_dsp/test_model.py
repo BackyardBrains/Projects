@@ -188,21 +188,21 @@ class tester:
                 confidence = max(P)
 
                 indexes = [t for t, x in enumerate(classNames) if unicode(x) == unicode(correct_cat)]
-                if unicode(correct_cat) == u'no_cat':
-                    pass
-                elif not len(indexes):
-                    raise Exception(correct_cat + "is not a correctly named category for this model!")
-                elif len(indexes) != 1:
-                    raise Exception(correct_cat + "matches multiple categories in the model file!")
-                cat_index = indexes[0]
-                total_num_samples[cat_index] += 1
-                confusion_matrix[cat_index][int(Result)] += 1
-                if confidence > level:
-                    confidence_corrected_con_matrix[cat_index][int(Result)] += 1
-                    confidence_above_90[cat_index] += 1
-                    if unicode(correct_cat) == unicode(classNames[int(Result)]):
-                        assert (identified_correctly)
-                        correct_above_90[cat_index] += 1
+                if not unicode(correct_cat) == u'no_cat':
+
+                    if not len(indexes):
+                        raise Exception(correct_cat + "is not a correctly named category for this model!")
+                    elif len(indexes) != 1:
+                        raise Exception(correct_cat + "matches multiple categories in the model file!")
+                    cat_index = indexes[0]
+                    total_num_samples[cat_index] += 1
+                    confusion_matrix[cat_index][int(Result)] += 1
+                    if confidence > level:
+                        confidence_corrected_con_matrix[cat_index][int(Result)] += 1
+                        confidence_above_90[cat_index] += 1
+                        if unicode(correct_cat) == unicode(classNames[int(Result)]):
+                            assert (identified_correctly)
+                            correct_above_90[cat_index] += 1
 
         acc_above_90 = map(do_division, correct_above_90, confidence_above_90)
         percent_desicive_samples = map(do_division, confidence_above_90, total_num_samples)
