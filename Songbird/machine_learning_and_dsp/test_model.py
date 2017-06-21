@@ -264,7 +264,7 @@ if __name__ == '__main__':
     # pros = Pool(mp.cpu_count())
     # pros.map(t.test_model() for t in tests)
 
-    num_classes = len(birds)
+    num_classes = len(birds) - 1
     per_class_fpr = [[] for a in xrange(num_classes)]
     per_class_tpr = [[] for a in xrange(num_classes)]
     micro_average_fpr = []
