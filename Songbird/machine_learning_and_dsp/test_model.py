@@ -252,7 +252,9 @@ if __name__ == '__main__':
     thresholds = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     tests = []
     for t in thresholds:
-        tests.append(tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test", level=t))
+        tests.append(
+            tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test",
+                   level=t, verbose=True))
 
     for r in tests:
         r.test_model()
