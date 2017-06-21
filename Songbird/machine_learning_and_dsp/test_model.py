@@ -4,8 +4,8 @@ import glob
 import os
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
 
@@ -230,7 +230,6 @@ def basic_roc_plot(fpr, tpr, className):
     from sklearn import metrics
     roc_auc = metrics.auc(fpr, tpr)
     print "AUC for %s is %s" % (className, roc_auc)
-    return roc_auc
     plt.title('Receiver Operating Characteristic for %s' % className)
     plt.plot(fpr, tpr, 'b', label='AUC = %0.2f' % roc_auc)
     plt.legend(loc='lower right')
@@ -239,7 +238,8 @@ def basic_roc_plot(fpr, tpr, className):
     plt.ylim([0, 1])
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
-    pylab.show()
+    plt.show()
+    return roc_auc
 
 if __name__ == '__main__':
     birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
