@@ -5,6 +5,7 @@ import os
 import time
 
 import numpy as np
+import pylab
 from numpy import mean
 from pyAudioAnalysis import audioTrainTest as aT
 
@@ -238,7 +239,7 @@ def basic_roc_plot(fpr, tpr, className):
     plt.ylim([0, 1])
     plt.ylabel('True Positive Rate')
     plt.xlabel('False Positive Rate')
-    plt.show()
+    pylab.show()
 
 if __name__ == '__main__':
     birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
