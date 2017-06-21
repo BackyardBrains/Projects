@@ -243,7 +243,7 @@ if __name__ == '__main__':
     birds = [os.path.join("/run/media/zach/untitled/ML Recordings/xeno-canto/testing", bird, bird + '_clean') for bird
              in
              birds]
-    birds.append("run/media/zach/untitled/ML Recordings/xeno-canto/testing/no_cat")
+    birds.append("run/media/zach/untitled/ML Recordings/xeno-canto/Testing/no_cat")
 
     #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
     #new_test.test_model()
