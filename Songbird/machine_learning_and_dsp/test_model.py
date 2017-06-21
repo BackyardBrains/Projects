@@ -240,7 +240,9 @@ def basic_roc_plot(fpr, tpr, className):
 
 if __name__ == '__main__':
     birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
-    birds = [os.path.join("/home/zach/Documents/bird_samples", bird+'_clean') for bird in birds]
+    birds = [os.path.join("/run/media/zach/untitled/ML Recordings/xeno-canto/testing", bird + '_clean') for bird in
+             birds]
+    birds.append("run/media/zach/untitled/ML Recordings/xeno-canto/testing/no_cat")
 
     #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
     #new_test.test_model()
