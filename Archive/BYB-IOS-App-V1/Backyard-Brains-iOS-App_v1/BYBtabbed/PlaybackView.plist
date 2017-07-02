@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>xBegin</key>
+	<integer>-100</integer>
+	<key>xEnd</key>
+	<integer>0</integer>
+	<key>yBegin</key>
+	<integer>-5000</integer>
+	<key>yEnd</key>
+	<integer>5000</integer>
+	<key>yMin</key>
+	<integer>-5000000</integer>
+	<key>yMax</key>
+	<integer>5000000</integer>
+	<key>animationInterval</key>
+	<real>0.01666</real>
+	<key>lineColor</key>
+	<dict>
+		<key>R</key>
+		<real>0</real>
+		<key>G</key>
+		<real>1</real>
+		<key>B</key>
+		<integer>0</integer>
+		<key>A</key>
+		<real>1</real>
+	</dict>
+	<key>gridColor</key>
+	<dict>
+		<key>R</key>
+		<real>0.15</real>
+		<key>G</key>
+		<real>0.15</real>
+		<key>B</key>
+		<real>0.15</real>
+		<key>A</key>
+		<real>1</real>
+	</dict>
+	<key>numHorizontalGridLines</key>
+	<integer>6</integer>
+	<key>numVerticalGridLines</key>
+	<integer>9</integer>
+	<key>xUnits</key>
+	<string>ms</string>
+	<key>yUnits</key>
+	<string>mV</string>
+	<key>showGrid</key>
+	<false/>
+</dict>
+</plist>

@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Backyard Brains' target in the 'Backyard Brains' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif

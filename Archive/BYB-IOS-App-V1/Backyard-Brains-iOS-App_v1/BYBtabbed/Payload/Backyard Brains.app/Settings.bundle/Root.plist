@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>Title</key>
+	<string>Backyard Brains</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Spikerbox Settings</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Gain</string>
+			<key>Key</key>
+			<string>gain</string>
+			<key>DefaultValue</key>
+			<string>1000</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Sampling Rate</string>
+			<key>Key</key>
+			<string>samplingRate</string>
+			<key>DefaultValue</key>
+			<integer>44100</integer>
+			<key>Values</key>
+			<array>
+				<integer>11025</integer>
+				<integer>22050</integer>
+				<integer>44100</integer>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>11.025 kHz</string>
+				<string>22.05 kHz</string>
+				<string>44.1 kHz</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
