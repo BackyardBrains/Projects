@@ -33,6 +33,19 @@ class classiFier:
         self.verbose = verbose
         self.num_threads = num_threads
 
+        try:
+            db = MySQLdb.connect(host=host, user=user, passwd=passwd,
+                                 db=database)
+        except _mysql_exceptions.OperationalError, e:
+            if e[0] != 1049:
+                raise
+            else:
+                with MySQLdb.connect(host=host, user=user, passwd=passwd,
+                                     db='') as cur:
+                    cur.execute("CREATE DATABASE %s;" % database)
+        else:
+            db.close()
+
     def classify(self):
         directory = self.directory
         num_threads = self.num_threads
