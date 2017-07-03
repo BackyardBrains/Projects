@@ -177,7 +177,7 @@ void TC3_Handler() {
   // we toggle the LED.
   if (TC->INTFLAG.bit.MC0 == 1) {
     TC->INTFLAG.bit.MC0 = 1;
-    digitalWrite(2, HIGH);
+    //digitalWrite(2, HIGH);
     anaVal = anaRead();
     
     *anaHead = anaVal&0xFF;
@@ -188,7 +188,7 @@ void TC3_Handler() {
       anaHead = &buffer[0];
     }
     
-    digitalWrite(2, LOW);
+    //digitalWrite(2, LOW);
     saveToCard = digitalRead(7);
     if(!saveToCard){
       if (counter < limit){
@@ -249,8 +249,6 @@ void setup()
   anaRead();  //Discard first conversion after setup as ref changed
 
 
-  pinMode(2, OUTPUT);
-  pinMode(5, OUTPUT);
   pinMode(7, INPUT);
   startTimer(sampleRate);
 }
@@ -277,9 +275,9 @@ void loop()
     hasSaved = 0;
     int numBytes = anaHead - sdHead;
     if(numBytes >0){
-      digitalWrite(5, HIGH);
+      //digitalWrite(5, HIGH);
       myFile.write(sdHead, numBytes);
-      digitalWrite(5,LOW);
+      //digitalWrite(5,LOW);
       sdHead += numBytes;
     }
     else
@@ -289,10 +287,10 @@ void loop()
         numBytes += BUFFER_SIZE;
         curHeadPos = sdHead - &buffer[0];
         newPos = numBytes - (BUFFER_SIZE - curHeadPos);
-        digitalWrite(5, HIGH);
+        //digitalWrite(5, HIGH);
         myFile.write(&buffer[curHeadPos], BUFFER_SIZE - curHeadPos);
         myFile.write(&buffer[0], newPos);
-        digitalWrite(5, LOW);
+        //digitalWrite(5, LOW);
         sdHead = &buffer[newPos];
       }
     }
