@@ -1,3 +1,5 @@
+#include <RTCZero.h>
+
 //  Test routine heavily inspired by wiring_analog.c from GITHUB site
 // Global preamble
 #include "Arduino.h"
@@ -30,6 +32,17 @@ void setTimerFrequency(int frequencyHz) {
   while (TC->STATUS.bit.SYNCBUSY == 1);
 }
 
+RTCZero rtc;
+
+void dateTime(uint16_t* date, uint16_t* time) {
+  
+  // return date using FAT_DATE macro to format fields
+  *date = FAT_DATE(rtc.getYear()+2000, rtc.getMonth(), rtc.getDay());
+
+  // return time using FAT_TIME macro to format fields
+  *time = FAT_TIME(rtc.getHours(), rtc.getMinutes(), rtc.getSeconds());
+}
+
 File myFile;
 String filename = "BIRD0.WAV";
 int fileNum = 0;
@@ -42,6 +55,7 @@ void sdInit(){
     filename = "BIRD" + (String)fileNum + ".WAV";
   }
 
+  SdFile::dateTimeCallback(dateTime);
   myFile = SD.open(filename, FILE_WRITE);
 
   if(!myFile){
@@ -220,10 +234,9 @@ uint32_t Status = 0x00000000;
 uint32_t ulPin = A1;      //This is the analog pin to read
 uint32_t val = 0;           // variable to store the value read
 
-
-
 void setup()
 {
+  rtc.begin();
   SD.begin(8);
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
