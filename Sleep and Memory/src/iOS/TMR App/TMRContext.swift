@@ -13,7 +13,7 @@ import SpriteKit
 enum ModelType {
     case None,
         Home,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
-        Queuing,Retest,Result,Comments,End
+        Queuing,Control,Retest,Result,Comments,End
 }
 
 // current running context
@@ -84,6 +84,8 @@ class TMRContext {
             self.model = TMRModelTesting()
         case .Queuing:
             self.model = TMRModelQueuing()
+        case .Control:
+            self.model = TMRModelControl()
         case .PreNapResult:
             self.model = TMRModelStatBefore()
         case .Result:

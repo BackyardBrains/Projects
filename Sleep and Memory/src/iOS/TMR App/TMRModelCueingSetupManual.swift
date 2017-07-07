@@ -14,6 +14,7 @@ import SpriteKit
 class TMRModelCueingSetupManual:TMRModel{
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
+        super.begin(screen: screen, context: context)
         screen.clearScreen()
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "Choose % Sample Size to be Cued", fontColor: .black, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)

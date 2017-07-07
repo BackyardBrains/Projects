@@ -38,6 +38,7 @@
 		E19FD46B1F0EDC1A0047E568 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46A1F0EDC1A0047E568 /* TextFieldExtension.swift */; };
 		E19FD46D1F0F01B90047E568 /* TMRModelCueingSetupManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46C1F0F01B90047E568 /* TMRModelCueingSetupManual.swift */; };
 		E19FD46F1F0F21740047E568 /* TMRModelComments.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46E1F0F21740047E568 /* TMRModelComments.swift */; };
+		E19FD4711F0FFE6D0047E568 /* TMRModelControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD4701F0FFE6D0047E568 /* TMRModelControl.swift */; };
 		E1BB361E1EE5F90D000F3AF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB361D1EE5F90D000F3AF0 /* AppDelegate.swift */; };
 		E1BB36201EE5F90D000F3AF0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */; };
 		E1BB36221EE5F90D000F3AF0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36211EE5F90D000F3AF0 /* Actions.sks */; };
@@ -166,6 +167,7 @@
 		E19FD46A1F0EDC1A0047E568 /* TextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		E19FD46C1F0F01B90047E568 /* TMRModelCueingSetupManual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelCueingSetupManual.swift; sourceTree = "<group>"; };
 		E19FD46E1F0F21740047E568 /* TMRModelComments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelComments.swift; sourceTree = "<group>"; };
+		E19FD4701F0FFE6D0047E568 /* TMRModelControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelControl.swift; sourceTree = "<group>"; };
 		E1BB361A1EE5F90D000F3AF0 /* TMR App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TMR App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BB361D1EE5F90D000F3AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				EAD70DE61EF4C6E300675802 /* TMRModelTesting.swift */,
 				E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */,
 				EAD70DE91EF4C6E300675802 /* TMRModelQueuing.swift */,
+				E19FD4701F0FFE6D0047E568 /* TMRModelControl.swift */,
 				EAD70DE81EF4C6E300675802 /* TMRModelResult.swift */,
 				E19FD46E1F0F21740047E568 /* TMRModelComments.swift */,
 				EAD70DFA1EF6D44D00675802 /* TMRModelEnd.swift */,
@@ -673,6 +676,7 @@
 				E18E675D1F0ED4560032C5BD /* TMRModelExpData.swift in Sources */,
 				974975111EF545AF009A3BFF /* TMRContext.swift in Sources */,
 				E150F93A1EF9400400D4690B /* SettingsGUIScreen.swift in Sources */,
+				E19FD4711F0FFE6D0047E568 /* TMRModelControl.swift in Sources */,
 				E10BD9531F09692C005D8AE4 /* Date Extension.swift in Sources */,
 				EAD70DFB1EF6D44D00675802 /* TMRModelEnd.swift in Sources */,
 				E190B9381F069ABE00AD2525 /* UIDeviceFind.swift in Sources */,

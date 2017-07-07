@@ -31,14 +31,14 @@ class TMRModelTesting : TMRModel {
         context.curIdx = 0
         
         if ( context.currentModel == .Testing ) {
-            screen.showText(text: "Pre-Nap Testing with Feedback Round \(context.repeatCnt+1)",fontSize:30, yPercent:90)
+            screen.showText(text: "Pre-Treatment Test with Feedback Round \(context.repeatCnt+1)",fontSize:30, yPercent:90)
             screen.showText(text: "\(context.project.getGuiSetting().getSampleSize()) images will be presented to you at the center of the screen.", fontSize: 20, yPercent: 60)
             screen.showText(text: "Tap where you remember/think the original correct location was.", fontSize: 20, yPercent: 50)
             screen.showText(text: "Take as much time as you need. This task is not timed.", fontSize: 20, yPercent: 40)
             screen.showText(text: "Tap to Start", fontSize: 30, yPercent: 20)
         }
         else if ( context.currentModel == .PreNapTest){
-            screen.showText(text: "Pre-Nap Testing with No Feedback",fontSize:30,yPercent:90)
+            screen.showText(text: "Pre-Treatment Test with No Feedback",fontSize:30,yPercent:90)
             screen.showText(text: "\(context.project.getGuiSetting().getSampleSize()) images will be presented to you at the center of the screen.", fontSize: 20, yPercent: 65)
             screen.showText(text: "Tap where you remember/think the original correct location was.", fontSize: 20, yPercent: 55)
             screen.showText(text: "Take as much time as you need. This task is not timed.", fontSize: 20, yPercent: 45)
@@ -47,7 +47,7 @@ class TMRModelTesting : TMRModel {
             screen.showText(text: "Tap to Start", fontSize: 30, yPercent: 20)
         }
         else if ( context.currentModel == .Retest) {
-            screen.showText(text: "Post-Nap testing with No Feedback",fontSize:30,yPercent:90)
+            screen.showText(text: "Post-Treatment Test with No Feedback",fontSize:30,yPercent:90)
             screen.showText(text: "\(context.project.getGuiSetting().getSampleSize()) images will be presented to you at the center of the screen.", fontSize: 20, yPercent: 65)
             screen.showText(text: "Tap where you remember/think the original correct location was.", fontSize: 20, yPercent: 55)
             screen.showText(text: "Take as much time as you need. This task is not timed.", fontSize: 20, yPercent: 45)

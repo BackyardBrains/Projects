@@ -20,6 +20,7 @@ class TMRModelMetaData:TMRModel{
     
     var next = SKSpriteNode()
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
+        super.begin(screen: screen, context: context)
         screen.clearScreen()
         
         let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)

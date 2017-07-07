@@ -21,6 +21,7 @@ class TMRModelStatBefore : TMRModel {
     var next = SKSpriteNode() //to comments
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
+        super.begin(screen: screen, context: context)
         context.project.setExperimentCompleted()
         screen.clearScreen()
         
@@ -130,6 +131,9 @@ class TMRModelStatBefore : TMRModel {
         if next.contains(position){
             if context.project.getGuiSetting().getTreatmentNum() == 1{
                 context.nextModel = .Queuing
+            }
+            if context.project.getGuiSetting().getTreatmentNum() == 2{
+                context.nextModel = .Control
             }
             //Goes to others with different treatments
         }

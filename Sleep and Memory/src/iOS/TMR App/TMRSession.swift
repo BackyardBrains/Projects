@@ -114,7 +114,7 @@ class Training:EVObject{
 
 class Testing:EVObject{
     var feedback = 0
-    var preNap = 0
+    var preTreatment = 0
     var timeBegin = ""
     var timeEnd = ""
     var trials:[Trials] = []
@@ -126,9 +126,9 @@ class Testing:EVObject{
             feedback = 0
         }
         if num<=3{
-            preNap = 1
+            preTreatment = 1
         }else{
-            preNap = 0
+            preTreatment = 0
         }
         
         if num == 1{
