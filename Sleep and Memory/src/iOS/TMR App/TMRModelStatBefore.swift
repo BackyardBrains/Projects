@@ -10,18 +10,33 @@ import Foundation
 import SpriteKit
 
 class TMRModelStatBefore : TMRModel {
-    var next = SKSpriteNode()
+    
+    var currentGraph = 0 //0 for no feedback, 1 for feedback, 2 for total
+    var right = SKSpriteNode()
+    var left = SKSpriteNode()
+    var text = "No Feedback"
+    
+    var percentCorrect:CGFloat = 0
+    
+    var next = SKSpriteNode() //to comments
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         context.project.setExperimentCompleted()
         screen.clearScreen()
-        let percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
         
-        let cumText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-10), zPosition: 2, text: "Correct/Incorrect Ratio", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
-        screen.addChild(cumText)
+        percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
         
-        let dictateText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 2, text: "%Correct:%Incorrect", fontColor: .black, fontName: "Arial Bold", fontSize: 20, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
-        screen.addChild(dictateText)
+        createGraph(percentCorrect: percentCorrect, screen: screen, text: text)
+        
+        right = SKSpriteNode(imageName: "rightArrow", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:1,y:0.5), position: CGPoint(x:screen.frame.width-10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
+        screen.addChild(right)
+        
+        left = SKSpriteNode(imageName: "leftArrow", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
+        left.isHidden = true
+        screen.addChild(left)
+       
+        next = SKSpriteNode(imageName: "next", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
+        screen.addChild(next)
         
         let green = SKSpriteNode(color: .green, width: 20, height: 20, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:screen.frame.width/10+40,y:screen.frame.height/2-20), zPosition: 1, alpha: 1)
         screen.addChild(green)
@@ -32,8 +47,25 @@ class TMRModelStatBefore : TMRModel {
         screen.addChild(red)
         let rText = SKLabelNode(position: CGPoint(x:screen.frame.width/10+70,y:screen.frame.height/2+20), zPosition: 1, text: "Incorrect", fontColor: .black, fontName: "Arial Bold", fontSize: 10, verticalAlignmentMode: .center, horizontalAlignmentMode: .left)
         screen.addChild(rText)
+    }
+    
+    func round2(_ num:CGFloat)->CGFloat{
+        let rounded = round(num*1000)/10
+        return rounded
+    }
+    
+    func createGraph(percentCorrect:CGFloat,screen:TMRScreen,text:String){
+        screen.clearNode("removable")
+        
+        let cumText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-10), zPosition: 2, text: "\(text) Correct/Incorrect Ratio", fontColor: .black, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        cumText.name = "removable"
+        screen.addChild(cumText)
+        
+        let dictateText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 2, text: "%Correct:%Incorrect", fontColor: .black, fontName: "Arial Bold", fontSize: 20, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        screen.addChild(dictateText)
         
         let percents = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.2-40), zPosition: 1, text: "\(round2(percentCorrect))%:\(round2(1-percentCorrect))%", fontColor: .black, fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        percents.name = "removable"
         screen.addChild(percents)
         
         let wrong = SKSpriteNode(color: .red,
@@ -43,6 +75,7 @@ class TMRModelStatBefore : TMRModel {
                                  position: CGPoint(x:screen.frame.width/2,
                                                    y:screen.frame.height*0.15),
                                  zPosition: 1, alpha: 1)
+        wrong.name = "removable"
         screen.addChild(wrong)
         
         let correct = SKSpriteNode(color: .green,
@@ -52,29 +85,68 @@ class TMRModelStatBefore : TMRModel {
                                    position: CGPoint(x:screen.frame.width/2,
                                                      y:screen.frame.height*0.15),
                                    zPosition: 2, alpha: 1)
+        correct.name = "removable"
         screen.addChild(correct)
-       
-        
-        next = SKSpriteNode(imageName: "next", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
-        screen.addChild(next)
     }
     
-    func round2(_ num:CGFloat)->CGFloat{
-        let rounded = round(num*1000)/10
-        return rounded
-    }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
         
     }
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if left.contains(position){
+            if currentGraph-1>=0{
+                currentGraph-=1
+                if currentGraph == 2{
+                    right.isHidden = true
+                }else{
+                    right.isHidden = false
+                }
+                if currentGraph == 0{
+                    left.isHidden = true
+                }else{
+                    left.isHidden = false
+                }
+            }
+        }
+        
+        if right.contains(position){
+            if currentGraph+1<=2{
+                currentGraph+=1
+                if currentGraph == 2{
+                    right.isHidden = true
+                }else{
+                    right.isHidden = false
+                }
+                if currentGraph == 0{
+                    left.isHidden = true
+                }else{
+                    left.isHidden = false
+                }
+            }
+        }
+        
         if next.contains(position){
             if context.project.getGuiSetting().getTreatmentNum() == 1{
                 context.nextModel = .Queuing
             }
             //Goes to others with different treatments
         }
+        
+        if currentGraph == 0{
+            percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
+            text = "No Feedback"
+        }
+        else if currentGraph == 1{
+            percentCorrect = CGFloat(context.project.getPercentOfCorrection1()+context.project.getPercentOfCorrection2())/200
+            text = "With Feedback"
+        }
+        else{
+            percentCorrect = CGFloat(context.project.getPercentOfCorrection1()+context.project.getPercentOfCorrection2()+context.project.getPercentOfCorrectionBeforeSleep())/300
+            text = "Total"
+        }
+        createGraph(percentCorrect: percentCorrect, screen: screen, text: text)
     }
     
     override func end(screen : TMRScreen, context : TMRContext){

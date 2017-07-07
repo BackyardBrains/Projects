@@ -228,6 +228,13 @@ class TMRModelTesting : TMRModel {
         else if  context.currentModel == .Retest  {
             context.project.setResultForTestAfterSleep(resourceIndex: resourceIndex, result: result)
         }
+        else if context.currentModel == .Testing{
+            if ( context.repeatCnt == context.project.getGuiSetting().getRepeatTimesForTestAfterTraining()-1) {
+                context.project.setIsCorrect2(resourceIndex: resourceIndex, correct: result)
+            }else{
+                context.project.setIsCorrect1(resourceIndex: resourceIndex, correct: result)
+            }
+        }
     }
     
     func updateDistance(context:TMRContext, resourceIndex : Int, distance :CGFloat, distancePercent: CGFloat, distanceCM: CGFloat) {

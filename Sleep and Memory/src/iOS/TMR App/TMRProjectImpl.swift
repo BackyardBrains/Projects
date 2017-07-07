@@ -1027,6 +1027,40 @@ class TMRProjectImpl : TMRProject {
         return ret
     }
     
+    func getPercentOfCorrection1() -> Int {
+        let ret = Int(getNumOfCorrectRecords1()*100/getNumOfEntries())
+        print("getPercentOfCorrection1: \(ret)")
+        return ret
+    }
+    
+    func getNumOfCorrectRecords1() -> Int {
+        var ret:Int = 0
+        for tmrEntry in tmrEntries.values {
+            if (tmrEntry.getIsCorrect1()) {
+                ret = ret+1
+            }
+        }
+        print("getNumOfCorrectionRecords1: \(ret)")
+        return ret
+    }
+    
+    func getPercentOfCorrection2() -> Int {
+        let ret = Int(getNumOfCorrectRecords2()*100/getNumOfEntries())
+        print("getPercentOfCorrection2: \(ret)")
+        return ret
+    }
+    
+    func getNumOfCorrectRecords2() -> Int {
+        var ret:Int = 0
+        for tmrEntry in tmrEntries.values {
+            if (tmrEntry.getIsCorrect2()) {
+                ret = ret+1
+            }
+        }
+        print("getNumOfCorrectionRecords2: \(ret)")
+        return ret
+    }
+    
     func getPercentOfCorrectionBeforeSleepForTargeted() -> Int {
         let ret = Int(getNumOfCorrectRecordsBeforeSleepForTargeted()*100/getTargetIndexEntries().count)
         print("getPercentOfCorrectionBeforeSleepForTargeted: \(ret)")

@@ -94,6 +94,8 @@ protocol TMRProject {
     func setTimeStart1(time:Date)
     func getTimeEnd1()->String
     func setTimeEnd1(time:Date)
+    func getPercentOfCorrection1() -> Int
+    func getNumOfCorrectRecords1() -> Int
     
     //Round 2
     func getDistance2(resourceIndex : Int) -> Float
@@ -117,6 +119,8 @@ protocol TMRProject {
     func setTimeStart2(time:Date)
     func getTimeEnd2()->String
     func setTimeEnd2(time:Date)
+    func getPercentOfCorrection2() -> Int
+    func getNumOfCorrectRecords2() -> Int
     
     //PrenapTest
     func getDistanceBeforeSleep(resourceIndex : Int) -> Float
