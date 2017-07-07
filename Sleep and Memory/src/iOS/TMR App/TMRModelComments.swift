@@ -27,6 +27,7 @@ class TMRModelComments:TMRModel{
         field = UITextView(frame: CGRect(x:view.frame.width/2,y:view.frame.height*0.45,width:view.frame.width*0.9,height:view.frame.height*0.4))
         field.allowsEditingTextAttributes = true
         field.center = CGPoint(x:view.frame.width/2,y:view.frame.height*0.45)
+        field.autocorrectionType = .no
         view.addSubview(field)
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Comments For Experimenter", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)

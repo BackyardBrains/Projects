@@ -46,6 +46,8 @@ class TMRModelResult : TMRModel {
 
         
         end = SKSpriteNode(imageName: "exit", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
+        end.color = .black
+        end.colorBlendFactor = 1
         screen.addChild(end)
     }
     
