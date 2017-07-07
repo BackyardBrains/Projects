@@ -172,7 +172,7 @@ class Trials:EVObject{
     var y = 0
     var isCorrect:Int = 0
     var reactionTime:Float = 0
-    var distanceInPixels:Float = 0
+    var distanceInPoints:Float = 0
     var distanceInPercentageOfScreen:Float = 0
     var distanceInCM:Float = 0
     var timeBegin = ""
@@ -185,7 +185,7 @@ class Trials:EVObject{
             x = project.getX1(resourceIndex: ID)
             y = project.getY1(resourceIndex: ID)
             reactionTime = project.getReactionTime1(resourceIndex: ID)
-            distanceInPixels = project.getDistance1(resourceIndex: ID)
+            distanceInPoints = project.getDistance1(resourceIndex: ID)
             distanceInPercentageOfScreen = project.getDistancePercent1(resourceIndex: ID)
             distanceInCM = project.getDistanceCM1(resourceIndex: ID)
             timeBegin = project.getTimeBegin1(resourceIndex: ID)
@@ -196,7 +196,7 @@ class Trials:EVObject{
             x = project.getX2(resourceIndex: ID)
             y = project.getY2(resourceIndex: ID)
             reactionTime = project.getReactionTime2(resourceIndex: ID)
-            distanceInPixels = project.getDistance2(resourceIndex: ID)
+            distanceInPoints = project.getDistance2(resourceIndex: ID)
             distanceInPercentageOfScreen = project.getDistancePercent2(resourceIndex: ID)
             distanceInCM = project.getDistanceCM2(resourceIndex: ID)
             timeBegin = project.getTimeBegin2(resourceIndex: ID)
@@ -207,7 +207,7 @@ class Trials:EVObject{
             x = project.getXBeforeSleep(resourceIndex: ID)
             y = project.getYBeforeSleep(resourceIndex: ID)
             reactionTime = project.getReactionTimeBeforeSleep(resourceIndex: ID)
-            distanceInPixels = project.getDistanceBeforeSleep(resourceIndex: ID)
+            distanceInPoints = project.getDistanceBeforeSleep(resourceIndex: ID)
             distanceInPercentageOfScreen = project.getDistancePercentBeforeSleep(resourceIndex: ID)
             distanceInCM = project.getDistanceCMBeforeSleep(resourceIndex: ID)
             timeBegin = project.getTimeBeginBeforeSleep(resourceIndex: ID)
@@ -218,7 +218,7 @@ class Trials:EVObject{
             x = project.getXAfterSleep(resourceIndex: ID)
             y = project.getYAfterSleep(resourceIndex: ID)
             reactionTime = project.getReactionTimeAfterSleep(resourceIndex: ID)
-            distanceInPixels = project.getDistanceAfterSleep(resourceIndex: ID)
+            distanceInPoints = project.getDistanceAfterSleep(resourceIndex: ID)
             distanceInPercentageOfScreen = project.getDistancePercentAfterSleep(resourceIndex: ID)
             distanceInCM = project.getDistanceCMAfterSleep(resourceIndex: ID)
             timeBegin = project.getTimeBeginAfterSleep(resourceIndex: ID)
@@ -231,8 +231,8 @@ class Trials:EVObject{
 }
 
 class Treatment:EVObject{
-    var timeBegin = ""
-    var timeEnd = ""
+    //var timeBegin = ""
+    //var timeEnd = ""
     var subjectNapped = 0
     var timeCueBegin = ""
     var timeCueEnds = ""
@@ -243,8 +243,8 @@ class Treatment:EVObject{
     var baselineTargetIDs:[Int] = []
     
     init(project:TMRProject){
-        timeBegin = project.getCueTimeBegin()
-        timeEnd = project.getCueTimeEnd()
+        //timeBegin = project.getCueTimeBegin()
+        //timeEnd = project.getCueTimeEnd()
         timeCueBegin = project.getCueTimeBegin2()
         timeCueEnds = project.getCueTimeEnd2()
         subjectNapped = project.getSubjectNapped()

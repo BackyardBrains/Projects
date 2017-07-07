@@ -35,14 +35,13 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         let bg = SKSpriteNode(color: .white, width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
         bg.name = "bg"
         self.addChild(bg)
-        
         /*
         TMRProjectFactory.importAllProjectsFromFiles()
         */
         
         objc_sync_enter(self)
         // initial model
-        context.model.begin(screen: self, context: context)
+        context.model.begin(screen: self, context: context,view:view)
         // set timer interval and start timer
         timerInterval(interval: 2)
         objc_sync_exit(self)
@@ -53,7 +52,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         let location = touch.location(in:self)
         objc_sync_enter(self)
         context.model.touch(screen: self, context: context, position: location)
-        context.modelUpdate(screen: self)
+        context.modelUpdate(screen: self,view:view!)
         objc_sync_exit(self)
     }
     
@@ -80,7 +79,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
     func timerTick(){
         objc_sync_enter(self)
         context.model.timerTick(screen: self, context: context)
-        context.modelUpdate(screen: self)
+        context.modelUpdate(screen: self,view:view!)
         objc_sync_exit(self)
     }
     
@@ -213,12 +212,12 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func showText(text : String, xPercent: Int=50, yPercent: Int=50){
+    func showText(text : String, fontSize: CGFloat = 40, xPercent: Int=50, yPercent: Int=50){
         addLabel(text: text,
                  position: CGPoint(
                         x:self.frame.width*CGFloat(xPercent)/100.0,
                         y:self.frame.height*CGFloat(yPercent)/100.0),
-                 name: "text",fontSize: 40, fontColor: .black, fontName: "Arial Bold")
+                 name: "text",fontSize: fontSize, fontColor: .black, fontName: "Arial Bold")
     }
     
     func timerInterval(interval: Double, repeats : Bool = true){

@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import UIKit
+import SpriteKit
 
 enum ModelType {
     case None,
-        Home,Settings,Training,Testing,PreNapTest,PreNapResult,
-        Queuing,Retest,Result,End
+        Home,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+        Queuing,Retest,Result,Comments,End
 }
 
 // current running context
@@ -48,7 +50,7 @@ class TMRContext {
         model  = TMRModelHome() as TMRModel // initial model
     }
     
-    func modelUpdate(screen : TMRScreen){
+    func modelUpdate(screen : TMRScreen,view:SKView){
         if !modelUpdateFlag {
             return
         }
@@ -60,6 +62,20 @@ class TMRContext {
         switch(self.nextModel){
         case .Home:
             self.model = TMRModelHome()
+        case .MetaData:
+            self.model = TMRModelMetaData()
+        case .ExpData:
+            self.model = TMRModelExpData()
+        case .TimingData:
+            self.model = TMRModelTimingData()
+        case .ExpOptions:
+            self.model = TMRModelExpOptions()
+        case .CueingSetup:
+            self.model = TMRModelCueingSetup()
+        case .CueingSetupAuto:
+            self.model = TMRModelCueingSetupAuto()
+        case .CueingSetupManual:
+            self.model = TMRModelCueingSetupManual()
         case .Settings:
             self.model = TMRModelSettings()
         case .Training:
@@ -74,11 +90,13 @@ class TMRContext {
             self.model = TMRModelResult()
         case .End:
             self.model = TMRModelEnd()
+        case .Comments:
+            self.model = TMRModelComments()
         default:
             assertionFailure("no model type defined")
         }
         self.currentModel = self.nextModel
-        self.model.begin(screen: screen, context: self)
+        self.model.begin(screen: screen, context: self,view:view)
         // start next
     }
 

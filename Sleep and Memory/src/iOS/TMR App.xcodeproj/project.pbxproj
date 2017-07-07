@@ -27,8 +27,17 @@
 		E150F9361EF8979C00D4690B /* baseline.wav in Resources */ = {isa = PBXBuildFile; fileRef = E150F9351EF8979C00D4690B /* baseline.wav */; };
 		E150F9381EF8BD3100D4690B /* TMRModelStatBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */; };
 		E150F93A1EF9400400D4690B /* SettingsGUIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */; };
+		E18E675B1F0ED4460032C5BD /* TMRModelMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */; };
+		E18E675D1F0ED4560032C5BD /* TMRModelExpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */; };
+		E18E675F1F0ED4620032C5BD /* TMRModelTimingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */; };
+		E18E67611F0ED46C0032C5BD /* TMRModelExpOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E67601F0ED46C0032C5BD /* TMRModelExpOptions.swift */; };
+		E18E67631F0ED47B0032C5BD /* TMRModelCueingSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E67621F0ED47A0032C5BD /* TMRModelCueingSetup.swift */; };
+		E18E67651F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E67641F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift */; };
 		E190B9361F06795700AD2525 /* Beautify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E190B9351F06795700AD2525 /* Beautify.swift */; };
 		E190B9381F069ABE00AD2525 /* UIDeviceFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = E190B9371F069ABE00AD2525 /* UIDeviceFind.swift */; };
+		E19FD46B1F0EDC1A0047E568 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46A1F0EDC1A0047E568 /* TextFieldExtension.swift */; };
+		E19FD46D1F0F01B90047E568 /* TMRModelCueingSetupManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46C1F0F01B90047E568 /* TMRModelCueingSetupManual.swift */; };
+		E19FD46F1F0F21740047E568 /* TMRModelComments.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19FD46E1F0F21740047E568 /* TMRModelComments.swift */; };
 		E1BB361E1EE5F90D000F3AF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB361D1EE5F90D000F3AF0 /* AppDelegate.swift */; };
 		E1BB36201EE5F90D000F3AF0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */; };
 		E1BB36221EE5F90D000F3AF0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36211EE5F90D000F3AF0 /* Actions.sks */; };
@@ -146,8 +155,17 @@
 		E150F9351EF8979C00D4690B /* baseline.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = baseline.wav; sourceTree = "<group>"; };
 		E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelStatBefore.swift; sourceTree = "<group>"; };
 		E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGUIScreen.swift; sourceTree = "<group>"; };
+		E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelMetaData.swift; sourceTree = "<group>"; };
+		E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelExpData.swift; sourceTree = "<group>"; };
+		E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelTimingData.swift; sourceTree = "<group>"; };
+		E18E67601F0ED46C0032C5BD /* TMRModelExpOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelExpOptions.swift; sourceTree = "<group>"; };
+		E18E67621F0ED47A0032C5BD /* TMRModelCueingSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelCueingSetup.swift; sourceTree = "<group>"; };
+		E18E67641F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelCueingSetupAuto.swift; sourceTree = "<group>"; };
 		E190B9351F06795700AD2525 /* Beautify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beautify.swift; sourceTree = "<group>"; };
 		E190B9371F069ABE00AD2525 /* UIDeviceFind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceFind.swift; sourceTree = "<group>"; };
+		E19FD46A1F0EDC1A0047E568 /* TextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
+		E19FD46C1F0F01B90047E568 /* TMRModelCueingSetupManual.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelCueingSetupManual.swift; sourceTree = "<group>"; };
+		E19FD46E1F0F21740047E568 /* TMRModelComments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelComments.swift; sourceTree = "<group>"; };
 		E1BB361A1EE5F90D000F3AF0 /* TMR App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TMR App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BB361D1EE5F90D000F3AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -275,6 +293,32 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E18E67661F0ED7F60032C5BD /* TMRModels */ = {
+			isa = PBXGroup;
+			children = (
+				974975101EF545AF009A3BFF /* TMRContext.swift */,
+				EAD70DE41EF4C6E300675802 /* TMRScreen.swift */,
+				EAD70DEA1EF4C6E300675802 /* TMRModel.swift */,
+				EAD70DF61EF6D3E400675802 /* TMRModelHome.swift */,
+				E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */,
+				E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */,
+				E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */,
+				E18E67601F0ED46C0032C5BD /* TMRModelExpOptions.swift */,
+				E18E67621F0ED47A0032C5BD /* TMRModelCueingSetup.swift */,
+				E18E67641F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift */,
+				E19FD46C1F0F01B90047E568 /* TMRModelCueingSetupManual.swift */,
+				EAD70DF81EF6D41200675802 /* TMRModelSettings.swift */,
+				EAD70DE51EF4C6E300675802 /* TMRModelTraining.swift */,
+				EAD70DE61EF4C6E300675802 /* TMRModelTesting.swift */,
+				E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */,
+				EAD70DE91EF4C6E300675802 /* TMRModelQueuing.swift */,
+				EAD70DE81EF4C6E300675802 /* TMRModelResult.swift */,
+				E19FD46E1F0F21740047E568 /* TMRModelComments.swift */,
+				EAD70DFA1EF6D44D00675802 /* TMRModelEnd.swift */,
+			);
+			name = TMRModels;
+			sourceTree = "<group>";
+		};
 		E1BB36111EE5F90D000F3AF0 = {
 			isa = PBXGroup;
 			children = (
@@ -298,17 +342,7 @@
 			children = (
 				E1BB36351EE5F92D000F3AF0 /* Background Files */,
 				E1BB362A1EE5F90D000F3AF0 /* Assets.xcassets */,
-				EAD70DE41EF4C6E300675802 /* TMRScreen.swift */,
-				EAD70DEA1EF4C6E300675802 /* TMRModel.swift */,
-				EAD70DF61EF6D3E400675802 /* TMRModelHome.swift */,
-				EAD70DF81EF6D41200675802 /* TMRModelSettings.swift */,
-				EAD70DE51EF4C6E300675802 /* TMRModelTraining.swift */,
-				EAD70DE61EF4C6E300675802 /* TMRModelTesting.swift */,
-				E10BD9521F09692C005D8AE4 /* Date Extension.swift */,
-				E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */,
-				EAD70DE91EF4C6E300675802 /* TMRModelQueuing.swift */,
-				EAD70DE81EF4C6E300675802 /* TMRModelResult.swift */,
-				EAD70DFA1EF6D44D00675802 /* TMRModelEnd.swift */,
+				E18E67661F0ED7F60032C5BD /* TMRModels */,
 				97A08F961EF3978B00D11427 /* TMRResource.swift */,
 				97A08F971EF3978B00D11427 /* TMRResourceImpl.swift */,
 				97A08F941EF38CB100D11427 /* TMREntry.swift */,
@@ -321,10 +355,7 @@
 				97A08FA21EF476E900D11427 /* UserAccount.swift */,
 				97A08FA41EF4906C00D11427 /* UserAccountFactory.swift */,
 				9749750C1EF54506009A3BFF /* RandomNumGenerator.swift */,
-				974975101EF545AF009A3BFF /* TMRContext.swift */,
 				971BE6971EF7262700EBC37D /* TMRProjectFactory.swift */,
-				E190B9351F06795700AD2525 /* Beautify.swift */,
-				E190B9371F069ABE00AD2525 /* UIDeviceFind.swift */,
 				971BE69B1EF97B3100EBC37D /* TMRExportEntry.swift */,
 				E10722461F05D383007204CA /* TMRSession.swift */,
 			);
@@ -344,8 +375,12 @@
 				E1BB362F1EE5F90D000F3AF0 /* Info.plist */,
 				E1BB36361EE5FC7D000F3AF0 /* LabelNodeExtension.swift */,
 				E1BB36381EE5FC87000F3AF0 /* SpriteNodeExtension.swift */,
+				E19FD46A1F0EDC1A0047E568 /* TextFieldExtension.swift */,
 				E1BB363A1EE5FC99000F3AF0 /* ExtendedSprite.swift */,
 				E1BB363C1EE5FCA2000F3AF0 /* Screen Template.swift */,
+				E10BD9521F09692C005D8AE4 /* Date Extension.swift */,
+				E190B9351F06795700AD2525 /* Beautify.swift */,
+				E190B9371F069ABE00AD2525 /* UIDeviceFind.swift */,
 			);
 			name = "Background Files";
 			sourceTree = "<group>";
@@ -634,6 +669,8 @@
 				E150F9381EF8BD3100D4690B /* TMRModelStatBefore.swift in Sources */,
 				E1BB363D1EE5FCA2000F3AF0 /* Screen Template.swift in Sources */,
 				9749750B1EF4E7F4009A3BFF /* TMRProjectImpl.swift in Sources */,
+				E19FD46B1F0EDC1A0047E568 /* TextFieldExtension.swift in Sources */,
+				E18E675D1F0ED4560032C5BD /* TMRModelExpData.swift in Sources */,
 				974975111EF545AF009A3BFF /* TMRContext.swift in Sources */,
 				E150F93A1EF9400400D4690B /* SettingsGUIScreen.swift in Sources */,
 				E10BD9531F09692C005D8AE4 /* Date Extension.swift in Sources */,
@@ -643,6 +680,7 @@
 				E1BB36261EE5F90D000F3AF0 /* GameViewController.swift in Sources */,
 				EAD70DF11EF4C6E300675802 /* TMRModel.swift in Sources */,
 				971BE6981EF7262700EBC37D /* TMRProjectFactory.swift in Sources */,
+				E18E675F1F0ED4620032C5BD /* TMRModelTimingData.swift in Sources */,
 				9749750A1EF4E7F4009A3BFF /* TMRProject.swift in Sources */,
 				97A08FA51EF4906C00D11427 /* UserAccountFactory.swift in Sources */,
 				EAD70DF91EF6D41200675802 /* TMRModelSettings.swift in Sources */,
@@ -651,20 +689,26 @@
 				9749750D1EF54506009A3BFF /* RandomNumGenerator.swift in Sources */,
 				E1BB36371EE5FC7D000F3AF0 /* LabelNodeExtension.swift in Sources */,
 				E1BB363B1EE5FC99000F3AF0 /* ExtendedSprite.swift in Sources */,
+				E18E67651F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift in Sources */,
 				97A08FA11EF45F7B00D11427 /* GuiSetting.swift in Sources */,
 				97A08F9F1EF4030200D11427 /* TMRSoundImage.swift in Sources */,
 				EAD70DF01EF4C6E300675802 /* TMRModelQueuing.swift in Sources */,
 				EAD70DED1EF4C6E300675802 /* TMRModelTesting.swift in Sources */,
+				E18E67611F0ED46C0032C5BD /* TMRModelExpOptions.swift in Sources */,
+				E18E675B1F0ED4460032C5BD /* TMRModelMetaData.swift in Sources */,
 				EAD70DEC1EF4C6E300675802 /* TMRModelTraining.swift in Sources */,
 				EAD70DEB1EF4C6E300675802 /* TMRScreen.swift in Sources */,
 				EAD70DF71EF6D3E400675802 /* TMRModelHome.swift in Sources */,
 				EAD70DEF1EF4C6E300675802 /* TMRModelResult.swift in Sources */,
 				97A08F991EF3978B00D11427 /* TMRResourceImpl.swift in Sources */,
+				E19FD46D1F0F01B90047E568 /* TMRModelCueingSetupManual.swift in Sources */,
 				E1BB36391EE5FC87000F3AF0 /* SpriteNodeExtension.swift in Sources */,
 				E1BB361E1EE5F90D000F3AF0 /* AppDelegate.swift in Sources */,
 				E190B9361F06795700AD2525 /* Beautify.swift in Sources */,
+				E19FD46F1F0F21740047E568 /* TMRModelComments.swift in Sources */,
 				971BE69C1EF97B3100EBC37D /* TMRExportEntry.swift in Sources */,
 				97A08FA31EF476E900D11427 /* UserAccount.swift in Sources */,
+				E18E67631F0ED47B0032C5BD /* TMRModelCueingSetup.swift in Sources */,
 				E10722471F05D383007204CA /* TMRSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

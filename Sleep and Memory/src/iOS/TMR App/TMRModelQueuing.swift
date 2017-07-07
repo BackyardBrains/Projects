@@ -16,6 +16,7 @@ class TMRModelQueuing : TMRModel {
     var redo = SKSpriteNode()
     var timer = Timer()
     var startLabel = SKLabelNode()
+    var dont = SKLabelNode()
     var queueLabel = SKLabelNode()
     
     var counter = 0
@@ -26,7 +27,7 @@ class TMRModelQueuing : TMRModel {
     
     var toplay:[URL] = []
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         screen.clearScreen()
         super.begin(screen: screen, context: context)
         targeted = context.project.getTargetIndexEntries()
@@ -37,6 +38,9 @@ class TMRModelQueuing : TMRModel {
         
         startLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 1, text: "Give the Device to the Researcher", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(startLabel)
+        
+        dont = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:50), zPosition: 1, text: "Do NOT tap the Blue Play Button", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .bottom, horizontalAlignmentMode: .center)
+        screen.addChild(dont)
         
         queueLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, text: "", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         screen.addChild(queueLabel)
@@ -56,6 +60,7 @@ class TMRModelQueuing : TMRModel {
             context.project.setCueTimeBegin2(time: Date())
             //screen.playSound(name: "bg", sound: "whiteNoise.mp3")
             startLabel.removeFromParent()
+            dont.removeFromParent()
             start.position = CGPoint(x:screen.frame.width*100,y:screen.frame.width*100)//Get rid of the touch
             start.removeFromParent()
             queueLabel.isHidden = false

@@ -15,10 +15,15 @@ class TMRModelEnd : TMRModel  {
     var end = SKSpriteNode()
     var export = SKSpriteNode()
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         print("model End begin")
         screen.clearScreen()
-        screen.addLabel(text: "Project Complete - Please Export Data", position: CGPoint(x:screen.width/2,y:screen.height/2), name: "thank",fontSize: 30)
+        
+        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        screen.addChild(bg)
+        
+        let label = SKLabelNode(position: CGPoint(x:screen.width/2,y:screen.height/2), zPosition: 1, text: "Project Complete - Please Export Data", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+        screen.addChild(label)
         
         //should only appear when export button clicked
         export = SKSpriteNode(imageName: "export", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:screen.frame.width/2,y:10), zPosition: 1, alpha: 1)

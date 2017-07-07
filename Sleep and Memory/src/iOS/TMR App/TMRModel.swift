@@ -14,6 +14,10 @@ class TMRModel {
         screen.timerInterval(interval: 0)
     }
     
+    func begin(screen : TMRScreen, context : TMRContext, view:SKView) {
+        screen.timerInterval(interval: 0)
+    }
+    
     func timerTick(screen : TMRScreen, context : TMRContext) {
     }
     

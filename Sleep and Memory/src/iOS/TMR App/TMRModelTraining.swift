@@ -13,15 +13,16 @@ class TMRModelTraining : TMRModel {
     var index : Int = 0
     var isWaiting = false
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         print("model training begin")
         super.begin(screen: screen, context: context)
         let settings = context.project.getGuiSetting()
         
         screen.clearScreen()
         screen.addLabel(text: "Remember the Image Positions",
-                        position: CGPoint(x:screen.width/2,y:screen.height/2),
+                        position: CGPoint(x:screen.width/2,y:screen.height/2+15),
                         name: "trainingRemind")
+        screen.addLabel(text: "Do Not Tap the Screen", position: CGPoint(x:screen.width/2,y:screen.height/2-30), name: "trainingRemind",fontSize:30)
         
         context.project.setBeginTime(beginTime: Date())
         screen.addGrid()

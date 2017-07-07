@@ -12,11 +12,14 @@ import SpriteKit
 
 class TMRModelSettings : TMRModel  {
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         print("model Settings begin")
         screen.clearScreen()
-        screen.addLabel(text: "load testing data...", position: CGPoint(x:screen.width/2,y:screen.height/2),
-                        name: "settings")
+        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        screen.addChild(bg)
+        
+        let label = SKLabelNode(position: CGPoint(x:screen.width/2,y:screen.height/2), zPosition: 1, text: "load testing data...", fontColor: UIColor(red:170/255,green:177/255,blue:190/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+        screen.addChild(label)
         screen.timerInterval(interval: 0.0)
         dbLoad(context: context)
         screen.timerInterval(interval: 0.5) // trig callback for model transition
@@ -36,8 +39,6 @@ class TMRModelSettings : TMRModel  {
     }
     
     func dbLoad(context: TMRContext){
-        context.userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-        context.project = TMRProjectFactory.getTMRProject(userAccount : context.userAccount)
 
         let settings = context.project.getGuiSetting()
         let resource = context.project.getTMRResource()
@@ -67,9 +68,10 @@ class TMRModelSettings : TMRModel  {
         //print("after set posList")
         
         // create target list
+        let sampleSize = Int(round(Double(settings.getSampleSize()*settings.getCuedPercent())/100.0))
         let targetIndexList = RandomNumberGenerator.generateRandomNumbers(
             range: trainingList.count,
-            sampleSize: settings.getSampleSize()/2)
+            sampleSize: sampleSize)
         
         // set target list to project
         var targetList = [Int]();

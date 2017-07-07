@@ -12,7 +12,7 @@ import SpriteKit
 class TMRModelStatBefore : TMRModel {
     var next = SKSpriteNode()
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         context.project.setExperimentCompleted()
         screen.clearScreen()
         let percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
@@ -70,7 +70,10 @@ class TMRModelStatBefore : TMRModel {
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
         if next.contains(position){
-            context.nextModel = .Queuing
+            if context.project.getGuiSetting().getTreatmentNum() == 1{
+                context.nextModel = .Queuing
+            }
+            //Goes to others with different treatments
         }
     }
     

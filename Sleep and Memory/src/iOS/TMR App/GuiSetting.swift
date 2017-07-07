@@ -9,6 +9,8 @@
 import Foundation
 
 class GuiSetting : NSCopying{
+    //Interesting to add a set of default return values as well, that can be editing in a general "user setting" GUI
+    
     private var numColumns : Int = 10
     private var numRows : Int = 6
     private var sampleSize : Int = 2
@@ -16,16 +18,22 @@ class GuiSetting : NSCopying{
     private var distanceThreshold : Int = 15 // 15%
     
     // timer values:
-    private var trainingInterval : Int  = 3
-    private var intertrainingInterval : Int = 1
-    private var testingInterval : Int = 3
-    private var sleepInterval : Int = 5
+    private var trainingInterval : Int  = 0
+    private var intertrainingInterval : Int = 0
+    private var testingInterval : Int = 0
+    private var sleepInterval : Int = 0
     
     // testing repeat times
     private var repeatTimesForTestAfterTraining : Int = 2
     
     private var json : Float = 2
     private var software : Float = 4.1
+    
+    //Treatment Option 1-sleep cueing
+    private var treatmentNum : Int = 1
+    
+    //Percent of images cued
+    private var percentCued : Int = 50
     
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]
@@ -166,6 +174,22 @@ class GuiSetting : NSCopying{
         self.repeatTimesForTestAfterTraining = repeatTimes
     }
     
+    func setTreatmentNum(num:Int){
+        self.treatmentNum = num
+    }
+    
+    func getTreatmentNum()->Int{
+        return treatmentNum
+    }
+    
+    func setCuedPercent(num:Int){
+        self.percentCued = num
+    }
+    
+    func getCuedPercent()->Int{
+        return percentCued
+    }
+    
     init() {
         resource = TMRResourceFactory.getTMRResource();
     }
@@ -179,6 +203,13 @@ class GuiSetting : NSCopying{
     
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = GuiSetting(numColumns: numColumns, numRows: numRows, sampleSize: sampleSize,resource: resource)
+        copy.setDistanceThreshold(threshold: distanceThreshold)
+        copy.setTrainingInterval(trainingInterval: trainingInterval)
+        copy.setInterTrainingInterval(interTrainingInterval: intertrainingInterval)
+        copy.setTestingInterval(testingInterval: testingInterval)
+        copy.setSleepInterval(sleepSoundInterval: sleepInterval)
+        copy.setCuedPercent(num: percentCued)
+        copy.setTreatmentNum(num: treatmentNum)
         return copy
     }
 }

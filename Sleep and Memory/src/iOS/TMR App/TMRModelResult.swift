@@ -19,7 +19,7 @@ class TMRModelResult : TMRModel {
     var text = "Total"
     var end = SKSpriteNode()
     
-    override func begin(screen : TMRScreen, context : TMRContext) {
+    override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         context.project.setEndTime(endTime: Date())
         context.project.setExperimentCompleted()
         screen.clearScreen()
@@ -143,7 +143,7 @@ class TMRModelResult : TMRModel {
         }
         
         if end.contains(position){
-            context.nextModel = .End
+            context.nextModel = .Comments
         }
         
         if right.contains(position){
