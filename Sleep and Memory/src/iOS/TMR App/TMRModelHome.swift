@@ -22,6 +22,22 @@ class TMRModelHome : TMRModel  {
         let label = SKLabelNode(position: CGPoint(x:screen.width/2,y:screen.height/2), zPosition: 1, text: "Click For New Project", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         label.name = "homeLabel"
         screen.addChild(label)
+        
+        //TMRProjectFactory.delAll()
+        
+        context.userNameList = UserAccountFactory.getNameList()
+        if context.userNameList.count > 0 {
+            context.selUserName = context.userNameList[0]
+            context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
+            print("\(context.userAccount.getUserAccountTuple())")
+        }
+        
+        context.projNameList = TMRProjectFactory.getNameList()
+        if context.projNameList.count > 0 {
+            context.selProjName = context.projNameList[0] // select first for now
+            context.project = TMRProjectFactory.importProjectFromFile(projectName: context.selProjName)
+            print("\(context.project.getTMRProjectTuple())")
+        }
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {

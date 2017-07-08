@@ -12,6 +12,8 @@ import SpriteKit
 protocol TMRProject {
     //Explicit Exported Data
     //projectName
+    func getTMRProjectTuple() -> TMRProjectTuple
+    func setTMRProjectTuple(tuple : TMRProjectTuple)
     func getTMRProjectName() -> String
     func setTMRProjectName(name:String)
     //subject
@@ -192,9 +194,10 @@ protocol TMRProject {
     func getCueTimeEnd2() -> String
     func setCueTimeEnd2(time:Date)
     //
-    
+    /*
     func toJSON() -> [String:Any]
     func fromJson (dictionary : [String : Any])
+    */
     
     func getBeginTime () -> String
     func setBeginTime(beginTime:Date)

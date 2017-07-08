@@ -37,6 +37,13 @@ class TMRModelSettings : TMRModel  {
     
     override func end(screen : TMRScreen, context : TMRContext){
         print("model Settings end")
+        // save user to file
+        let userName = context.userAccount.getUserName()
+        UserAccountFactory.save(name: userName, user: context.userAccount.getUserAccountTuple())
+        
+        // save project to file
+        let projName = context.project.getTMRProjectName()
+        TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
     }
     
     func dbLoad(context: TMRContext){

@@ -7,36 +7,51 @@
 //
 
 import Foundation
+import EVReflection
+
+class UserAccountTuple : EVObject{
+    var userName : String = "Robert"
+    var password : String = ""
+    var guiSetting : GuiSetting = GuiSetting()
+}
 
 class UserAccount {
-    private var userName : String
-    private var password : String
+    private var userAccountTuple : UserAccountTuple = UserAccountTuple()
     private var listTMRProject = [TMRProject]()
-    private var guiSetting : GuiSetting
     private var listTMRResource = [TMRResource]()
     
     init(userName:String, password:String) {
-        self.userName = userName;
-        self.password = password;
+        userAccountTuple.userName = userName;
+        userAccountTuple.password = password;
         let resource = TMRResourceFactory.getTMRResource()
         listTMRResource.append(resource)
-        self.guiSetting = GuiSetting()
+        userAccountTuple.guiSetting = GuiSetting()
     }
     
     init() {
-        self.userName = "Robert"
-        self.password = "Robert"
+        userAccountTuple.userName = "Robert"
+        userAccountTuple.password = "Robert"
         let resource = TMRResourceFactory.getTMRResource()
         listTMRResource.append(resource)
-        self.guiSetting = GuiSetting()
+        userAccountTuple.guiSetting = GuiSetting()
     }
     
-    func getGuiSetting() -> GuiSetting { return guiSetting }
-    func setGuiSetting(guiSetting : GuiSetting) {self.guiSetting = guiSetting }
-    func getUserName() -> String { return userName }
-    func setUserName(userName : String) { self.userName = userName }
-    func getPassword() -> String { return password }
-    func setPassword(password : String ) { self.password = password }
+    init(tuple : UserAccountTuple ) {
+        userAccountTuple.guiSetting = tuple.guiSetting.copy() as! GuiSetting
+        userAccountTuple.userName = tuple.userName
+        userAccountTuple.password = tuple.password
+        let resource = TMRResourceFactory.getTMRResource()
+        listTMRResource.append(resource)
+    }
+    
+    func getGuiSetting() -> GuiSetting { return userAccountTuple.guiSetting }
+    func setGuiSetting(guiSetting : GuiSetting) {userAccountTuple.guiSetting = guiSetting }
+    func getUserName() -> String { return userAccountTuple.userName }
+    func setUserName(userName : String) { userAccountTuple.userName = userName }
+    func getPassword() -> String { return userAccountTuple.password }
+    func setPassword(password : String ) { userAccountTuple.password = password }
+    func getUserAccountTuple() -> UserAccountTuple { return userAccountTuple }
+    func setUserAccountTuple(tuple : UserAccountTuple) { userAccountTuple = tuple }
     
     func getAllResources() -> [TMRResource] {
         return listTMRResource
@@ -80,6 +95,8 @@ class UserAccount {
         }
     }
     
+    /*
+    
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]
         
@@ -94,5 +111,6 @@ class UserAccount {
         stringName = dictionary["password"] as! String
         self.password = stringName
     }
+    */
     
 }

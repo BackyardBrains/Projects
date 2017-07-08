@@ -52,5 +52,7 @@ class TMRModelEnd : TMRModel  {
     
     override func end(screen : TMRScreen, context : TMRContext){
         print("model End")
+        let project : TMRProject = context.project
+        //TMRProjectFactory.save(name: project.getTMRProjectName(), proj: project.getTMRProjectTuple())
     }
 }

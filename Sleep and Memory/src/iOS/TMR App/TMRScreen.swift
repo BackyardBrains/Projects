@@ -35,9 +35,6 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         let bg = SKSpriteNode(color: .white, width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
         bg.name = "bg"
         self.addChild(bg)
-        /*
-        TMRProjectFactory.importAllProjectsFromFiles()
-        */
         
         objc_sync_enter(self)
         // initial model

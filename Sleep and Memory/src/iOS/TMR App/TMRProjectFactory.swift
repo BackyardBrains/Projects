@@ -61,6 +61,18 @@ class TMRProjectFactory {
         return retProject;
     }
     
+    static func getTMRProject(tuple : TMRProjectTuple) -> TMRProject {
+        
+        if let project = listTMRProject[tuple.tmrProjectName] {
+            return project;
+        }
+        
+        let retProject:TMRProjectImpl = TMRProjectImpl(tuple: tuple)
+        
+        listTMRProject[tuple.tmrProjectName] = retProject
+        return retProject;
+    }
+
     static func getTMRProject(userAccount : UserAccount) -> TMRProject {
         
         let _projectName = "project_0\(listTMRProject.count)"
@@ -88,39 +100,26 @@ class TMRProjectFactory {
     
     static func importAllProjectsFromFiles() {
         print("entering importAllProjectFromFiles")
-        let filemgr = FileManager.default
-        let docs=filemgr.urls(for: .documentDirectory,in: .userDomainMask)[0].path;
-        //list all contents of directory and return as [String] OR nil if failed
-        let files : [String]? = try? filemgr.contentsOfDirectory(atPath:docs);
+        let files = getNameList()
+        for file in files  {
+            
+            let projectTuple = load(name: file)
+            getTMRProject(tuple: projectTuple)
+        }
         
-        if ( files != nil ) {
-        for i in 0..<files!.count {
-            let fileName : String = "\(files![i])"
-            print("file name is \(files?[i])")
-            if fileName.contains("ExportedInternal.project.txt") {
-                importProjectFromFile(fileName: fileName)
-            }
-        }
-        }
     }
     
-    static func importProjectFromFile(fileName : String) {
-        do {
-            if let file = Bundle.main.url(forResource: fileName, withExtension: "json") {
-                let data = try Data(contentsOf: file)
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                if let object = json as? [String: Any] {
-                    let project = TMRProjectImpl()
-                    project.fromJson(dictionary: object)
-                    self.getTMRProject(projectName: project.getTMRProjectName(), userAccount: project.getUser(), resourceName: project.getTMRResource().getResourceName())
-                }
-            } else {
-                print("no file")
-            }
-        } catch {
-            print(error.localizedDescription)
+    static func importProjectFromFile(projectName : String) ->TMRProject {
+        let projectTuple = load(name: projectName)
+        return getTMRProject(tuple: projectTuple)
+    }
+    
+    static func exportAllProjectsToFile() {
+        for project in listTMRProject {
+            save(name: project.key, proj: project.value.getTMRProjectTuple())
         }
     }
+
     
     static func exportProjectToFile(project: TMRProject, screen:TMRScreen) -> String {
         print("Entering exportProjectToFile")
@@ -197,6 +196,7 @@ class TMRProjectFactory {
         return session
     }
     
+    /*
     static func exportAllProjectsToFile() {
         var tmrExportAllProject : TMRExportAllProjects = mapAllProjects();
         let file = "projectsExported.txt"
@@ -265,7 +265,7 @@ class TMRProjectFactory {
         
         
     }
-    
+    */
     static func mapAllProjects() -> TMRExportAllProjects {
         var tmrExportAllProject = TMRExportAllProjects()
         
@@ -276,4 +276,49 @@ class TMRProjectFactory {
         
         return tmrExportAllProject
     }
+    
+    static func save(name:String,proj : TMRProjectTuple){
+        proj.saveToDocuments(name+".proj")
+        
+    }
+    
+    static func load(name:String) -> TMRProjectTuple {
+        return TMRProjectTuple(fileNameInDocuments: name+".proj")
+    }
+    
+    static func getNameList() -> [String]{
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        do {
+            // Get the directory contents urls (including subfolders urls)
+            let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+            //print(directoryContents)
+            
+            // if you want to filter the directory contents you can do like this:
+            let files = directoryContents.filter{ $0.pathExtension == "proj" }
+            //print("user urls:",files)
+            let fileNames = files.map{ $0.deletingPathExtension().lastPathComponent }
+            //print("user list:", fileNames)
+            return fileNames
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return []
+    }
+    
+    static func del(name:String){
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        do {
+            let fileUrl = documentsUrl.appendingPathComponent(name + ".proj")
+            try FileManager.default.removeItem(at: fileUrl)
+        }catch let error as NSError {
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func delAll() {
+        for file in getNameList() {
+            del(name: file)
+        }
+    }
+
 }

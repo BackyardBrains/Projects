@@ -8,59 +8,62 @@
 
 import Foundation
 import SpriteKit
+import EVReflection
 
-class TMREntry {
-    private var soundimageIndex:Int = 0
-    private var positionX:Int = 5
-    private var positionY:Int = 5
-    private var isTargeted:Bool = false
-    private var baseSoundName:String = "baseline.wave"
-    private var baseSoundNickName:String = "baseline.wave"
+
+
+class TMREntry : EVObject {
+    var soundimageIndex:Int = 0
+    var positionX:Int = 5
+    var positionY:Int = 5
+    var isTargeted:Bool = false
+    var baseSoundName:String = "baseline.wave"
+    var baseSoundNickName:String = "baseline.wave"
     
     //Stats
     //1
-    private var distance1:Float = 0
-    private var distancePercent1:Float = 0
-    private var distanceCM1:Float = 0
-    private var timeBegin1:String = ""
-    private var timeBegin1Date:Date = Date()
-    private var reactionTime1:Float = 0
-    private var x1:Int = 0
-    private var y1:Int = 0
-    private var isCorrect1:Bool = false
+    var distance1:Float = 0
+    var distancePercent1:Float = 0
+    var distanceCM1:Float = 0
+    var timeBegin1:String = ""
+    var timeBegin1Date:Date = Date()
+    var reactionTime1:Float = 0
+    var x1:Int = 0
+    var y1:Int = 0
+    var isCorrect1:Bool = false
     
     //2
-    private var distance2:Float = 0
-    private var distancePercent2:Float = 0
-    private var distanceCM2:Float = 0
-    private var timeBegin2:String = ""
-    private var timeBegin2Date:Date = Date()
-    private var reactionTime2:Float = 0
-    private var x2:Int = 0
-    private var y2:Int = 0
-    private var isCorrect2:Bool = false
+    var distance2:Float = 0
+    var distancePercent2:Float = 0
+    var distanceCM2:Float = 0
+    var timeBegin2:String = ""
+    var timeBegin2Date:Date = Date()
+    var reactionTime2:Float = 0
+    var x2:Int = 0
+    var y2:Int = 0
+    var isCorrect2:Bool = false
     
     //pre
-    private var distanceBeforeSleep:Float = 0
-    private var distancePercentBeforeSleep:Float = 0
-    private var distanceCMBeforeSleep:Float = 0
-    private var reactionTimeBeforeSleep:Float = 0
-    private var timeBeginBeforeSleep:String = ""
-    private var timeBeginBeforeSleepDate:Date = Date()
-    private var xBeforeSleep:Int = 0
-    private var yBeforeSleep:Int = 0
-    private var isCorrectBeforeSleep:Bool = false
+    var distanceBeforeSleep:Float = 0
+    var distancePercentBeforeSleep:Float = 0
+    var distanceCMBeforeSleep:Float = 0
+    var reactionTimeBeforeSleep:Float = 0
+    var timeBeginBeforeSleep:String = ""
+    var timeBeginBeforeSleepDate:Date = Date()
+    var xBeforeSleep:Int = 0
+    var yBeforeSleep:Int = 0
+    var isCorrectBeforeSleep:Bool = false
     
     //post
-    private var distanceAfterSleep:Float = 0
-    private var distancePercentAfterSleep:Float = 0
-    private var distanceCMAfterSleep:Float = 0
-    private var timeBeginAfterSleep:String = ""
-    private var timeBeginAfterSleepDate:Date = Date()
-    private var reactionTimeAfterSleep:Float = 0
-    private var xAfterSleep:Int = 0
-    private var yAfterSleep:Int = 0
-    private var isCorrectAfterSleep:Bool = false
+    var distanceAfterSleep:Float = 0
+    var distancePercentAfterSleep:Float = 0
+    var distanceCMAfterSleep:Float = 0
+    var timeBeginAfterSleep:String = ""
+    var timeBeginAfterSleepDate:Date = Date()
+    var reactionTimeAfterSleep:Float = 0
+    var xAfterSleep:Int = 0
+    var yAfterSleep:Int = 0
+    var isCorrectAfterSleep:Bool = false
     
     init(resourceEntryIndex : Int) {
         soundimageIndex = resourceEntryIndex
@@ -71,10 +74,18 @@ class TMREntry {
         isCorrectAfterSleep  = false
     }
     
-    init() {
-        
+    required init() {
+        //fatalError("init() has not been implemented")
+        soundimageIndex = 0 //resourceEntryIndex
+        positionX = 5
+        positionY = 5
+        isTargeted = false
+        isCorrectBeforeSleep  = false
+        isCorrectAfterSleep  = false
+        super.init()
     }
     
+    /*
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]
         
@@ -154,7 +165,7 @@ class TMREntry {
         stringNum = dictionary["baseSoundName"] as! String
         self.baseSoundName = stringNum
     }
-    
+    */
     
     func getBaseSound() -> URL? {
         if let path = Bundle.main.path(forResource: baseSoundName, ofType:nil) {
@@ -202,7 +213,7 @@ class TMREntry {
     func getTimeBegin1() -> String{
         return timeBegin1
     }
-    func getTimeBegin1() -> Date{
+    func getTimeBegin1Date() -> Date{
         return timeBegin1Date
     }
     func setTimeBegin1(time:Date){
@@ -261,7 +272,7 @@ class TMREntry {
     func getTimeBegin2() -> String{
         return timeBegin2
     }
-    func getTimeBegin2() -> Date{
+    func getTimeBegin2Date() -> Date{
         return timeBegin2Date
     }
     func setTimeBegin2(time:Date){
@@ -319,7 +330,7 @@ class TMREntry {
     func getTimeBeginBeforeSleep() -> String{
         return timeBeginBeforeSleep
     }
-    func getTimeBeginBeforeSleep() -> Date{
+    func getTimeBeginBeforeSleepDate() -> Date{
         return timeBeginBeforeSleepDate
     }
     func setTimeBeginBeforeSleep(time:Date){
@@ -372,7 +383,7 @@ class TMREntry {
     func getTimeBeginAfterSleep() -> String{
         return timeBeginAfterSleep
     }
-    func getTimeBeginAfterSleep() -> Date{
+    func getTimeBeginAfterSleepDate() -> Date{
         return timeBeginAfterSleepDate
     }
     func setTimeBeginAfterSleep(time:Date){

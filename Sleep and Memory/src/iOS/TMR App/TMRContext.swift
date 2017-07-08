@@ -19,7 +19,12 @@ enum ModelType {
 // current running context
 class TMRContext {
     var userAccount : UserAccount
+    var userNameList : [String] = []
+    var selUserName : String = "default"
+    
     var project     : TMRProject
+    var projNameList : [String] = []// list in file
+    var selProjName : String = "default"
     
     //resourceIndexList either get from project like training, or the shuffled one for testing
     var resourceIndexList = [Int]()
@@ -45,6 +50,7 @@ class TMRContext {
 
     init() {
         userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
+        UserAccountFactory.save(name: userAccount.getUserName(), user: userAccount.getUserAccountTuple())
         project = TMRProjectFactory.getTMRProject(userAccount : userAccount)
         
         model  = TMRModelHome() as TMRModel // initial model

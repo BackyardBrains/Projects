@@ -7,34 +7,39 @@
 //
 
 import Foundation
+import EVReflection
 
-class GuiSetting : NSCopying{
+class GuiSetting : EVObject, NSCopying {
     //Interesting to add a set of default return values as well, that can be editing in a general "user setting" GUI
     
-    private var numColumns : Int = 10
-    private var numRows : Int = 6
-    private var sampleSize : Int = 2
-    private var resource : TMRResource
-    private var distanceThreshold : Int = 15 // 15%
+    var numColumns : Int = 10
+    var numRows : Int = 6
+    var sampleSize : Int = 2
+    /*
+    var resource : TMRResource
+    */
+    
+    var distanceThreshold : Int = 15 // 15%
     
     // timer values:
-    private var trainingInterval : Int  = 0
-    private var intertrainingInterval : Int = 0
-    private var testingInterval : Int = 0
-    private var sleepInterval : Int = 0
+    var trainingInterval : Int  = 0
+    var intertrainingInterval : Int = 0
+    var testingInterval : Int = 0
+    var sleepInterval : Int = 0
     
     // testing repeat times
-    private var repeatTimesForTestAfterTraining : Int = 2
+    var repeatTimesForTestAfterTraining : Int = 2
     
-    private var json : Float = 2
-    private var software : Float = 4.1
+    var json : Float = 2
+    var software : Float = 4.1
     
     //Treatment Option 1-sleep cueing
-    private var treatmentNum : Int = 1
+    var treatmentNum : Int = 1
     
     //Percent of images cued
-    private var percentCued : Int = 50
+    var percentCued : Int = 50
     
+    /*
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]
         
@@ -79,6 +84,7 @@ class GuiSetting : NSCopying{
         num = Int(stringNum)!
         self.intertrainingInterval = num
     }
+    */
     
     func getJSONVersion() -> Float{
         return json
@@ -106,9 +112,11 @@ class GuiSetting : NSCopying{
         return sampleSize
     }
     
+    /*
     func getResource() -> TMRResource {
         return resource
     }
+    */
     
     func getDistanceThreshold() -> Int {
         return distanceThreshold
@@ -162,9 +170,11 @@ class GuiSetting : NSCopying{
         self.sampleSize = sampleSize
     }
     
+    /*
     func setTMRResource(tmrResource : TMRResource) {
         self.resource = tmrResource
     }
+    */
     
     func setDistanceThreshold(threshold : Int) {
         self.distanceThreshold = threshold
@@ -190,19 +200,26 @@ class GuiSetting : NSCopying{
         return percentCued
     }
     
-    init() {
+    required init() {
+        /*
         resource = TMRResourceFactory.getTMRResource();
+        */
     }
     
+    /*
     init(numColumns:Int, numRows:Int, sampleSize:Int, resource : TMRResource) {
+    */
+    init(numColumns:Int, numRows:Int, sampleSize:Int) {
         self.numColumns = numColumns
         self.numRows = numRows
         self.sampleSize = sampleSize
+        /*
         self.resource = resource.copy() as! TMRResourceImpl;
+        */
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        let copy = GuiSetting(numColumns: numColumns, numRows: numRows, sampleSize: sampleSize,resource: resource)
+        let copy = GuiSetting(numColumns: numColumns, numRows: numRows, sampleSize: sampleSize)
         copy.setDistanceThreshold(threshold: distanceThreshold)
         copy.setTrainingInterval(trainingInterval: trainingInterval)
         copy.setInterTrainingInterval(interTrainingInterval: intertrainingInterval)
