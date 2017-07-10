@@ -204,5 +204,8 @@ protocol TMRProject {
     func setBeginTime(beginTime:String)
     func getEndTime () -> String
     func setEndTime(endTime:Date)
-    func setEndTime(endTime:String) 
+    func setEndTime(endTime:String)
+    
+    func getControlArray()->[Double]
+    func setControlArray(array:[Double])
 }

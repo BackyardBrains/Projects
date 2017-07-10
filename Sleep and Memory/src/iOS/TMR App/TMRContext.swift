@@ -26,6 +26,8 @@ class TMRContext {
     var projNameList : [String] = []// list in file
     var selProjName : String = "default"
     
+    var controlModel = 1
+    
     //resourceIndexList either get from project like training, or the shuffled one for testing
     var resourceIndexList = [Int]()
     

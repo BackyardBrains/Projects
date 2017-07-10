@@ -14,7 +14,6 @@ class TMRModelQueuing : TMRModel {
     var start = SKSpriteNode()
     var next = SKSpriteNode()
     var redo = SKSpriteNode()
-    var timer = Timer()
     var startLabel = SKLabelNode()
     var dont = SKLabelNode()
     var queueLabel = SKLabelNode()

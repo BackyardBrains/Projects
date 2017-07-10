@@ -55,7 +55,7 @@ class TMRProjectImpl : TMRProject {
     
     var tmrResource : TMRResource
     var user : UserAccount?
-    
+    var controlArray:[Double] = [0,0,0,0]
 
     func getTMRProjectTuple() -> TMRProjectTuple { return projectTuple }
     func setTMRProjectTuple(tuple : TMRProjectTuple) { projectTuple = tuple }
@@ -141,6 +141,14 @@ class TMRProjectImpl : TMRProject {
         findDisplayOrientation()
         setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
         setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+    }
+    
+    func getControlArray() -> [Double] {
+        return controlArray
+    }
+    
+    func setControlArray(array: [Double]) {
+        controlArray = array
     }
     
     func findDisplayDevice(){

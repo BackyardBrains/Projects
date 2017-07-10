@@ -36,7 +36,7 @@ class TMRModelExpOptions:TMRModel{
         let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
         screen.addChild(bg)
         
-        treatment1 = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*2/3), zPosition: 2, text: "Cueing During Sleep (default)", fontColor: .lightText, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+        treatment1 = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*2/3), zPosition: 2, text: "Cueing During Sleep", fontColor: .lightText, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         treatment1.name = "treatment"
         screen.addChild(treatment1)
         
@@ -116,16 +116,22 @@ class TMRModelExpOptions:TMRModel{
         
         if next.contains(position){
             if currentTreatment != 0{
+                if currentTreatment == 1{
+                    context.project.setSubjectNapped(num: 1)
+                }else{
+                    context.project.setSubjectNapped(num: 0)
+                }
                 let setting = context.project.getGuiSetting()
                 setting.setTreatmentNum(num: currentTreatment)
                 context.project.setGuiSetting(guiSetting: setting)
+                context.nextModel = .CueingSetup
             }else{
-                let setting = context.project.getGuiSetting()
-                setting.setTreatmentNum(num: 1)
-                context.project.setGuiSetting(guiSetting: setting)
+//                let setting = context.project.getGuiSetting()
+//                setting.setTreatmentNum(num: 1)
+//                context.project.setGuiSetting(guiSetting: setting)
             }
             print(context.project.getGuiSetting().getTreatmentNum())
-            context.nextModel = .CueingSetup
+            
         }
     }
     

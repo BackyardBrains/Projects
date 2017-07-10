@@ -241,6 +241,7 @@ class Treatment:EVObject{
     var cuedTargetIDs:[Int] = []
     var uncuedTargetIDs:[Int] = []
     var baselineTargetIDs:[Int] = []
+    var percentCorrectControl:[Double] = []
     
     init(project:TMRProject){
         //timeBegin = project.getCueTimeBegin()
@@ -272,6 +273,9 @@ class Treatment:EVObject{
             let index2 = new.index(new.endIndex,offsetBy:-4)
             let new2 = Int(new.substring(to: index2))!
             baselineTargetIDs.append(new2)
+        }
+        if project.getControlArray() != [0,0,0,0]{
+            percentCorrectControl = project.getControlArray()
         }
         
     }
