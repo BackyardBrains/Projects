@@ -50,6 +50,10 @@ class TMRModelControl : TMRModel {
         screen.clearScreen()
         super.begin(screen: screen, context: context)
         
+        bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        bg.name = "bg"
+        screen.addChild(bg)
+        
         //Duration setting
         //In order to ensure that there is always enough time to present all of the cueing, the duration is calculated as a sum of 3 parts: timeBeforeCueing, timeCueing (based on the sleep interval from settings), timeAfterCueing. If there are 50 total for example, tBC = 1 min 30 sec, tC = 4 min 10 sec, tAC = 1 min 50 sec, totaling 7.5 minutes
         
