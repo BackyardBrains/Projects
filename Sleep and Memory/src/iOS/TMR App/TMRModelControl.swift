@@ -73,13 +73,13 @@ class TMRModelControl : TMRModel {
         //Instructions -> Tap to continue
         var text1:String
         if context.controlModel == 1{
-            text1 = "\(duration)s Practice Run"
+            text1 = "Practice Run"
         }else if context.controlModel == 2{
-            text1 = "\(duration)s Run 1 without Cues"
+            text1 = "Run 1 without Cues"
         }else if context.controlModel == 3{
-            text1 = "\(duration)s Run 2 with Cues"
+            text1 = "Run 2 with Cues"
         }else{
-            text1 = "\(duration)s Run 3 without Cues"
+            text1 = "Run 3 without Cues"
         }
         
         
@@ -180,7 +180,7 @@ class TMRModelControl : TMRModel {
                 let num1 = Int(arc4random_uniform(100)+1)
                 let num2 = Int(arc4random_uniform(100)+1)
                 numPair = [num1,num2]
-                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.25,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[0])", fontColor: .white, fontName: "Arial Bold", fontSize: 50, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.25,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[0])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
                 label.name = "n"
                 screen.addChild(label)
                 isShow = false
@@ -192,7 +192,7 @@ class TMRModelControl : TMRModel {
             }
         }else{//If even, num 2
             if isShow && numCounter == Int(spaceInterval*10){
-                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.75,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[1])", fontColor: .white, fontName: "Arial Bold", fontSize: 50, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.75,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[1])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
                 label.name = "n"
                 screen.addChild(label)
                 isShow = false
@@ -232,7 +232,7 @@ class TMRModelControl : TMRModel {
     func feedback(screen:TMRScreen,context:TMRContext){
         screen.clearNode("n")
         screen.clearNode("g")
-        let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.95), zPosition: 1, text: "Feedback (Any Partial Rounds Did Not Count)", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.95), zPosition: 1, text: "Feedback", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         title.name = "f"
         screen.addChild(title)
         

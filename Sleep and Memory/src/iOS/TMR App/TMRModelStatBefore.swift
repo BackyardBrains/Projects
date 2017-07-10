@@ -14,7 +14,7 @@ class TMRModelStatBefore : TMRModel {
     var currentGraph = 0 //0 for no feedback, 1 for feedback, 2 for total
     var right = SKSpriteNode()
     var left = SKSpriteNode()
-    var text = "No Feedback"
+    var text = "With Feedback"
     
     var percentCorrect:CGFloat = 0
     
@@ -25,7 +25,7 @@ class TMRModelStatBefore : TMRModel {
         context.project.setExperimentCompleted()
         screen.clearScreen()
         
-        percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
+        percentCorrect = CGFloat(context.project.getPercentOfCorrection1()+context.project.getPercentOfCorrection2())/200
         
         createGraph(percentCorrect: percentCorrect, screen: screen, text: text)
         
@@ -139,12 +139,12 @@ class TMRModelStatBefore : TMRModel {
         }
         
         if currentGraph == 0{
-            percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
-            text = "No Feedback"
-        }
-        else if currentGraph == 1{
             percentCorrect = CGFloat(context.project.getPercentOfCorrection1()+context.project.getPercentOfCorrection2())/200
             text = "With Feedback"
+        }
+        else if currentGraph == 1{
+            percentCorrect = CGFloat(context.project.getPercentOfCorrectionBeforeSleep())/100
+            text = "No Feedback"
         }
         else{
             percentCorrect = CGFloat(context.project.getPercentOfCorrection1()+context.project.getPercentOfCorrection2()+context.project.getPercentOfCorrectionBeforeSleep())/300
