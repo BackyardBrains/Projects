@@ -35,13 +35,13 @@ class TMRModelQueuing : TMRModel {
         start = SKSpriteNode(imageName: "start", xSize: screen.frame.width/5, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, alpha: 1)
         screen.addChild(start)
         
-        startLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 1, text: "Give the Device to the Researcher", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        startLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 1, text: "Give the Device to the Researcher", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(startLabel)
         
-        dont = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:50), zPosition: 1, text: "Do NOT tap the Blue Play Button", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .bottom, horizontalAlignmentMode: .center)
+        dont = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:50), zPosition: 1, text: "Do NOT tap the Blue Play Button", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .bottom, horizontalAlignmentMode: .center)
         screen.addChild(dont)
         
-        queueLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, text: "", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+        queueLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, text: "", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         screen.addChild(queueLabel)
         queueLabel.isHidden = true
         
@@ -77,7 +77,7 @@ class TMRModelQueuing : TMRModel {
             start = SKSpriteNode(imageName: "start", xSize: screen.frame.width/5, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, alpha: 1)
             screen.addChild(start)
             
-            queueLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, text: "", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+            queueLabel = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 1, text: "", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
             screen.addChild(queueLabel)
             queueLabel.isHidden = true
             

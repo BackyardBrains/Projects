@@ -26,7 +26,7 @@ class TMRModelCueingSetupManual:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
-        
+        context.setupPassed[6] = true
     }
     
     override func end(screen : TMRScreen, context : TMRContext){

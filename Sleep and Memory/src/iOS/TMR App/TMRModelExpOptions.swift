@@ -20,6 +20,7 @@ class TMRModelExpOptions:TMRModel{
     var button2 = SKSpriteNode()
     
     var next = SKSpriteNode()
+    var prev = SKSpriteNode()
     
     var currentTreatment = 0 // default option (none selected) 1 - sleep, 2 - no sleep
     
@@ -32,9 +33,6 @@ class TMRModelExpOptions:TMRModel{
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "Select Treatment", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
         
         treatment1 = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*2/3), zPosition: 2, text: "Cueing During Sleep", fontColor: .lightText, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         treatment1.name = "treatment"
@@ -52,8 +50,25 @@ class TMRModelExpOptions:TMRModel{
         button2.name = "button"
         screen.addChild(button2)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        if context.setupPassed[3]{
+            if context.project.getGuiSetting().getTreatmentNum() == 1{
+                is1Selected = true
+                treatment1.fontColor = .black
+                button1.color = .white
+                currentTreatment = 1
+            }else if context.project.getGuiSetting().getTreatmentNum() == 2{
+                is2Selected = true
+                treatment2.fontColor = .black
+                button2.color = .white
+                currentTreatment = 2
+            }
+        }
+        
+        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
+        
+        prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
         
     }
     
@@ -114,6 +129,10 @@ class TMRModelExpOptions:TMRModel{
             
         }
         
+        if prev.contains(position){
+            context.nextModel = .TimingData
+        }
+        
         if next.contains(position){
             if currentTreatment != 0{
                 if currentTreatment == 1{
@@ -124,6 +143,7 @@ class TMRModelExpOptions:TMRModel{
                 let setting = context.project.getGuiSetting()
                 setting.setTreatmentNum(num: currentTreatment)
                 context.project.setGuiSetting(guiSetting: setting)
+                context.setupPassed[3] = true
                 context.nextModel = .CueingSetup
             }else{
 //                let setting = context.project.getGuiSetting()

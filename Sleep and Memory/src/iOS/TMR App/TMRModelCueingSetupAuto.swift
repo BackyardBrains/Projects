@@ -15,13 +15,11 @@ class TMRModelCueingSetupAuto:TMRModel{
     
     var field = UITextField()
     var next = SKSpriteNode()
+    var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Choose % Sample Size to be Randomly Cued", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
@@ -30,8 +28,11 @@ class TMRModelCueingSetupAuto:TMRModel{
         field.center = CGPoint(x:view.frame.width/2, y: view.frame.height*0.3)
         view.addSubview(field)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        next = SKSpriteNode(imageName: "done", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
+        
+        prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -40,7 +41,12 @@ class TMRModelCueingSetupAuto:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if prev.contains(position){
+            field.removeFromSuperview()
+            context.nextModel = .CueingSetup
+        }
         if next.contains(position){
+            context.setupPassed[5] = true
             if let text = field.text{
                 if let num = Int(text){
                     if num >= 0 && num <= 100{

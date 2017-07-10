@@ -22,9 +22,6 @@ class TMRModelMetaData:TMRModel{
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
 
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Setup: If blank, default value is used", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
@@ -49,7 +46,15 @@ class TMRModelMetaData:TMRModel{
         locationField.autocorrectionType = .no
         view.addSubview(locationField)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        if context.setupPassed[0]{
+            projectNameField.text = context.project.getTMRProjectName()
+            subjectNameField.text = context.project.getSubject()
+            experimenterField.text = context.project.getExperimenter()
+            locationField.text = context.project.getLocation()
+        }
+        
+        
+        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
 
     }
@@ -99,6 +104,7 @@ class TMRModelMetaData:TMRModel{
             experimenterField.removeFromSuperview()
             projectNameField.removeFromSuperview()
             
+            context.setupPassed[0] = true
             context.nextModel = .ExpData
             
             print(context.project.getSubject())

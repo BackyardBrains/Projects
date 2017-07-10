@@ -27,6 +27,8 @@ class TMRContext {
     var selProjName : String = "default"
     
     var controlModel = 1
+    var setupPassed = [false,false,false,false,false,false,false] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual
+    var isAuto = true
     
     //resourceIndexList either get from project like training, or the shuffled one for testing
     var resourceIndexList = [Int]()

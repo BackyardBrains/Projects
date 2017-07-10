@@ -95,10 +95,13 @@ class TMRModelTesting : TMRModel {
     
         switch (context.currentModel){
         case .Testing:
-            if ( context.repeatCnt == context.project.getGuiSetting().getRepeatTimesForTestAfterTraining() ) {
+            print("testing \(context.repeatCnt)")
+            if ( context.repeatCnt == context.project.getGuiSetting().getRepeatTimesForTestAfterTraining()-1 ) {
                 context.project.setTimeBegin2(resourceIndex: resIndex, time: Date())
+                print("settimebegin2")
             }else{
                 context.project.setTimeBegin1(resourceIndex: resIndex, time: Date())
+                print("settimebegin1")
             }
         case .PreNapTest:
             context.project.setTimeBeginBeforeSleep(resourceIndex: resIndex, time: Date())

@@ -19,6 +19,7 @@ class TMRModelCueingSetup:TMRModel{
     var buttonM = SKSpriteNode()
     
     var next = SKSpriteNode()
+    var prev = SKSpriteNode()
     
     var isASelected = false
     var isMSelected = false
@@ -30,9 +31,6 @@ class TMRModelCueingSetup:TMRModel{
         screen.clearScreen()
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "Methods For Selecting Cued Sounds", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
         
         automatic = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*2/3), zPosition: 2, text: "Randomly Select (default)", fontColor: .lightText, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         automatic.name = "label"
@@ -50,8 +48,25 @@ class TMRModelCueingSetup:TMRModel{
         buttonM.name = "button"
         screen.addChild(buttonM)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        if context.setupPassed[4]{
+            if context.isAuto{
+                isASelected = true
+                automatic.fontColor = .black
+                buttonA.color = .white
+                currentMode = 1
+            }else if !context.isAuto{
+                isMSelected = true
+                manual.fontColor = .black
+                buttonM.color = .white
+                currentMode = 2
+            }
+        }
+        
+        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
+        
+        prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -110,12 +125,20 @@ class TMRModelCueingSetup:TMRModel{
             }
             
         }
+        
+        
+        if prev.contains(position){
+            context.nextModel = .ExpOptions
+        }
         if next.contains(position){
+            context.setupPassed[4] = true
             if currentMode != 0{
                 if currentMode == 1{
+                    context.isAuto = true
                     context.nextModel = .CueingSetupAuto
                 }
                 if currentMode == 2{
+                    //context.isAuto = false
                     //context.nextModel = .CueingSetupManual
                 }
             }else{

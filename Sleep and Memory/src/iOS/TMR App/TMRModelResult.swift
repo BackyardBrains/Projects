@@ -27,45 +27,43 @@ class TMRModelResult : TMRModel {
         percentCorrectA = CGFloat(context.project.getPercentOfCorrectionAfterSleep())/100
         createGraph(beforePercent: percentCorrectB, afterPercent: percentCorrectA, screen: screen,text:text)
         
-        right = SKSpriteNode(imageName: "rightArrow", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:1,y:0.5), position: CGPoint(x:screen.frame.width-10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
+        right = SKSpriteNode(imageName: "NextIcon", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:1,y:0.5), position: CGPoint(x:screen.frame.width-10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
         screen.addChild(right)
         
-        left = SKSpriteNode(imageName: "leftArrow", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
+        left = SKSpriteNode(imageName: "PrevIcon", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:10,y:screen.frame.height/2), zPosition: 1, alpha: 1)
         left.isHidden = true
         screen.addChild(left)
         
         let green = SKSpriteNode(color: .green, width: 20, height: 20, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:screen.frame.width/10+40,y:screen.frame.height/2-20), zPosition: 1, alpha: 1)
         screen.addChild(green)
-        let gText = SKLabelNode(position: CGPoint(x:screen.frame.width/10+70,y:screen.frame.height/2-20), zPosition: 1, text: "Correct", fontColor: .black, fontName: "Arial Bold", fontSize: 10, verticalAlignmentMode: .center, horizontalAlignmentMode: .left)
+        let gText = SKLabelNode(position: CGPoint(x:screen.frame.width/10+70,y:screen.frame.height/2-20), zPosition: 1, text: "Correct", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 10, verticalAlignmentMode: .center, horizontalAlignmentMode: .left)
         screen.addChild(gText)
         
         let red = SKSpriteNode(color: .red, width: 20, height: 20, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:screen.frame.width/10+40,y:screen.frame.height/2+20), zPosition: 1, alpha: 1)
         screen.addChild(red)
-        let rText = SKLabelNode(position: CGPoint(x:screen.frame.width/10+70,y:screen.frame.height/2+20), zPosition: 1, text: "Incorrect", fontColor: .black, fontName: "Arial Bold", fontSize: 10, verticalAlignmentMode: .center, horizontalAlignmentMode: .left)
+        let rText = SKLabelNode(position: CGPoint(x:screen.frame.width/10+70,y:screen.frame.height/2+20), zPosition: 1, text: "Incorrect", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 10, verticalAlignmentMode: .center, horizontalAlignmentMode: .left)
         screen.addChild(rText)
 
         
         end = SKSpriteNode(imageName: "exit", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
-        end.color = .black
-        end.colorBlendFactor = 1
         screen.addChild(end)
     }
     
     func createGraph(beforePercent:CGFloat,afterPercent:CGFloat,screen:TMRScreen,text:String){
         screen.clearNode("removable")
         
-        let cumText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-10), zPosition: 2, text: "\(text) Improvement", fontColor: .black, fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let cumText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-10), zPosition: 2, text: "\(text) Improvement", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         cumText.name = "removable"
         screen.addChild(cumText)
         
-        let dictateText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 2, text: "%Correct:%Incorrect", fontColor: .black, fontName: "Arial Bold", fontSize: 20, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let dictateText = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-50), zPosition: 2, text: "%Correct:%Incorrect", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 20, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(dictateText)
         
-        let beforeText = SKLabelNode(position: CGPoint(x:screen.frame.width/3+screen.frame.width/12,y:screen.frame.height*0.2-10), zPosition: 1, text: "Before", fontColor: .black, fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let beforeText = SKLabelNode(position: CGPoint(x:screen.frame.width/3+screen.frame.width/12,y:screen.frame.height*0.2-10), zPosition: 1, text: "Before", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         beforeText.name = "removable"
         screen.addChild(beforeText)
         
-        let beforePercents = SKLabelNode(position: CGPoint(x:screen.frame.width/3+screen.frame.width/12,y:screen.frame.height*0.2-30), zPosition: 1, text: "\(round2(percentCorrectB))%:\(round2(1-percentCorrectB))%", fontColor: .black, fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let beforePercents = SKLabelNode(position: CGPoint(x:screen.frame.width/3+screen.frame.width/12,y:screen.frame.height*0.2-30), zPosition: 1, text: "\(round2(percentCorrectB))%:\(round2(1-percentCorrectB))%", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         beforePercents.name = "removable"
         screen.addChild(beforePercents)
         
@@ -89,11 +87,11 @@ class TMRModelResult : TMRModel {
         correctB.name = "removable"
         screen.addChild(correctB)
         
-        let afterText = SKLabelNode(position: CGPoint(x:screen.frame.width/2+screen.frame.width/12,y:screen.frame.height*0.2-10), zPosition: 1, text: "After", fontColor: .black, fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let afterText = SKLabelNode(position: CGPoint(x:screen.frame.width/2+screen.frame.width/12,y:screen.frame.height*0.2-10), zPosition: 1, text: "After", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         afterText.name = "removable"
         screen.addChild(afterText)
         
-        let afterPercents = SKLabelNode(position: CGPoint(x:screen.frame.width/2+screen.frame.width/12,y:screen.frame.height*0.2-30), zPosition: 1, text: "\(round2(percentCorrectA))%:\(round2(1-percentCorrectA))%", fontColor: .black, fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
+        let afterPercents = SKLabelNode(position: CGPoint(x:screen.frame.width/2+screen.frame.width/12,y:screen.frame.height*0.2-30), zPosition: 1, text: "\(round2(percentCorrectA))%:\(round2(1-percentCorrectA))%", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 15, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         afterPercents.name = "removable"
         screen.addChild(afterPercents)
         

@@ -17,15 +17,13 @@ class TMRModelExpData:TMRModel{
     var sampleSizeField = UITextField()
     var errorThreshold = UITextField()
     var next = SKSpriteNode()
+    var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "TMR Session General Data", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
         
         sampleSizeField = UITextField(text: "", placeholder: "Total Sounds (default 48)", font: "Arial Bold", fontSize: 300, textColor: .black, textAlignment: .center, border: .roundedRect, adjustToFit: false, rect: CGRect(x: view.frame.width/4, y: view.frame.height*0.3, width: screen.frame.width/3, height: screen.frame.width/20))
         sampleSizeField.center = CGPoint(x:view.frame.width/4, y: view.frame.height*0.3)
@@ -39,8 +37,17 @@ class TMRModelExpData:TMRModel{
         errorThreshold.center = CGPoint(x:view.frame.width/2, y: view.frame.height*0.42)
         view.addSubview(errorThreshold)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        if context.setupPassed[1]{
+            sampleSizeField.text = String(context.project.getGuiSetting().getSampleSize())
+            colNumField.text = String(context.project.getGuiSetting().getNumColumns())
+            errorThreshold.text = String(context.project.getGuiSetting().getDistanceThreshold())
+        }
+        
+        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
+        
+        prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -49,7 +56,14 @@ class TMRModelExpData:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if prev.contains(position){
+            sampleSizeField.removeFromSuperview()
+            colNumField.removeFromSuperview()
+            errorThreshold.removeFromSuperview()
+            context.nextModel = .MetaData
+        }
         if next.contains(position){
+            context.setupPassed[1] = true
             if let p = colNumField.text{
                 if let col = Int(p){
                     let setting = context.project.getGuiSetting()

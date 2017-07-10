@@ -32,7 +32,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         self.anchorPoint = CGPoint(x:0,y:0)
         self.physicsWorld.contactDelegate = self
         
-        let bg = SKSpriteNode(color: .white, width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
         bg.name = "bg"
         self.addChild(bg)
         
@@ -61,13 +61,13 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         let pictureHeight = self.frame.height/CGFloat(settings.getNumRows())
         //Horizontal Lines
         for num in 0...numRows{
-            let line = SKSpriteNode(color: .black, width: self.frame.width, height: 2, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:self.frame.width/2,y:pictureHeight*CGFloat(num)), zPosition: 1, alpha: 0.1)
+            let line = SKSpriteNode(color: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), width: self.frame.width, height: 2, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:self.frame.width/2,y:pictureHeight*CGFloat(num)), zPosition: 1, alpha: 0.2)
             line.name = "grid"
             self.addChild(line)
         }
         //Vertical Lines
         for num in 0...numCol{
-            let line = SKSpriteNode(color: .black, width: 2, height: self.frame.width, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:pictureWidth*CGFloat(num),y:self.frame.height/2), zPosition: 1, alpha: 0.1)
+            let line = SKSpriteNode(color: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), width: 2, height: self.frame.width, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:pictureWidth*CGFloat(num),y:self.frame.height/2), zPosition: 1, alpha: 0.2)
             line.name = "grid"
             self.addChild(line)
         }
@@ -109,11 +109,11 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
     }
     
     func addLabel(text: String, position: CGPoint, name: String,
-                 fontSize: CGFloat = 40, fontColor: UIColor = .black, fontName: String = "Arial Bold"){
+                 fontSize: CGFloat = 40, fontColor: UIColor = UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: String = "Arial Bold"){
         let label = SKLabelNode(position: CGPoint(x:position.x,y:position.y),
                                 zPosition: 4,
                                 text: text,
-                                fontColor: .black,
+                                fontColor: fontColor,
                                 fontName: fontName,fontSize: fontSize,
                                 verticalAlignmentMode: .center,horizontalAlignmentMode: .center)
         label.name = name
@@ -214,7 +214,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
                  position: CGPoint(
                         x:self.frame.width*CGFloat(xPercent)/100.0,
                         y:self.frame.height*CGFloat(yPercent)/100.0),
-                 name: "text",fontSize: fontSize, fontColor: .black, fontName: "Arial Bold")
+                 name: "text",fontSize: fontSize, fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold")
     }
     
     func timerInterval(interval: Double, repeats : Bool = true){

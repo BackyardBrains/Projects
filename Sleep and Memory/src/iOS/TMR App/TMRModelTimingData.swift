@@ -19,15 +19,13 @@ class TMRModelTimingData:TMRModel{
     var cueing = UITextField()
     
     var next = SKSpriteNode()
+    var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "TMR Session Times (seconds)", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
-        
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        screen.addChild(bg)
         
         training = UITextField(text: "", placeholder: "Training Display Time (default 3)", font: "Arial Bold", fontSize: 300, textColor: .black, textAlignment: .center, border: .roundedRect, adjustToFit: false, rect: CGRect(x: view.frame.width/4, y: view.frame.height*0.3, width: screen.frame.width/2.2, height: screen.frame.width/20))
         training.center = CGPoint(x:view.frame.width/4, y: view.frame.height*0.3)
@@ -45,8 +43,19 @@ class TMRModelTimingData:TMRModel{
         cueing.center = CGPoint(x:view.frame.width*0.75, y: view.frame.height*0.42)
         view.addSubview(cueing)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        if context.setupPassed[2]{
+            training.text = String(context.project.getGuiSetting().getTrainingInterval())
+            trainingStop.text = String(context.project.getGuiSetting().getInterTrainingInterval())
+            testing.text = String(context.project.getGuiSetting().getTestingInterval())
+            cueing.text = String(context.project.getGuiSetting().getSleepInterval())
+        }
+        
+        
+        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(next)
+        
+        prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
         
     }
     
@@ -56,7 +65,15 @@ class TMRModelTimingData:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if prev.contains(position){
+            training.removeFromSuperview()
+            trainingStop.removeFromSuperview()
+            testing.removeFromSuperview()
+            cueing.removeFromSuperview()
+            context.nextModel = .ExpData
+        }
         if next.contains(position){//3135
+            context.setupPassed[2] = true
             if let p = training.text{
                 if let t = Int(p){
                     let setting = context.project.getGuiSetting()
