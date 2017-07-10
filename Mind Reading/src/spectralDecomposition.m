@@ -1,49 +1,74 @@
 %_____Spectral Decomposition____________________________________________
 
 
-function [processedSubsampledResultSB, processedLowFreqPSB,newDatumSB] = spectralDecompostion(eegdataSB, f1SB) 
+function [newDatumSB] = spectralDecompostion(eegdataSB, f1SB) 
 
 % figure;
 % title('Chanel 1');
 % spectrogram(eegdataSB(:,1),1666,1600,1666,1666);
 [s,f,t] = spectrogram(eegdataSB(:,1),1666,1600,1666,1666);
 p = abs(s);
+an = angle(s);
 lowFreqP1SB = p(2:2:127,:)+p(3:2:128,:);
 lowFreqP1SB = lowFreqP1SB./2;
+lowFreqA1SB = an(2:2:127,:)+an(3:2:128,:);
+lowFreqA1SB = lowFreqA1SB./2;
 
 % figure;
 % title('Chanel 2');
 % spectrogram(eegdataSB(:,2),1666,1600,1666,1666);
 [s,f,t] = spectrogram(eegdataSB(:,2),1666,1600,1666,1666);
 p = abs(s);
+an = angle(s);
 lowFreqP2SB = p(2:2:127,:)+p(3:2:128,:);
 lowFreqP2SB = lowFreqP2SB./2;
+lowFreqA2SB = an(2:2:127,:)+an(3:2:128,:);
+lowFreqA2SB = lowFreqA2SB./2;
 
 % figure;
 % title('Chanel 3');
 % spectrogram(eegdataSB(:,3),1666,1600,1666,1666)
 [s,f,t] = spectrogram(eegdataSB(:,3),1666,1600,1666,1666);
 p = abs(s);
+an = angle(s);
 lowFreqP3SB = p(2:2:127,:)+p(3:2:128,:);
 lowFreqP3SB = lowFreqP3SB./2;
+lowFreqA3SB = an(2:2:127,:)+an(3:2:128,:);
+lowFreqA3SB = lowFreqA3SB./2;
 
 % figure;
 % title('Chanel 4');
 % spectrogram(eegdataSB(:,4),1666,1600,1666,1666)
 [s,f,t] = spectrogram(eegdataSB(:,4),1666,1600,1666,1666);
 p = abs(s);
+an = angle(s);
 lowFreqP4SB = p(2:2:127,:)+p(3:2:128,:);
 lowFreqP4SB = lowFreqP4SB./2;
+lowFreqA4SB = an(2:2:127,:)+an(3:2:128,:);
+lowFreqA4SB = lowFreqA4SB./2;
 
 % figure;
 % title('Chanel 5')
 % spectrogram(eegdataSB(:,5),1666,1600,1666,1666)
 [s,f,t] = spectrogram(eegdataSB(:,5),1666,1600,1666,1666);
 p = abs(s);
+an = angle(s);
 lowFreqP5SB = p(2:2:127,:)+p(3:2:128,:);
 lowFreqP5SB = lowFreqP5SB./2;
+lowFreqA5SB = an(2:2:127,:)+an(3:2:128,:);
+lowFreqA5SB = lowFreqA5SB./2;
 
 lowFreqPSB = [lowFreqP1SB;lowFreqP2SB;lowFreqP3SB;lowFreqP4SB;lowFreqP5SB];
+lowFreqASB = [lowFreqA1SB;lowFreqA2SB;lowFreqA3SB;lowFreqA4SB;lowFreqA5SB];
+
+tempo = [];
+lowFreqSB = [];
+for k=1:length(lowFreqASB)
+    tempo = [ lowFreqPSB(:,k); lowFreqASB(:,k)];
+    tempo(:);
+    lowFreqSB = [ lowFreqSB tempo];
+end
+
 
 result = zeros(1,length(f1SB));
 
@@ -85,7 +110,7 @@ subsampledResultSB = result(round(indexes));
 datumSB = [subsampledResultSB; lowFreqPSB];
 
 processDatum = [];
-for k = 1:length(datumSB)/2
+for k = 1:length(datumSB)
     if datumSB(1,k)==1
         processDatum = [processDatum datumSB(:,k)];
     elseif datumSB(1,k)==2
