@@ -289,7 +289,7 @@ void loop()
 {
   if(fileOpen){
     if(counter >= limit){
-      if(!hasSaved){
+      if(!hasSaved || !doRecord){
         makeHeader(myFile.size());
         myFile.flush();
         myFile.close();
