@@ -25,18 +25,16 @@ class RandomNumberGenerator {
         return retNumbers
     }
     
-    static func generateRandomPositions(rangeX:Int, rangeY:Int, sampleSize:Int) ->[(Int,Int)] {
+    static func generateRandomPositions(rangeX:(Int,Int), rangeY:(Int,Int), sampleSize:Int) ->[(Int,Int)] {
         var retPositions = [(Int, Int)]()
         
-        for i in 0..<sampleSize {
-            let randomX = Int(arc4random_uniform(UInt32(rangeX)))
-            let randomY = Int(arc4random_uniform(UInt32(rangeY)))
+        for _ in 0..<sampleSize {
+            let randomX = Int(arc4random_uniform(UInt32(rangeX.1-rangeX.0))) + Int(rangeX.0)
+            let randomY = Int(arc4random_uniform(UInt32(rangeY.1-rangeY.0))) + Int(rangeY.0)
             retPositions.append((randomX, randomY))
         }
         return retPositions
     }
-    
-    
 }
 
 extension MutableCollection where Indices.Iterator.Element == Index {

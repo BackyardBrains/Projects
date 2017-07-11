@@ -190,7 +190,7 @@ class TMRModelTesting : TMRModel {
             screen.clearScreen()
             screen.addGrid()
             if ( context.currentModel == .Testing ) {
-                screen.showImage(path: prevPicture, x: prevX, y: prevY, sound: prevSound!)
+                screen.showImage(path: prevPicture, position: CGPoint(x:prevX,y:prevY), sound: prevSound!)
             }
             let (touched,distance,percent,cm) = screen.isTouched(pos: position, x: prevX, y: prevY)
             if touched {

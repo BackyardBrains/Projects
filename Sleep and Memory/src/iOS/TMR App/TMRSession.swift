@@ -25,7 +25,7 @@ class Session:EVObject{
     var testing:[Testing] = []
     var treatment:Treatment
     
-    init(project:TMRProject,screen:TMRScreen){
+    init(project:TMRProject){
         projectName = project.getTMRProjectName()
         subject = project.getSubject()
         experimenter = project.getExperimenter()
@@ -38,7 +38,7 @@ class Session:EVObject{
         version = Version(project: project)
         
         for num in project.getResourceIndexEntries(){
-            let target = Target(project: project, ID: num,screen:screen)
+            let target = Target(project: project, ID: num)
             targets.append(target)
         }
 
@@ -78,12 +78,12 @@ class Target:EVObject{
     var x:Float = 0
     var y:Float = 0
     
-    init(project:TMRProject,ID:Int,screen:TMRScreen){
+    init(project:TMRProject,ID:Int){
         targetID = ID
         picture = "p\(ID+1)"
         sound = "s\(ID+1)"
-        x = Float(project.getPosition(resourceIndex: ID).0)*Float(screen.width)/Float(project.getGuiSetting().getNumColumns())+2.0
-        y = Float(project.getPosition(resourceIndex: ID).1)*Float(screen.height)/Float(project.getGuiSetting().getNumRows())+2.0
+        x = Float(project.getPosition(resourceIndex: ID).0)
+        y = Float(project.getPosition(resourceIndex: ID).1)
     }
     
     required convenience init?(coder: NSCoder) {

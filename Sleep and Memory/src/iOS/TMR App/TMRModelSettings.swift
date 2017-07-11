@@ -20,7 +20,7 @@ class TMRModelSettings : TMRModel  {
         let label = SKLabelNode(position: CGPoint(x:screen.width/2,y:screen.height/2), zPosition: 1, text: "load testing data...", fontColor: UIColor(red:170/255,green:177/255,blue:190/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         screen.addChild(label)
         screen.timerInterval(interval: 0.0)
-        dbLoad(context: context)
+        dbLoad(screen: screen, context: context)
         screen.timerInterval(interval: 0.5) // trig callback for model transition
     }
     
@@ -44,7 +44,7 @@ class TMRModelSettings : TMRModel  {
         TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
     }
     
-    func dbLoad(context: TMRContext){
+    func dbLoad(screen : TMRScreen, context: TMRContext){
 
         let settings = context.project.getGuiSetting()
         let resource = context.project.getTMRResource()
@@ -62,8 +62,8 @@ class TMRModelSettings : TMRModel  {
         
         // create position list
         let posList = RandomNumberGenerator.generateRandomPositions(
-            rangeX: settings.getNumColumns(),
-            rangeY: settings.getNumRows(),
+            rangeX: (Int(screen.imgSize/2),Int(screen.width-screen.imgSize)),
+            rangeY: (Int(screen.imgSize/2),Int(screen.height-screen.imgSize)),
             sampleSize: settings.getSampleSize())
         //print("posList \(posList)")
         

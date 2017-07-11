@@ -141,7 +141,7 @@ class TMRModelControl : TMRModel {
             screen.timerInterval(interval: 0.1, repeats: true)
             counter += 1
             context.project.setCueTimeBegin(time: Date())
-        }else if counter == 1000000000000{//gameover
+        }else if counter == 1000000000{//gameover
             screen.clearNode("f")
             if context.controlModel == 4{
                 context.nextModel = .Retest
@@ -222,7 +222,7 @@ class TMRModelControl : TMRModel {
             
         }
         if durationCounter == duration*10{
-            counter = 1000000000000 //trillion
+            counter = 1000000000 //billion
             screen.timerInterval(interval: 0)
             //feedback
             feedback(screen:screen,context:context)

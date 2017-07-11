@@ -27,6 +27,12 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
             return self.frame.height
         }
     }
+    
+    var imgSize : CGFloat {
+        get {
+            return max(self.frame.height,self.frame.width) * 0.125
+        }
+    }
 
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x:0,y:0)
@@ -135,14 +141,10 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         print("showImage: \(path) \(position)\n \(sound)")
         let settings = context.project.getGuiSetting()
         
-        //Configure the picture
-        let pictureWidth = self.frame.width/CGFloat(settings.getNumColumns())
-        let pictureHeight = self.frame.height/CGFloat(settings.getNumRows())
-        
         let node = SKSpriteNode(imageName: path,
-                                width: pictureWidth-2, height: pictureHeight-2,
+                                width: imgSize-2, height: imgSize-2,
                                 anchorPoint: CGPoint(x:0,y:0),
-                                position: CGPoint(x:position.x-pictureWidth/2+2,y:position.y-pictureHeight/2+2) ,
+                                position: CGPoint(x:position.x-imgSize/2+2,y:position.y-imgSize/2+2) ,
                                 zPosition: 1, alpha: 1)
         node.name = name
         self.addChild(node)
@@ -153,27 +155,6 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
             player.play()
         }catch {}
     }
-
-    // x,y are position in grid
-    func showImage(path: String, x: Int, y: Int, sound : URL, name:String = "image"){
-        print("showImage: \(path) \(x) \(y)\n \(sound)")
-        let settings = context.project.getGuiSetting()
-        
-        //Configure the picture
-        let pictureWidth = self.frame.width/CGFloat(settings.getNumColumns())
-        let pictureHeight = self.frame.height/CGFloat(settings.getNumRows())
-
-        let node = SKSpriteNode(imageName: path, width: pictureWidth-2, height: pictureHeight-2, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:CGFloat(x)*pictureWidth+2,y:CGFloat(y)*pictureHeight+2), zPosition: 1, alpha: 1)
-        node.name = name
-        self.addChild(node)
-        
-        do {
-            let soundLoad = try AVAudioPlayer(contentsOf: sound)
-            player = soundLoad
-            player.play()
-        }catch {}
-    }
-    
     
     func getAudioURL(path: String) -> URL? {
         if let path = Bundle.main.path(forResource: path, ofType:nil) {

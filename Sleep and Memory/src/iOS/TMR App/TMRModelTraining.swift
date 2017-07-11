@@ -50,7 +50,7 @@ class TMRModelTraining : TMRModel {
             let picture = context.project.getPictureName(resourceIndex: resIndex)
             let sound = context.project.getAudioUrl(resourceIndex: resIndex)
             let (x,y) = context.project.getPosition(resourceIndex: resIndex)
-            screen.showImage(path: picture, x: x, y: y, sound: sound!)
+            screen.showImage(path: picture, position: CGPoint(x:x,y:y), sound: sound!)
             context.curIdx = context.curIdx + 1
             screen.timerInterval(interval: Double(context.project.getGuiSetting().getTrainingInterval()), repeats : false)
         }

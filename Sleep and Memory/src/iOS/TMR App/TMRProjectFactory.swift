@@ -124,7 +124,7 @@ class TMRProjectFactory {
     static func exportProjectToFile(project: TMRProject, screen:TMRScreen) -> String {
         print("Entering exportProjectToFile")
         var retString = "default"
-        var tmrSession = Session(project: project,screen:screen)
+        var tmrSession = Session(project: project)
         let file = "\(project.getTMRProjectName())Exported.project.txt"
         let session = tmrSession.toJsonString()
         print("Exiting exportProjectToFile")
