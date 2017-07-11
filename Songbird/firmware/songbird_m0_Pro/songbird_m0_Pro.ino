@@ -46,6 +46,7 @@ void dateTime(uint16_t* date, uint16_t* time) {
 File myFile;
 String filename = "BIRD0.WAV";
 int fileNum = 0;
+bool fileOpen = 0;
 
 void sdInit(){
   Serial.begin(9600);
@@ -64,6 +65,8 @@ void sdInit(){
   }
   else{
     myFile.seek(44);
+    fileOpen = 1;
+    digitalWrite(13, fileOpen);
   }
 
   Serial.end();
@@ -234,12 +237,20 @@ uint32_t Status = 0x00000000;
 uint32_t ulPin = A1;      //This is the analog pin to read
 uint32_t val = 0;           // variable to store the value read
 
+
+bool doRecord = 1;
+
+void recordToggle(){
+  doRecord = !doRecord;
+}
+
 void setup()
 {
   rtc.begin();
   SD.begin(8);
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
+  pinMode(13, OUTPUT);
 
   //###################################################################################
   // ADC setup stuff
@@ -264,6 +275,7 @@ void setup()
 
   pinMode(7, INPUT);
   startTimer(sampleRate);
+  attachInterrupt(digitalPinToInterrupt(12), recordToggle, CHANGE);
 }
 
 
@@ -275,38 +287,47 @@ int newPos;
 bool hasSaved = 1;
 void loop()
 {
-  if(counter >= limit){
-    if(!hasSaved){
-      makeHeader(myFile.size());
-      myFile.flush();
-      myFile.close();
-      sdInit();
-      hasSaved = 1;
-    }
-  }
-  else{
-    hasSaved = 0;
-    int numBytes = anaHead - sdHead;
-    if(numBytes >0){
-      //digitalWrite(5, HIGH);
-      myFile.write(sdHead, numBytes);
-      //digitalWrite(5,LOW);
-      sdHead += numBytes;
-    }
-    else
-    {
-      if(numBytes!=0)
-      {
-        numBytes += BUFFER_SIZE;
-        curHeadPos = sdHead - &buffer[0];
-        newPos = numBytes - (BUFFER_SIZE - curHeadPos);
-        //digitalWrite(5, HIGH);
-        myFile.write(&buffer[curHeadPos], BUFFER_SIZE - curHeadPos);
-        myFile.write(&buffer[0], newPos);
-        //digitalWrite(5, LOW);
-        sdHead = &buffer[newPos];
+  if(fileOpen){
+    if(counter >= limit){
+      if(!hasSaved || !doRecord){
+        makeHeader(myFile.size());
+        myFile.flush();
+        myFile.close();
+        fileOpen = 0;
+        digitalWrite(13, fileOpen);
+        if(doRecord){
+          sdInit();
+        }
+        hasSaved = 1;
       }
     }
+    else{
+      hasSaved = 0;
+      int numBytes = anaHead - sdHead;
+      if(numBytes >0){
+        //digitalWrite(5, HIGH);
+        myFile.write(sdHead, numBytes);
+        //digitalWrite(5,LOW);
+        sdHead += numBytes;
+      }
+      else
+      {
+        if(numBytes!=0)
+        {
+          numBytes += BUFFER_SIZE;
+          curHeadPos = sdHead - &buffer[0];
+          newPos = numBytes - (BUFFER_SIZE - curHeadPos);
+          //digitalWrite(5, HIGH);
+          myFile.write(&buffer[curHeadPos], BUFFER_SIZE - curHeadPos);
+          myFile.write(&buffer[0], newPos);
+          //digitalWrite(5, LOW);
+          sdHead = &buffer[newPos];
+        }
+      }
+    }
+  }
+  else if(doRecord){
+    sdInit();
   }
 }
 
