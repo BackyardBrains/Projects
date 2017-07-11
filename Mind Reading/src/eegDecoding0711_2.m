@@ -4,86 +4,111 @@ single = 1;
 all = 2;
 eegdata = data(single);
 f1 = diff(eegdata(1:end, 6))<-std(diff(eegdata(1:end, 6)));
-% eegdata = data(all);
-%[classes, intervals]  = preprocessing(eegdata, f1);
-%initialData = [classes' intervals']';
-% [classesAveraged, averaged] = averagingvectors(classes, intervals);
-% averagedData = [classesAveraged' averaged']';
-% kmeans(classesAveraged, averaged);
+
 ratio = 0.9;
-[newDatumSB] = spectralDecomposition(eegdata, f1);      
+[newDatumSB] = spectralDecomposition(eegdata, f1); 
+divIndex = ceil(ratio*length(f1));
+
+classThatWeTest = 1;%face
 
 
-trim1 = [];
-trim0 = [];
-for k = 1:length(newDatumSB)
-    if newDatumSB(1,k) == 1
-        trim1 = [trim1 newDatumSB(:,k)];
-    else
-        trim0 = [trim0 newDatumSB(:,k)];
-    end
-end 
-rando = randperm(length(trim1));
-trimmed0 = trim0(:,rando);
-mergedData = [trim1'; trim0']';
-rando2 = randperm(length(mergedData));
-trimmedData = mergedData(:,rando2);
+bulkTrainingInputs = newDatumSB(:,1:divIndex);
+bulkTrainingOutputs = f1(1:divIndex);
+bulkTestInputs = newDatumSB(:,divIndex+1:end);
+bulkTestOutputs = f1(divIndex+1:end);
 
-targets = trimmedData(1,:)';
+oneClassTrainingInputs = bulkTrainingInputs(:,find(bulkTrainingOutputs==classThatWeTest));
+bulkZerosClassTrainingInputs = bulkTrainingInputs(:,find(bulkTrainingOutputs~=classThatWeTest));
+numberOfOnesInTraining = size(oneClassTrainingInputs,2);
+zerosClassTrainingInputs = bulkZerosClassTrainingInputs(:,randperm(numberOfOnesInTraining));
+
+trainingInputs = [oneClassTrainingInputs zerosClassTrainingInputs];
+trainingTargets = [ones(1,size(oneClassTrainingInputs,2)) zeros(1,size(zerosClassTrainingInputs,2))];
 
 
-newTargets1 = targets;
-newTargets1(newTargets1~=1) = 0;
-newTargets2 = targets;
-newTargets2(newTargets2~=2) = 0;
-newTargets2(newTargets2==2) = 1;
-newTargets3 = targets;
-newTargets3(newTargets3~=3) = 0;
-newTargets3(newTargets3==3) = 1;
-newTargets4 = targets;
-newTargets4(newTargets4~=4) = 0;
-newTargets4(newTargets4==4) = 1;
+oneClassTestInputs = bulkTestInputs(:,find(bulkTestOutputs==classThatWeTest));
+bulkZerosClassTestInputs = bulkTestInputs(:,find(bulkTestOutputs~=classThatWeTest));
+numberOfOnesInTest = size(oneClassTestInputs,2);
+zerosClassTestInputs = bulkZerosClassTestInputs(:,randperm(numberOfOnesInTest));
+
+testInputs = [oneClassTestInputs zerosClassTestInputs];
+testTargets = [ones(1,size(oneClassTestInputs,2)) zeros(1,size(zerosClassTestInputs,2))];
 
 
-trainingTargets1 = newTargets1(1:round(length(newTargets1))*ratio);
-testTargets1 = newTargets1(round(length(newTargets1)*ratio)+1:end);
-trainingTargets2 = newTargets2(1:round(length(newTargets2))*ratio);
-testTargets2 = newTargets2(round(length(newTargets2)*ratio)+1:end);
-trainingTargets3 = newTargets3(1:round(length(newTargets3))*ratio);
-testTargets3 = newTargets3(round(length(newTargets3)*ratio)+1:end);
-trainingTargets4 = newTargets4(1:round(length(newTargets4))*ratio);
-testTargets4 = newTargets4(round(length(newTargets4)*ratio)+1:end);
 
-inputs = trimmedData(2:end,:)';
-trainingInputs = inputs(1:round(size(inputs,1))*ratio,:);
-testInputs = inputs(round(size(inputs,1)*ratio)+1:end,:);
-% lengthOfData = size(newDatumSB,2);
-% var = round(lengthOfData*ratio);
-% trainingData = newDatumSB(:,1:var);
-% testData = newDatumSB(:, var+1:end);
-% [trainedClassifier, validationAccuracy] = lsvm(trainingData);
-% class1 = targets;
-% class1(class1~=1) = 0;
-% trainingTargets1 = class1(1:length(class1)*ratio);
-% testTargets1 = class1(round(length(inputs)*ratio)+1:end);
-% class2 = targets;
-% class2(class2~=2) = 0;
-% class2(class2==2) = 1;
-% trainingTargets2 = class2(1:length(class2)*ratio);
-% testTargets2 = class2(round(length(inputs)*ratio)+1:end);
-% class3 = targets;
-% class3(class3~=3) = 0;
-% class3(class3==3) = 1;
-% trainingTargets3 = class3(1:length(class3)*ratio);
-% testTargets3 = class3(round(length(inputs)*ratio)+1:end);
-% class4 = targets;
-% class4(class4~=1) = 0;
-% class4(class4==4) = 1;
-% trainingTargets4 = class4(1:length(class4)*ratio);
-% testTargets4 = class4(round(length(inputs)*ratio)+1:end);
-
-x = inputs';
-t = newTargets4';
+% 
+% 
+% 
+% trim1 = [];
+% trim0 = [];
+% for k = 1:length(newDatumSB)
+%     if newDatumSB(1,k) == 1
+%         trim1 = [trim1 newDatumSB(:,k)];
+%     else
+%         trim0 = [trim0 newDatumSB(:,k)];
+%     end
+% end 
+% rando = randperm(length(trim1));
+% trimmed0 = trim0(:,rando);
+% mergedData = [trim1'; trim0']';
+% rando2 = randperm(length(mergedData));
+% trimmedData = mergedData(:,rando2);
+% 
+% targets = trimmedData(1,:)';
+% 
+% 
+% newTargets1 = targets;
+% newTargets1(newTargets1~=1) = 0;
+% newTargets2 = targets;
+% newTargets2(newTargets2~=2) = 0;
+% newTargets2(newTargets2==2) = 1;
+% newTargets3 = targets;
+% newTargets3(newTargets3~=3) = 0;
+% newTargets3(newTargets3==3) = 1;
+% newTargets4 = targets;
+% newTargets4(newTargets4~=4) = 0;
+% newTargets4(newTargets4==4) = 1;
+% 
+% 
+% trainingTargets1 = newTargets1(1:round(length(newTargets1))*ratio);
+% testTargets1 = newTargets1(round(length(newTargets1)*ratio)+1:end);
+% trainingTargets2 = newTargets2(1:round(length(newTargets2))*ratio);
+% testTargets2 = newTargets2(round(length(newTargets2)*ratio)+1:end);
+% trainingTargets3 = newTargets3(1:round(length(newTargets3))*ratio);
+% testTargets3 = newTargets3(round(length(newTargets3)*ratio)+1:end);
+% trainingTargets4 = newTargets4(1:round(length(newTargets4))*ratio);
+% testTargets4 = newTargets4(round(length(newTargets4)*ratio)+1:end);
+% 
+% inputs = trimmedData(2:end,:)';
+% trainingInputs = inputs(1:round(size(inputs,1))*ratio,:);
+% testInputs = inputs(round(size(inputs,1)*ratio)+1:end,:);
+% % lengthOfData = size(newDatumSB,2);
+% % var = round(lengthOfData*ratio);
+% % trainingData = newDatumSB(:,1:var);
+% % testData = newDatumSB(:, var+1:end);
+% % [trainedClassifier, validationAccuracy] = lsvm(trainingData);
+% % class1 = targets;
+% % class1(class1~=1) = 0;
+% % trainingTargets1 = class1(1:length(class1)*ratio);
+% % testTargets1 = class1(round(length(inputs)*ratio)+1:end);
+% % class2 = targets;
+% % class2(class2~=2) = 0;
+% % class2(class2==2) = 1;
+% % trainingTargets2 = class2(1:length(class2)*ratio);
+% % testTargets2 = class2(round(length(inputs)*ratio)+1:end);
+% % class3 = targets;
+% % class3(class3~=3) = 0;
+% % class3(class3==3) = 1;
+% % trainingTargets3 = class3(1:length(class3)*ratio);
+% % testTargets3 = class3(round(length(inputs)*ratio)+1:end);
+% % class4 = targets;
+% % class4(class4~=1) = 0;
+% % class4(class4==4) = 1;
+% % trainingTargets4 = class4(1:length(class4)*ratio);
+% % testTargets4 = class4(round(length(inputs)*ratio)+1:end);
+% 
+% x = inputs';
+% t = newTargets4';
 
 % Choose a Training Function
 % For a list of all training functions type: help nntrain
@@ -102,10 +127,10 @@ net.divideParam.valRatio = 10/100;
 net.divideParam.testRatio = 10/100;
 
 % Train the Network
-[net,tr] = train(net,trainingInputs',trainingTargets2');
+[net,tr] = train(net,trainingInputs,trainingTargets);
 
 % Test the Network
-y = net(testInputs');
+y = net(testInputs);
 % e = gsubtract(testTargets1',y);
 % performance = perform(net,testTargets',y)
 % tind = vec2ind(testTargets');
@@ -119,8 +144,8 @@ y = net(testInputs');
 % View the Network
 % view(net)
 
-indexesWhenClassIsON = find(testTargets2'>=0.5);
-indexesWhenClassIsOFF = find(testTargets2'<0.5);
+indexesWhenClassIsON = find(testTargets>=0.5);
+indexesWhenClassIsOFF = find(testTargets<0.5);
 thresholdedOutput = double(y>0.5);
 truePositives = thresholdedOutput(indexesWhenClassIsON);
 percentageOfTruePositives = 100*(sum(truePositives)/length(indexesWhenClassIsON))
