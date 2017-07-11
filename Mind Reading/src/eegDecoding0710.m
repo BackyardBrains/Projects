@@ -26,9 +26,19 @@ newTargets4 = targets;
 newTargets4(newTargets4~=4) = 0;
 newTargets4(newTargets4==4) = 1;
 
+
+trainingTargets1 = newTargets1(1:round(length(newTargets1))*ratio);
+testTargets1 = newTargets1(round(length(newTargets1)*ratio)+1:end);
+trainingTargets2 = newTargets2(1:round(length(newTargets2))*ratio);
+testTargets2 = newTargets2(round(length(newTargets2)*ratio)+1:end);
+trainingTargets3 = newTargets3(1:round(length(newTargets3))*ratio);
+testTargets3 = newTargets3(round(length(newTargets3)*ratio)+1:end);
+trainingTargets4 = newTargets4(1:round(length(newTargets4))*ratio);
+testTargets4 = newTargets4(round(length(newTargets4)*ratio)+1:end);
+
 inputs = newDatumSB(2:end,:)';
-trainingInputs = inputs(1:length(inputs)*ratio)';
-testInputs = inputs(round(length(inputs)*ratio)+1:end,:)';
+trainingInputs = inputs(1:round(size(inputs,1))*ratio,:);
+testInputs = inputs(round(size(inputs,1)*ratio)+1:end,:);
 % lengthOfData = size(newDatumSB,2);
 % var = round(lengthOfData*ratio);
 % trainingData = newDatumSB(:,1:var);
@@ -65,26 +75,29 @@ t = newTargets1';
 trainFcn = 'trainbr';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
-hiddenLayerSize = 10;
+hiddenLayerSize = 30;
 net = patternnet(hiddenLayerSize);
 
 % Setup Division of Data for Training, Validation, Testing
-net.divideParam.trainRatio = 10/100;
-net.divideParam.valRatio = 45/100;
-net.divideParam.testRatio = 45/100;
+net.divideParam.trainRatio = 80/100;
+net.divideParam.valRatio = 10/100;
+net.divideParam.testRatio = 10/100;
 
 % Train the Network
-[net,tr] = train(net,x,t);
+[net,tr] = train(net,trainingInputs',trainingTargets4');
 
 % Test the Network
-y = net(x);
-e = gsubtract(t,y);
-performance = perform(net,t,y)
-tind = vec2ind(t);
-yind = vec2ind(y);
-percentErrors = sum(tind ~= yind)/numel(tind)
-figure, plotperform(tr)
+y = net(testInputs');
+% e = gsubtract(testTargets1',y);
+% performance = perform(net,testTargets',y)
+% tind = vec2ind(testTargets');
+% yind = vec2ind(y);
+% percentErrors = sum(tind ~= yind)/numel(tind)
+sum(abs((testTargets4')-(y>0.5)))/length(testTargets4')
 
+1 - (sum(abs((testTargets4')-y)>0.5)/length(testTargets4'))
+% figure, plotperform(tr)
+% 1- (sum(abs(yfit-processedSubsampledResultSB')>0.5)/length(yfit));
 % View the Network
 % view(net)
 
