@@ -38,7 +38,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         self.anchorPoint = CGPoint(x:0,y:0)
         self.physicsWorld.contactDelegate = self
         
-        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        let bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: self.frame.width, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: -2, alpha: 1)
         bg.name = "bg"
         self.addChild(bg)
         
@@ -67,15 +67,34 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         let pictureHeight = self.frame.height/CGFloat(settings.getNumRows())
         //Horizontal Lines
         for num in 0...numRows{
-            let line = SKSpriteNode(color: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), width: self.frame.width, height: 2, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:self.frame.width/2,y:pictureHeight*CGFloat(num)), zPosition: 1, alpha: 0.2)
+            let line = SKSpriteNode(color: .black, width: self.frame.width, height: 2, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:self.frame.width/2,y:pictureHeight*CGFloat(num)), zPosition: 1, alpha: 1)
             line.name = "grid"
             self.addChild(line)
         }
         //Vertical Lines
         for num in 0...numCol{
-            let line = SKSpriteNode(color: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), width: 2, height: self.frame.width, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:pictureWidth*CGFloat(num),y:self.frame.height/2), zPosition: 1, alpha: 0.2)
+            let line = SKSpriteNode(color: .black, width: 2, height: self.frame.width, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:pictureWidth*CGFloat(num),y:self.frame.height/2), zPosition: 1, alpha: 1)
             line.name = "grid"
             self.addChild(line)
+        }
+    }
+    
+    func addColor(){
+        let numRows = context.project.getGuiSetting().getNumRows()
+        let numCol = context.project.getGuiSetting().getNumColumns()
+        let pictureWidth = self.frame.width/CGFloat(numCol)
+        let pictureHeight = self.frame.height/CGFloat(numRows)
+        
+        for num in 0...Int(round(Double(numRows)/2)){
+            let node = SKSpriteNode(color: UIColor(red: 128/255, green: 0, blue: 0, alpha: 1), width: self.frame.width, height: pictureHeight, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:CGFloat(2*num)*pictureHeight), zPosition: -1, alpha: 1)
+            node.name = "color"
+            self.addChild(node)
+        }
+        
+        for num in 0...Int(round(Double(numCol)/2)){
+            let node = SKSpriteNode(color: UIColor(red:70/255,green:70/255,blue:70/255,alpha:1), width: pictureWidth, height: self.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:CGFloat(2*num)*pictureWidth,y:0), zPosition: 0, alpha: 1)
+            node.name = "color"
+            self.addChild(node)
         }
     }
 
@@ -214,16 +233,11 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
     }
     
     func isTouched(pos:CGPoint, x:Int,y:Int) -> (Bool,CGFloat,CGFloat,CGFloat) {
-        let settings = context.project.getGuiSetting()
-        let gridWidth = self.frame.width/CGFloat(settings.getNumColumns())
-        let gridHeight = self.frame.height/CGFloat(settings.getNumRows())
-        let gridPos = CGPoint(x: CGFloat(x)*gridWidth+gridWidth/2.0,
-                              y: CGFloat(y)*gridHeight+gridHeight/2.0)
-        let dx = Float(pos.x-gridPos.x)
-        let dy = Float(pos.y-gridPos.y)
+        let dx = Float(pos.x-CGFloat(x))
+        let dy = Float(pos.y-CGFloat(y))
         let d = sqrt(dx*dx+dy*dy)
         let per = d/Float(max(self.frame.width,self.frame.height))*100.0
-        if per < Float(settings.getDistanceThreshold()) {
+        if per < Float(context.project.getGuiSetting().getDistanceThreshold()) {
             return (true, CGFloat(d), CGFloat(per), CGFloat(d*0.0352778) )
         }
         return (false, CGFloat(d), CGFloat(per), CGFloat(d*0.0352778))

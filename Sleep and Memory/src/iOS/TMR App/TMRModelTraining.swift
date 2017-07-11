@@ -26,6 +26,7 @@ class TMRModelTraining : TMRModel {
         
         context.project.setBeginTime(beginTime: Date())
         screen.addGrid()
+        screen.addColor()
         screen.timerInterval(interval: Double(context.project.getGuiSetting().getTrainingInterval()))
         context.curIdx = 0
     }

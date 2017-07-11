@@ -21,7 +21,8 @@ class TMRModelTesting : TMRModel {
                 //let settings = context.project.getGuiSetting()
         //let resource = context.project.getTMRResource()
         screen.clearScreen()
-        
+        screen.addGrid()
+        screen.addColor()
         
         // create training list
         var testingList = context.project.getResourceIndexEntries()
@@ -116,6 +117,7 @@ class TMRModelTesting : TMRModel {
         let pos = CGPoint(x: screen.width/2, y: screen.height/2)
         screen.clearScreen()
         screen.addGrid()
+        screen.addColor()
         screen.showImage(path: picture, position: pos, sound: sound!)
         context.curIdx = context.curIdx + 1
         screen.timerInterval(interval: 0)
@@ -189,6 +191,7 @@ class TMRModelTesting : TMRModel {
             //
             screen.clearScreen()
             screen.addGrid()
+            screen.addColor()
             if ( context.currentModel == .Testing ) {
                 screen.showImage(path: prevPicture, position: CGPoint(x:prevX,y:prevY), sound: prevSound!)
             }
