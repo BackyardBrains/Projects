@@ -51,7 +51,6 @@ class TMRModelControl : TMRModel {
         super.begin(screen: screen, context: context)
         
         bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
-        bg.name = "bg"
         screen.addChild(bg)
         
         //Duration setting
@@ -169,39 +168,55 @@ class TMRModelControl : TMRModel {
         numCounter+=1
         durationCounter+=1
         soundCounter+=1
-        if counter%2 == 1{//If odd, num 1
-            if isShow && numCounter == Int(spaceInterval*10){
-                if !hasTouched && numPair[0]%2 != numPair[1]%2{
-                    numCorrect+=1
+        let totalTime = 2*(Int(spaceInterval*10)+Int(numInterval*10))
+        if numCounter==Int(spaceInterval*10) && counter%2 == 1{
+            print("PASS")
+            print(duration*10)
+            print((numCount+1)*totalTime)
+        }
+        if numCounter==Int(spaceInterval*10) && counter%2 == 1 && (numCount+1)*totalTime >= duration*10{
+            print("feedback1")
+            counter = 1000000000 //billion
+            screen.timerInterval(interval: 0)
+            //feedback
+            feedback(screen:screen,context:context)
+        }else{
+            if counter%2 == 1{//If odd, num 1
+                
+                if isShow && numCounter == Int(spaceInterval*10){
+                    if !hasTouched && numPair[0]%2 != numPair[1]%2{
+                        numCorrect+=1
+                    }
+                    
+                    hasTouched = false
+                    bg.color = UIColor(red:40/255,green:44/255,blue:52/255,alpha:1)
+                    let num1 = Int(arc4random_uniform(100)+1)
+                    let num2 = Int(arc4random_uniform(100)+1)
+                    numPair = [num1,num2]
+                    let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.25,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[0])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+                    label.name = "n"
+                    screen.addChild(label)
+                    isShow = false
+                }else if !isShow && numCounter == Int(spaceInterval*10)+Int(numInterval*10){
+                    screen.clearNode("n")
+                    isShow = true
+                    counter+=1
+                    numCounter = 0
                 }
                 
-                hasTouched = false
-                bg.color = UIColor(red:40/255,green:44/255,blue:52/255,alpha:1)
-                let num1 = Int(arc4random_uniform(100)+1)
-                let num2 = Int(arc4random_uniform(100)+1)
-                numPair = [num1,num2]
-                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.25,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[0])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
-                label.name = "n"
-                screen.addChild(label)
-                isShow = false
-            }else if !isShow && numCounter == Int(spaceInterval*10)+Int(numInterval*10){
-                screen.clearNode("n")
-                isShow = true
-                counter+=1
-                numCounter = 0
-            }
-        }else{//If even, num 2
-            if isShow && numCounter == Int(spaceInterval*10){
-                let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.75,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[1])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
-                label.name = "n"
-                screen.addChild(label)
-                isShow = false
-            }else if !isShow && numCounter == Int(spaceInterval*10)+Int(numInterval*10){
-                screen.clearNode("n")
-                isShow = true
-                counter+=1
-                numCount+=1
-                numCounter = 0
+            }else{//If even, num 2
+                if isShow && numCounter == Int(spaceInterval*10){
+                    let label = SKLabelNode(position: CGPoint(x:screen.frame.width*0.75,y:screen.frame.height/2), zPosition: 1, text: "\(numPair[1])", fontColor: .white, fontName: "Arial Bold", fontSize: 90, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+                    label.name = "n"
+                    screen.addChild(label)
+                    isShow = false
+                }else if !isShow && numCounter == Int(spaceInterval*10)+Int(numInterval*10){
+                    screen.clearNode("n")
+                    isShow = true
+                    counter+=1
+                    numCount+=1
+                    numCounter = 0
+                }
             }
         }
         
@@ -221,7 +236,8 @@ class TMRModelControl : TMRModel {
             isCueing = true
             
         }
-        if durationCounter == duration*10{
+        if durationCounter >= duration*10{
+            print("feedback2")
             counter = 1000000000 //billion
             screen.timerInterval(interval: 0)
             //feedback
@@ -232,6 +248,10 @@ class TMRModelControl : TMRModel {
     func feedback(screen:TMRScreen,context:TMRContext){
         screen.clearNode("n")
         screen.clearNode("g")
+        
+        bg = SKSpriteNode(color: UIColor(red:40/255,green:44/255,blue:52/255,alpha:1), width: screen.frame.width, height: screen.frame.height, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:0,y:0), zPosition: 0, alpha: 1)
+        screen.addChild(bg)
+        
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.95), zPosition: 1, text: "Feedback", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         title.name = "f"
         screen.addChild(title)
