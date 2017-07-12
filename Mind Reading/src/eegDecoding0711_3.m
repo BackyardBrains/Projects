@@ -1,12 +1,12 @@
 
-clear all; close all; clc; clear Workspace;
+clear; close all; clc; clear Workspace;
 
 single = 1;
 all = 2;
 eegdata = data(single);
 f1 = diff(eegdata(1:end, 6))<-std(diff(eegdata(1:end, 6)));
 
-ratio = 0.9;
+ratio = 0.8;
 [newDatumSB] = spectralDecomposition(eegdata, f1); 
 divIndex = ceil(ratio*length(newDatumSB));
 
@@ -16,6 +16,10 @@ bulkTrainingInputs = newDatumSB(2:end,1:divIndex);
 bulkTrainingOutputs = newDatumSB(1,1:divIndex);
 bulkTestInputs = newDatumSB(2:end,divIndex+1:end);
 bulkTestOutputs = newDatumSB(1,divIndex+1:end);
+
+
+
+
 
 oneClassTrainingInputs = bulkTrainingInputs(:,find(bulkTrainingOutputs==classThatWeTest));
 bulkZerosClassTrainingInputs = bulkTrainingInputs(:,find(bulkTrainingOutputs~=classThatWeTest));
@@ -38,13 +42,13 @@ testTargets = [ones(1,size(oneClassTestInputs,2)) zeros(1,size(zerosClassTestInp
 trainFcn = 'trainbr';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
-hiddenLayerSize = 30;
+hiddenLayerSize = 10;
 net = patternnet(hiddenLayerSize);
 
 % Setup Division of Data for Training, Validation, Testing
-net.divideParam.trainRatio = 80/100;
-net.divideParam.valRatio = 10/100;
-net.divideParam.testRatio = 10/100;
+net.divideParam.trainRatio = 60/100;
+net.divideParam.valRatio = 20/100;
+net.divideParam.testRatio = 20/100;
 
 % Train the Network
 [net,tr] = train(net,trainingInputs,trainingTargets);
