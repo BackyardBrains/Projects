@@ -3,7 +3,19 @@ clear; close all; clc; clear Workspace;
 
 single = 1;
 all = 2;
-eegdata = data(single);
+%eegdata = data(single);
+
+eegdata = audioread('../data/Joud_long.wav');
+
+
+eegdata(1:end, 1) = - eegdata(1:end, 1);
+eegdata(1:end, 2) = eegdata(1:end, 2);
+eegdata(1:end, 5) = - eegdata(1:end, 5);
+for k=1:5
+   eegdata(1:end, k) = (eegdata(1:end, k) - mean(eegdata(1:end, k)))/std(eegdata(1:end, k));
+end
+
+
 f1 = diff(eegdata(1:end, 6))<-std(diff(eegdata(1:end, 6)));
 
 ratio = 0.8;
