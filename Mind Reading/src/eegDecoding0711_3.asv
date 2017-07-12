@@ -20,7 +20,7 @@ f1 = diff(eegdata(1:end, 6))<-std(diff(eegdata(1:end, 6)));
 
 ratio = 0.8;
 [newDatumSB] = spectralDecomposition(eegdata, f1); 
-
+newDatumSB = newDatumSB(:,1:1500);
 divIndex = ceil(ratio*length(newDatumSB));
 
 classThatWeTest = 1;%face
