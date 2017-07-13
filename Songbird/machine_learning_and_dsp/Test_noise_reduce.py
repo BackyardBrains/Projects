@@ -1,5 +1,6 @@
 from noise_removal import noiseCleaner
 
-rootdir = "/home/zach/Documents/cleaner_test"
-new_cleaner = noiseCleaner(smoothingWindow=0.1, weight=0.3, sensitivity=0.3, num_threads=1)
-new_cleaner.noise_removal_dir(rootdir)
+if __name__ == '__main__':
+    rootdir = "D:\\ML Recordings\\Cornell_trimmed"
+    new_cleaner = noiseCleaner(verbose=True, num_threads=0)
+    new_cleaner.noise_removal_dir(rootdir)

@@ -131,7 +131,7 @@ class noiseCleaner:
         wav_files = []
         for root, dirs, files in os.walk(rootdir):
             for file in files:
-                if file.endswith('.wav'):
+                if file.endswith('.wav') or file.endswith('.WAV'):
                     wav_files.append(os.path.join(root, file))
                     num_samples_processed += 1
                     if not num_threads:
