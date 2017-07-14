@@ -18,4 +18,5 @@ def train_and_test(list_of_dirs, test_dirs, mtWin=1.0, mtStep=1.0,
     # automatically trains a new model and then tests it using a seperate dataset, see test_model.py
     train_model(list_of_dirs, mtWin, mtStep, stWin, stStep, classifierType, modelName, useBeatmap)
     t1 = tester(test_dirs, modelName=modelName, classifierType=classifierType)
+    t1.test_model()
     # send_notification('test and train complete') #sms notification; see twillio_test.py
