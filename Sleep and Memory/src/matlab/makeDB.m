@@ -2,7 +2,7 @@ function [ out ] = makeDB( varargin )
 %MAKESPIKEDB Summary of this function goes here
 %   Detailed explanation goes here
 
-TargetDir = {'data'};
+TargetDir = {'Nap+Cues+Good_Use'};
 
 for iDir = 1 : length(TargetDir)
     if TargetDir{iDir}(1) == '\'
@@ -35,7 +35,6 @@ end
 s = {};
 
 jsonfiles = dir([TargetDir{1} '/*.json'])
-% jsonfiles = dir('data');
 
 disp( ['Found ' num2str(length(jsonfiles)) ' sessions.']);
 
@@ -52,15 +51,15 @@ for iSession = 1:length(jsonfiles)
                 
                 s.subject = jsonfiles(iSession).name(1:end-5);
 
-                %allCuedImages = (d.treatment.cuedTargetIDs);
+               
                 isCued = structfun(@(x) (strcmp( x.isTargeted, 'True')), d.tmrEntries, 'UniformOutput', false);
                 s.treatment.cuedTargetIDs = find(struct2array( isCued ));
 
-                %allUnCuedImages = (d.treatment.uncuedTargetIDs);
+      
                 s.treatment.uncuedTargetIDs = find(struct2array( isCued )==0);
 
                 preNap = struct2array(structfun(@(x) (str2num(x.distanceBeforeSleep)), d.tmrEntries, 'UniformOutput', false));
-                %trialsForPreNapNoFeedback = d.testing{3}.trials;
+               
                 for iTrial = 1:size(preNap,2)
                     trials{iTrial}.targetID = iTrial;
                     trials{iTrial}.preNap = 1;
@@ -70,7 +69,7 @@ for iSession = 1:length(jsonfiles)
                 s.testing{3}.trials = trials;
                 trials = [];
 
-                %trialsForPostNapNoFeedback = d.testing{4}.trials
+                
                 postNap = struct2array(structfun(@(x) (str2num(x.distanceAfterSleep)), d.tmrEntries, 'UniformOutput', false));
                 for iTrial = 1:size(postNap,2)
                     trials{iTrial}.targetID = iTrial;
