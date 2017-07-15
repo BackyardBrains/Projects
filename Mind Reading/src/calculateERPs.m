@@ -13,29 +13,41 @@ function [ s ] = calculateERPs( s )
     
     for iType = 1:length(pictureTypes)
 
-        eval(['ts = s.timestamps.' pictureTypes{iType} ';']);
+        for iSegment = 1:length(s.timestamps.segmentBegin)
         
-        for iPicture = 1:length(ts)
+           % eval(['ts = s.timestamps.' pictureTypes{iType} ';']);
+            eval(['ts = s.timestamps.' pictureTypes{iType} '( s.timestamps.' pictureTypes{iType} ' > s.timestamps.segmentBegin(iSegment) & s.timestamps.' pictureTypes{iType} ' <= s.timestamps.segmentEnd(iSegment) );']);
+            for iPicture = 1:length(ts)
 
-            tStart = round((ts(iPicture) + timeWindow(1)) *s.fs);
-            tEnd = tStart + round((timeWindow(2)-timeWindow(1)) * s.fs);
+                tStart = round((ts(iPicture) + timeWindow(1)) *s.fs);
+                tEnd = tStart + round((timeWindow(2)-timeWindow(1)) * s.fs);
 
-            %if removeMean 
-            %    m = mean(s.eeg(tStart:tEnd,:),1);
-            %    mMat = repmat(m, [size(s.eeg(tStart:tEnd,:),1),1]);
-            %    e(iPicture, :, :) = s.eeg( tStart : tEnd, : ) - mMat; 
-            %else
-            e(iPicture, :, :) = s.eeg( tStart : tEnd, : );
-            %end
-            
-            
-            
+                %if removeMean 
+                %    m = mean(s.eeg(tStart:tEnd,:),1);
+                %    mMat = repmat(m, [size(s.eeg(tStart:tEnd,:),1),1]);
+                %    e(iPicture, :, :) = s.eeg( tStart : tEnd, : ) - mMat; 
+                %else
+                e(iSegment, iPicture, :, :) = s.eeg( tStart : tEnd, : );
+                %end
+
+
+                s.erp{iType }.segment{iSegment}.raw = squeeze(mean(e(iSegment,:,:,:)));
+                s.erp{iType }.segment{iSegment}.n = length(ts);
+                
+                %Make zscore just on the EEG data in this segment.
+                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@minus, s.erp{iType}.segment{iSegment}.raw, mean(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment) )));
+                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@rdivide, s.erp{iType}.segment{iSegment}.zscore, std(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment) )));
+        
+            end
+        
         end
         
-        s.erp{iType }.raw = squeeze(mean(e));
-        %s.erp{iType }.zscore = (s.erp{iType}.raw .- mean(s.eeg)') ./ std(s.eeg)';
+        %Calcualte the session averages
+        s.erp{iType }.raw = squeeze(mean(squeeze(mean(e))));
         s.erp{iType }.zscore = bsxfun(@minus, s.erp{iType}.raw, mean(s.eeg));
         s.erp{iType }.zscore = bsxfun(@rdivide, s.erp{iType }.zscore, std(s.eeg));
+        
+
         
         s.erp{iType }.t = linspace(  timeWindow(1),  timeWindow(2), size(  s.erp{iType }.raw, 1 ));
         eval(['s.erp{iType}.name = ''' pictureTypes{iType} ''';']);
