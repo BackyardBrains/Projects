@@ -35,8 +35,8 @@ function [ s ] = calculateERPs( s )
                 s.erp{iType }.segment{iSegment}.n = length(ts);
                 
                 %Make zscore just on the EEG data in this segment.
-                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@minus, s.erp{iType}.segment{iSegment}.raw, mean(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment) )));
-                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@rdivide, s.erp{iType}.segment{iSegment}.zscore, std(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment) )));
+                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@minus, s.erp{iType}.segment{iSegment}.raw, mean(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
+                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@rdivide, s.erp{iType}.segment{iSegment}.zscore, std(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
         
             end
         
