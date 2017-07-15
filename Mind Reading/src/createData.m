@@ -41,6 +41,16 @@ for iSession = 1:size( subdirs, 1 )
         end
         
         d.eeg = rawData(:,1:5);
+        
+        switch d.subject
+            case 'MR03'
+                d.eeg(:,2) = - d.eeg(:,2);
+                d.eeg(:,4) = - d.eeg(:,4);
+            case {'MR04', 'MR05'}
+                d.eeg(:,1) = - d.eeg(:,1);
+                d.eeg(:,5) = - d.eeg(:,5);
+        end
+        
         d.t = linspace( 0,size( rawData ,1  )/d.fs, size( rawData ,1  )); 
         d.eegLocations = {'P7', 'P8', 'C5', 'C6', 'CPz' };
         
@@ -85,6 +95,7 @@ for iSession = 1:size( subdirs, 1 )
            dsEEG(iCh,:) = decimate( d.eeg(:,iCh), 3 );
         end
         d.eeg = dsEEG';  
+        
         d.fs = d.fs/3;
         d.t = linspace( 0,size( d.eeg ,1  )/d.fs, size( d.eeg ,1  )); 
         

@@ -1,7 +1,7 @@
 function [Accuracy] = runClassifier(trainedClassifier, testInputs, testTargets)
 
 yfit = trainedClassifier.predictFcn(testInputs);
-figure; plot(yfit,'-*r'); hold on; plot(testTargets, 'b');
+%figure; plot(yfit,'-*r'); hold on; plot(testTargets, 'b');
 Accuracy = 1- (sum(abs(yfit-testTargets')>0.5)/length(yfit));
 
 % xfit =[];
