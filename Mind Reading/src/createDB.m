@@ -34,9 +34,12 @@ for iSession = 1:size( subdirs, 1 )
         wavfiles = dir([datafilepath '*.wav']);
        
         rawData = [];
+        currentSegmentBeginTime = 0;
+        segmentTimes = [currentSegmentBeginTime];
         for iWavs = 1:size( wavfiles, 1 )
             [y, d.fs] = audioread([datafilepath '/' wavfiles(iWavs).name]);
-             
+            currentSegmentBeginTime = currentSegmentBeginTime + size(y,1) / d.fs;
+            segmentTimes = [segmentTimes currentSegmentBeginTime];
             rawData = [rawData; y];
         end
         
@@ -87,7 +90,8 @@ for iSession = 1:size( subdirs, 1 )
         d.timestamps.houseOn = d.t(find( result == 2 ));
         d.timestamps.sceneryOn = d.t(find( result == 3 ));
         d.timestamps.weirdOn = d.t(find( result == 4 ));
-        
+        d.timestamps.segmentBegin = segmentTimes( 1 : end -1);
+        d.timestamps.segmentEnd = segmentTimes( 2 : end);
         %Here we can downsample d.eeg by 3
         %and change d.fs to d.fs/3.
         dsEEG = [];
