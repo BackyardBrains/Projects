@@ -1,4 +1,4 @@
-function s = createData(varargin)
+function s = createDB(varargin)
 
 TargetDir = '../data';
 
