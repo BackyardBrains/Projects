@@ -12,7 +12,8 @@ function [ s ] = calculateERPs( s )
     pictureTypes = {'faceOn' 'houseOn' 'sceneryOn' 'weirdOn'};
     
     for iType = 1:length(pictureTypes)
-
+        rawERPEEGForOneImage = [];
+        counterForERPs = 1;
         for iSegment = 1:length(s.timestamps.segmentBegin)
         
            % eval(['ts = s.timestamps.' pictureTypes{iType} ';']);
@@ -22,13 +23,14 @@ function [ s ] = calculateERPs( s )
                 tStart = round((ts(iPicture) + timeWindow(1)) *s.fs);
                 tEnd = tStart + round((timeWindow(2)-timeWindow(1)) * s.fs);
 
-                %if removeMean 
-                %    m = mean(s.eeg(tStart:tEnd,:),1);
-                %    mMat = repmat(m, [size(s.eeg(tStart:tEnd,:),1),1]);
-                %    e(iPicture, :, :) = s.eeg( tStart : tEnd, : ) - mMat; 
-                %else
+                %get raw erp responses with removed mean
+                m = mean(s.eeg(tStart:tEnd,:),1);
+                mMat = repmat(m, [size(s.eeg(tStart:tEnd,:),1),1]);
+                rawERPEEGForOneImage(counterForERPs,:,:) =  s.eeg( tStart : tEnd, : ) - mMat; 
+                counterForERPs = counterForERPs+1;
+             
                 e(iSegment, iPicture, :, :) = s.eeg( tStart : tEnd, : );
-                %end
+                
 
 
                 s.erp{iType }.segment{iSegment}.raw = squeeze(mean(e(iSegment,:,:,:)));
@@ -41,6 +43,8 @@ function [ s ] = calculateERPs( s )
             end
         
         end
+        
+        s.erp{iType }.rawEEG = rawERPEEGForOneImage;
         
         %Calcualte the session averages
         s.erp{iType }.raw = squeeze(mean(squeeze(mean(e))));
