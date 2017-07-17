@@ -59,8 +59,7 @@ for iSession = 1:size( subdirs, 1 )
                 d.eeg(:,5) = - d.eeg(:,5);
             case {'MR06'}
                 d.eeg(:,1) = - d.eeg(:,1);
-                d.eeg(:,4) = - d.eeg(:,4);
-                
+                d.eeg(:,4) = - d.eeg(:,4);      
             case {'MR07'}
                 d.eeg(:,1) = - d.eeg(:,1);
         end
