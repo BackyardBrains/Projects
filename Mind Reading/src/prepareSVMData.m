@@ -1,30 +1,51 @@
-function [ out ] = prepareSVMData(db, subjectIndex)
+function [ out ] = prepareSVMData(d, varargin)
 %Class uses raw ERP responses for subject with subjectIndex and prepare
 %training and test set for classification. 
 %Classification task is to classify face vs other image classes
 
-%we aliminate first part of EEG ERP 
-startOfImportantPart = 250;
+%we aliminate first part of EEG ERP  
+%GG.  We should index by time...
 
 selectedClass = 1;%we train network to recognize only one class vs other classes of images
 channels = [1 2 4];%we use only some of the channels
+timeWindow = [0 0.2];
+
+for iarg= 1:2:(nargin-1),   % assume an even number of varargs
+ 
+    switch lower(varargin{iarg}),
+
+        case {'t', 'tw'}
+            timeWindow = varargin{iarg+1};
+            
+        case {'channels', 'c'}
+            channels = varargin{iarg+1};
+
+        otherwise,
+
+    end % end of switch
+end % end of for iarg
+
+
+
 allSelectedClass = [];%input data for other classes 
 
+roiIndex = [min( find(d.erp{1}.t > timeWindow(1)) )
+ max( find(d.erp{1}.t < timeWindow(2)) )];
 
 %concat all selected channels in one big input vector
 %use only raw samples from startOfImportantPart to end of raw ERP
 for ch =1:length(channels)
-allSelectedClass = [allSelectedClass db{subjectIndex}.erp{selectedClass}.rawEEG(:,startOfImportantPart:end,ch)];
+allSelectedClass = [allSelectedClass d.erp{selectedClass}.trialERPs(:,roiIndex(1):roiIndex(2),ch)];
 end
 
 allOther = [];
-for class=1:4
+for class=1:length(d.erp)
     
     if(selectedClass ~= class)%for other classes of images
         
         concatedClass = [];
         for ch =1:length(channels)
-            concatedClass = [concatedClass db{subjectIndex}.erp{class}.rawEEG(:,startOfImportantPart:end,ch)];
+            concatedClass = [concatedClass d.erp{class}.trialERPs(:,roiIndex(1):roiIndex(2),ch)];
         end
         allOther = [allOther; concatedClass];
     end

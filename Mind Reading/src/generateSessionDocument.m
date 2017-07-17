@@ -9,11 +9,6 @@ function [ out ] = generateSessionDocument( d, varargin )
 pauseProgram = 0;
 saveImage = 1;
 closeImage = 1;
-blnAlreadyCreated = 0;
-FILECREATED = 0;
-isTest = 0;
-%timeWindow = [-1 1];
-timeWindow = {[-0.51 0.51], [-0.51 0.51], [-0.51 0.51], [-0.51 0.51], [-0.51 0.51],[-0.51 0.51], [-0.51 0.51], [-1 2]};
 
 for iarg= 1:2:(nargin-1),   % assume an even number of varargs
 
@@ -34,6 +29,8 @@ for iarg= 1:2:(nargin-1),   % assume an even number of varargs
                     
     end % end of switch
 end % end of for iarg
+
+FILECREATED = 0;
 
 %% Deterimine Window Heights
 % explicitly set each subplot, with no other options
@@ -74,18 +71,18 @@ for iSession = 1:size(d,2)
     set( gca, 'XTickLabel', {} );
     Ylim = get( gca, 'ylim' ); minY = Ylim(1); maxY = Ylim(2);
     ff = text( .1, 0.9 * range(Ylim) +  minY  , ['Subject: ' d{iSession}.subject ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'bold' );
-    ff = text( .1, 0.8 * range(Ylim) +  minY  , ['Total Time: ' num2str(floor(d{iSession}.t(end)/60)) 'm ' num2str(round(rem(d{iSession}.t(end),60))) 's' ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'normal' );
+    ff = text( .1, 0.8 * range(Ylim) +  minY  , ['Total Time: ' num2str(floor(d{iSession}.t(end)/60)) 'm ' num2str(round(rem(d{iSession}.t(end),60))) 's' ], 'FontName', 'Helvetica', 'FontSize', 9, 'FontWeight', 'normal' );
     
     szLoc = ''; for i=1:length(d{iSession}.eegLocations) szLoc = [szLoc num2str(i) '=' d{iSession}.eegLocations{i} ' ']; end
-    ff = text( .1, 0.7 * range(Ylim) +  minY  , ['EEG Locations: ' szLoc ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'normal' );
+    ff = text( .1, 0.7 * range(Ylim) +  minY  , ['EEG Locations: ' szLoc ], 'FontName', 'Helvetica', 'FontSize', 8, 'FontWeight', 'normal' );
     
     textPos = [0.6 0.5 0.4 0.3];
     for iERP = 1:size(d{iSession}.erp,2)
-        maxBin = bsxfun(@eq, abs(d{iSession}.erp{iERP}.zscore), max(abs(d{iSession}.erp{iERP}.zscore)));
-        maxZscore = d{iSession}.erp{iERP}.zscore(maxBin);
+        maxBin = bsxfun(@eq, abs(d{iSession}.erp{iERP}.zscoreERP), max(abs(d{iSession}.erp{iERP}.zscoreERP)));
+        maxZscore = d{iSession}.erp{iERP}.zscoreERP(maxBin);
         bestChannel = find(max(abs(maxZscore))==abs(maxZscore));
     
-        ff = text( .1, textPos(iERP) * range(Ylim) +  minY, sprintf('High ERP %s Ch=[1], Z= [%2.3f], t=[%2.2fs]\n',d{iSession}.erp{iERP}.name(1:end-2),maxZscore( bestChannel ), d{iSession}.erp{iERP}.t(maxZscore(bestChannel) == d{iSession}.erp{iERP}.zscore(:,bestChannel))), 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'normal' );
+        ff = text( .1, textPos(iERP) * range(Ylim) +  minY, sprintf('High ERP %s Ch=[1], Z= [%2.3f], t=[%2.2fs]\n',d{iSession}.erp{iERP}.name(1:end-2),maxZscore( bestChannel ), d{iSession}.erp{iERP}.t(maxZscore(bestChannel) == d{iSession}.erp{iERP}.zscoreERP(:,bestChannel))), 'FontName', 'Helvetica', 'FontSize', 8, 'FontWeight', 'normal' );
     end
     
     
@@ -111,7 +108,7 @@ for iSession = 1:size(d,2)
         hold on;
         %By Looping through the pictures.
         for iPic = 1:4
-            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscore(:,iCh), 'color', color.pic{iPic} );
+            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscoreERP(:,iCh), 'color', color.pic{iPic} );
         end
         ylim([-1.5 1.5]);
         Ylim = get( gca, 'ylim' ); minY = Ylim(1); maxY = Ylim(2);
@@ -126,7 +123,7 @@ for iSession = 1:size(d,2)
         hold on;
         %Then Show by Channel ERPs
         for iCh = 1:size(d{iSession}.eeg,2)
-            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscore(:,iCh), 'color', color.ch{iCh} );
+            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscoreERP(:,iCh), 'color', color.ch{iCh} );
         end
         Ylim = get( gca, 'ylim' ); minY = Ylim(1); maxY = Ylim(2);
         ff = text( -0.45, 0.9 * range(Ylim) +  minY  , ['Picture [' d{iSession}.erp{iPic}.name(1:end-2) ']' ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'bold', 'color', color.pic{ iPic } );

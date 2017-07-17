@@ -33,27 +33,27 @@ function [ s ] = calculateERPs( s )
                 
 
 
-                s.erp{iType }.segment{iSegment}.raw = squeeze(mean(e(iSegment,:,:,:)));
+                s.erp{iType }.segment{iSegment}.meanERP = squeeze(mean(e(iSegment,:,:,:)));
                 s.erp{iType }.segment{iSegment}.n = length(ts);
                 
                 %Make zscore just on the EEG data in this segment.
-                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@minus, s.erp{iType}.segment{iSegment}.raw, mean(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
-                s.erp{iType }.segment{iSegment}.zscore = bsxfun(@rdivide, s.erp{iType}.segment{iSegment}.zscore, std(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
+                s.erp{iType }.segment{iSegment}.zscoreERP = bsxfun(@minus, s.erp{iType}.segment{iSegment}.meanERP, mean(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
+                s.erp{iType }.segment{iSegment}.zscoreERP = bsxfun(@rdivide, s.erp{iType}.segment{iSegment}.zscoreERP, std(s.eeg( s.t >= s.timestamps.segmentBegin(iSegment) & s.t < s.timestamps.segmentEnd(iSegment), : )));
         
             end
         
         end
         
-        s.erp{iType }.rawEEG = rawERPEEGForOneImage;
+        s.erp{iType }.trialERPs = rawERPEEGForOneImage;
         
         %Calcualte the session averages
-        s.erp{iType }.raw = squeeze(mean(squeeze(mean(e))));
-        s.erp{iType }.zscore = bsxfun(@minus, s.erp{iType}.raw, mean(s.eeg));
-        s.erp{iType }.zscore = bsxfun(@rdivide, s.erp{iType }.zscore, std(s.eeg));
+        s.erp{iType }.meanERP = squeeze(mean(squeeze(mean(e))));
+        s.erp{iType }.zscoreERP = bsxfun(@minus, s.erp{iType}.meanERP, mean(s.eeg));
+        s.erp{iType }.zscoreERP = bsxfun(@rdivide, s.erp{iType }.zscoreERP, std(s.eeg));
         
 
         
-        s.erp{iType }.t = linspace(  timeWindow(1),  timeWindow(2), size(  s.erp{iType }.raw, 1 ));
+        s.erp{iType }.t = linspace(  timeWindow(1),  timeWindow(2), size(  s.erp{iType }.meanERP, 1 ));
         eval(['s.erp{iType}.name = ''' pictureTypes{iType} ''';']);
     end
     
