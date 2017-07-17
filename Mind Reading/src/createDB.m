@@ -46,12 +46,23 @@ for iSession = 1:size( subdirs, 1 )
         d.eeg = rawData(:,1:5);
         
         switch d.subject
+            case 'MR01'
+                d.eeg(:,4) = - d.eeg(:,4);
+            case 'MR02'
+                d.eeg(:,3) = - d.eeg(:,3);
+                d.eeg(:,4) = - d.eeg(:,4);
             case 'MR03'
                 d.eeg(:,2) = - d.eeg(:,2);
                 d.eeg(:,4) = - d.eeg(:,4);
             case {'MR04', 'MR05'}
                 d.eeg(:,1) = - d.eeg(:,1);
                 d.eeg(:,5) = - d.eeg(:,5);
+            case {'MR06'}
+                d.eeg(:,1) = - d.eeg(:,1);
+                d.eeg(:,4) = - d.eeg(:,4);
+                
+            case {'MR07'}
+                d.eeg(:,1) = - d.eeg(:,1);
         end
         
         d.t = linspace( 0,size( rawData ,1  )/d.fs, size( rawData ,1  )); 
@@ -106,7 +117,7 @@ for iSession = 1:size( subdirs, 1 )
         d = calculateERPs( d );
         s{iSession} = d;
         clear d;
-    end   
- 
+end   
+  % figure; hold on; plot(d{k}.erp{1}.zscore(:,1), 'g'); plot(d{k}.erp11}.zscore(:,2), 'm'); plot(d{k}.erp{1}.zscore(:,3), 'b'); plot(d{k}.erp{1}.zscore(:,4), 'r'); plot(d{k}.erp{1}.zscore(:,5), 'k')
 end
         
