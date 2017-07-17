@@ -5,10 +5,9 @@ function [ out ] = prepareSVMData(d, varargin)
 
 %we aliminate first part of EEG ERP  
 %GG.  We should index by time...
-
 selectedClass = 1;%we train network to recognize only one class vs other classes of images
 channels = [1 2 4];%we use only some of the channels
-timeWindow = [0 0.2];
+timeWindow = [-0.1 0.5];
 
 for iarg= 1:2:(nargin-1),   % assume an even number of varargs
  
