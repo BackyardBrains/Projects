@@ -1,4 +1,4 @@
-function [ out] = classifyRawERP( data )
+function [ trainedClassifier] = classifyRawERP( data )
 
 %make training set
 trainingSet = [data.trainingOutputs data.trainingInputs];
