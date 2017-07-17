@@ -1,6 +1,0 @@
-clear;
-db = createDB();
-subject = 2;%index of subject
-
-trainingAndTestData = prepareSVMData(db,subject);
-trainedClassifier = classifyRawERP( trainingAndTestData );
