@@ -1,4 +1,4 @@
-function [ out ] = plotPrePost( d, varargin )
+PLOTfunction [ out ] = plotPrePost( d, varargin )
 %PLOTPREPOST will plot the pre- and post- treatment differences from an EEG
 %sleep exeriment
 
