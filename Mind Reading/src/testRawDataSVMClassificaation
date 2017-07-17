@@ -1,0 +1,7 @@
+clc;claer;clc;
+
+db = createDB;
+subject = 2;
+
+trainingAndTestData = prepareSVMData (db, subject);
+trainedClassifer = classifyRawERP(TrainingAndTestData)
