@@ -1,4 +1,4 @@
-#include <RTCZero.h>
+#include <RTClib.h>
 
 //  Test routine heavily inspired by wiring_analog.c from GITHUB site
 // Global preamble
@@ -32,15 +32,15 @@ void setTimerFrequency(int frequencyHz) {
   while (TC->STATUS.bit.SYNCBUSY == 1);
 }
 
-RTCZero rtc;
+RTC_DS1307 rtc;
 
 void dateTime(uint16_t* date, uint16_t* time) {
-  
-  // return date using FAT_DATE macro to format fields
-  *date = FAT_DATE(rtc.getYear()+2000, rtc.getMonth(), rtc.getDay());
+ DateTime now = rtc.now();
+ 
+ *date = FAT_DATE(now.year(), now.month(), now.day());
 
-  // return time using FAT_TIME macro to format fields
-  *time = FAT_TIME(rtc.getHours(), rtc.getMinutes(), rtc.getSeconds());
+ // return time using FAT_TIME macro to format fields
+ *time = FAT_TIME(now.hour(), now.minute(), now.second());
 }
 
 File myFile;
@@ -246,12 +246,23 @@ void recordToggle(){
 
 void setup()
 {
-  rtc.begin();
-  SD.begin(8);
+  if(!rtc.begin()){
+    Serial.begin(9600);
+    Serial.println("RTC cannot start");
+    Serial.end();
+  }
+  if(!rtc.isrunning()){
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  } 
+  if(!SD.begin(8)){
+    Serial.begin(9600);
+    Serial.println("Cannot connect to SD Card");
+    Serial.end();
+  }
+  pinMode(13, OUTPUT);
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
-  pinMode(13, OUTPUT);
-
+  
   //###################################################################################
   // ADC setup stuff
   //###################################################################################
