@@ -17,6 +17,8 @@
     global indexesOfImage;
     global erps;
     global erpsCounter;
+    global classOfImage;
+    classOfImage = [];
     indexesOfImage = [];
     erps = [];
     erpsCounter = 1;

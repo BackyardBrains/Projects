@@ -11,7 +11,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
         global indexesOfImage;
         global erps;
         global erpsCounter;
-        
+        global classOfImage;
         numberOfSeconds = 10;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
@@ -92,11 +92,12 @@ function [ output_args ] = getSerialDataHandler(varargin)
                         if(startSearchForERP<1)
                             startSearchForERP = 1;
                         end
-                        if(lengthOfEEG>(twoFs))
-
+                         if(lengthOfEEG>(twoFs))
+        
                             encoding = double(EEGMatrix(6,startSearchForERP:end));
-                            threhsold = 0.5*min(diff(encoding));
-                            allPositions = find((diff(diff(encoding)<threhsold)>0.5));
+                            threhsold = 0.5*(min(encoding) + max(encoding));
+
+                            allPositions = find((diff(encoding<threhsold)>0.5));
                             allPositions = allPositions+startSearchForERP-1;
                             allPositions = allPositions(find(diff(allPositions)>maxEncodingLength)+1);
                             allPositions((allPositions+fs)>lengthOfEEG) = [];
@@ -104,7 +105,10 @@ function [ output_args ] = getSerialDataHandler(varargin)
                                 allPositions(allPositions<=indexesOfImage(end)) = [];
                             end
                             for j=1:length(allPositions)
-                                    roiEEG = double(EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))');
+                                    roiEEG = double(EEGMatrix(1:5,allPositions(j)+roi(1):allPositions(j)+roi(2))');
+                                    encodingChannel = double(EEGMatrix(6,allPositions(j)-100:allPositions(j)+fs));
+                                    logicalEncoding = (diff((double(encodingChannel)<0.5*(max(double(encodingChannel))+min(double(encodingChannel)))))>0 );
+                                    classOfImage = [classOfImage sum(logicalEncoding)];
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 
@@ -114,7 +118,6 @@ function [ output_args ] = getSerialDataHandler(varargin)
                                 erpsCounter = erpsCounter+1;
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
-                        
                         end
 
                         lastProcessedIndex = lastProcessedIndex+ endOfProcessingBlock;
