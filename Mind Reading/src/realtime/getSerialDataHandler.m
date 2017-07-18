@@ -12,7 +12,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
         global erps;
         global erpsCounter;
         global classOfImage;
-        numberOfSeconds = 10;
+        numberOfSeconds = 100;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -28,7 +28,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
         
         if serialEEG.BytesAvailable > 0
             %disp('0');
-            disp(serialEEG.BytesAvailable/12);
+            %disp(serialEEG.BytesAvailable/12);
             dataEEG = [dataEEG; fread(serialEEG,serialEEG.BytesAvailable)];
             if(initialTimer>=30)
                 disp(length(dataEEG)/(12*1666));
@@ -108,7 +108,8 @@ function [ output_args ] = getSerialDataHandler(varargin)
                                     roiEEG = double(EEGMatrix(1:5,allPositions(j)+roi(1):allPositions(j)+roi(2))');
                                     encodingChannel = double(EEGMatrix(6,allPositions(j)-100:allPositions(j)+fs));
                                     logicalEncoding = (diff((double(encodingChannel)<0.5*(max(double(encodingChannel))+min(double(encodingChannel)))))>0 );
-                                    classOfImage = [classOfImage sum(logicalEncoding)];
+                                    
+                                    classOfImage = [classOfImage (sum(logicalEncoding)-1)];
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 
@@ -125,6 +126,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
+                classOfImage = classOfImage;%make so that face is 1
                 stop(t)
                 figure;
                 plot(EEGMatrix')
@@ -134,6 +136,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
                 title('Mean ERP for first channel')
                 clear serialEMG
                 clear t;
+                startClassifier( erps, classOfImage );
             end
         end
         initialTimer =initialTimer+1;
