@@ -122,6 +122,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                      disp('------------------------------')
                                      disp('Decoding...')
                                     predictedOutputs = classifier.predictFcn(inputVector);
+                                    predictedOutputs
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
                                     else
