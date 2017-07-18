@@ -137,8 +137,7 @@ for iSession = 1:size(d,2)
     end
     
     if saveImage 
-        %saveas(gcf, [pwd '\Exploratory\' sprintf('%03i', iSpike) '-' spikes{iSpike}.classificationType '-' spikes{iSpike}.name], 'pdf');
-
+        
         if FILECREATED == 0
             filename = ['sessionDB-' date];
             print('-dpsc2', [filename '.ps']);
@@ -182,10 +181,5 @@ function cleanUpHistograms( ax )
     ylabel('');
     title('');
     vline(0,'k--');
-    
-end
-
-function calcBestChannel( iERP )
-
     
 end
