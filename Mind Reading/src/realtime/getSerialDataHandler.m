@@ -8,14 +8,27 @@ function [ output_args ] = getSerialDataHandler(varargin)
         global EEGMatrix;
         global lastProcessedIndex;
         
-        numberOfSeconds = 60*15;
+        global indexesOfImage;
+        global erps;
+        global erpsCounter;
+        
+        numberOfSeconds = 10;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
+
+        twoFs = 2*fs;
+        maxEncodingLength = ceil(0.8*fs);
+        roiTime = [-0.5, 0.5];
+        roi = ceil(roiTime*fs);
+ 
+ 
+
+ 
         
-    
+        
         if serialEEG.BytesAvailable > 0
             %disp('0');
-            %disp(serialEMG.BytesAvailable);
+            disp(serialEEG.BytesAvailable/12);
             dataEEG = [dataEEG; fread(serialEEG,serialEEG.BytesAvailable)];
             if(initialTimer>=30)
                 disp(length(dataEEG)/(12*1666));
@@ -68,8 +81,41 @@ function [ output_args ] = getSerialDataHandler(varargin)
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(9,:).*128 + andedeegMatrix(10,:)];
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(11,:).*128 + andedeegMatrix(12,:)];
                        
-
+                        
                         EEGMatrix = [EEGMatrix resulteegMatrix];
+                        
+                        
+                        %Extract ERP if detected on 6th channel
+                        
+                        lengthOfEEG = size(EEGMatrix,2);
+                        startSearchForERP = lengthOfEEG - size(resulteegMatrix,2)-6*fs;
+                        if(startSearchForERP<1)
+                            startSearchForERP = 1;
+                        end
+                        if(lengthOfEEG>(twoFs))
+
+                            encoding = double(EEGMatrix(6,startSearchForERP:end));
+                            threhsold = 0.5*min(diff(encoding));
+                            allPositions = find((diff(diff(encoding)<threhsold)>0.5));
+                            allPositions = allPositions+startSearchForERP-1;
+                            allPositions = allPositions(find(diff(allPositions)>maxEncodingLength)+1);
+                            allPositions((allPositions+fs)>lengthOfEEG) = [];
+                            if(length(indexesOfImage)>0)
+                                allPositions(allPositions<=indexesOfImage(end)) = [];
+                            end
+                            for j=1:length(allPositions)
+                                    roiEEG = double(EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))');
+                                    m = mean(roiEEG,1);
+                                    mMat = repmat(m, [size(roiEEG,1),1]);
+                                    roiEEG = roiEEG - mMat; 
+
+
+                                erps(erpsCounter,:,:) = roiEEG;%EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))' ;
+                                erpsCounter = erpsCounter+1;
+                            end
+                            indexesOfImage  = [indexesOfImage allPositions];
+                        
+                        end
 
                         lastProcessedIndex = lastProcessedIndex+ endOfProcessingBlock;
                        
@@ -77,9 +123,13 @@ function [ output_args ] = getSerialDataHandler(varargin)
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
                 stop(t)
+                figure;
                 plot(EEGMatrix')
+                title('Raw EEG data')
+                figure;
+                plot(mean(erps(:,:,1)));
+                title('Mean ERP for first channel')
                 clear serialEMG
-
                 clear t;
             end
         end

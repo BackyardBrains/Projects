@@ -24,7 +24,7 @@ int tempSample = 0;
 int commandMode = 0;
 
 void setup(){ 
-  Serial.begin(2000000);//230400); //115200
+  Serial.begin(2000000);//for MAC use 921600 and for windows 2000000
   
 
   // TIMER SETUP- the timer interrupt allows preceise timed measurements of the reed switch
