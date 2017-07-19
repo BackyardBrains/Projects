@@ -12,8 +12,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global indexesOfImage;
         global erps;
         global erpsCounter;
-        global classOfImage;
+        global corectClasses;
         global classifier;
+        global predictedClasses;
         numberOfSeconds = 100;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
@@ -110,7 +111,8 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     roiEEG = double(EEGMatrix(1:5,allPositions(j)+roi(1):allPositions(j)+roi(2))');
                                     encodingChannel = double(EEGMatrix(6,allPositions(j)-100:allPositions(j)+fs));
                                     logicalEncoding = (diff((double(encodingChannel)<0.5*(max(double(encodingChannel))+min(double(encodingChannel)))))>0 );
-                                    correctClass = [classOfImage sum(logicalEncoding)]-1;
+                                    corectClasses = [corectClasses (sum(logicalEncoding)-1)];
+                                    correctClass = (sum(logicalEncoding)-1;
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 
@@ -123,10 +125,17 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                      disp('Decoding...')
                                     predictedOutputs = classifier.predictFcn(inputVector);
                                     predictedOutputs
+                                    predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
                                     else
                                         disp('Predicted: Non Face')
+                                    end
+                                    
+                                    if(correctClass ==1)
+                                        disp('Correct: Face')
+                                    else
+                                        disp('Correct: Non Face')
                                     end
                                     correctClass
                                      disp('------------------------------')

@@ -68,7 +68,16 @@ for iSession = 1:size( subdirs, 1 )
         d.eegLocations = {'P7', 'P8', 'C5', 'C6', 'CPz' };
         
         
-        f1 = diff(rawData(:, 6))<0.5*min(diff(rawData(:, 6)));
+        % f1 = diff(rawData(:, 6))<0.5*min(diff(rawData(:, 6)));
+        fullLenght = length(rawData(:,6));
+       
+      %threshold = 0.5*(     min(double(   rawData(ceil(fullLenght*0.2):ceil(fullLenght*0.8), 6)    )) + max(double(rawData(ceil(fullLenght*0.2):ceil(fullLenght*0.8), 6))    ));
+      threshold =  max(double(rawData(ceil(fullLenght*0.2):ceil(fullLenght*0.8), 6))) - std(double(rawData(ceil(fullLenght*0.2):ceil(fullLenght*0.8), 6)));
+      f1 = diff(rawData(:, 6)<threshold)>0.5;
+%          allPositions = find((diff(encoding<threhsold)>0.5));
+%         allPositions = allPositions+startSearchForERP-1;
+%         allPositions = allPositions(find(diff(allPositions)>maxEncodingLength)+1);
+        
         inside = 0;
         result = zeros(1,length(f1));
 
@@ -95,12 +104,17 @@ for iSession = 1:size( subdirs, 1 )
         end
         result = result - 2;
         result(result==-2) = 0;
-
+        
         d.timestamps.faceOn = d.t(find( result == 1 ));
+        d.timestamps.faceOn = d.timestamps.faceOn(d.timestamps.faceOn>0.6);
         d.timestamps.houseOn = d.t(find( result == 2 ));
+        d.timestamps.houseOn = d.timestamps.houseOn(d.timestamps.houseOn>0.6);
         d.timestamps.sceneryOn = d.t(find( result == 3 ));
+        d.timestamps.sceneryOn = d.timestamps.sceneryOn(d.timestamps.sceneryOn>0.6);
         d.timestamps.weirdOn = d.t(find( result == 4 ));
+        d.timestamps.weirdOn = d.timestamps.weirdOn(d.timestamps.weirdOn>0.6);
         d.timestamps.segmentBegin = segmentTimes( 1 : end -1);
+       
         d.timestamps.segmentEnd = segmentTimes( 2 : end);
         %Here we can downsample d.eeg by 3
         %and change d.fs to d.fs/3.

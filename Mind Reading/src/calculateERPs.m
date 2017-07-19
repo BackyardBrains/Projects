@@ -18,6 +18,7 @@ function [ s ] = calculateERPs( s )
         
            % eval(['ts = s.timestamps.' pictureTypes{iType} ';']);
             eval(['ts = s.timestamps.' pictureTypes{iType} '( s.timestamps.' pictureTypes{iType} ' > s.timestamps.segmentBegin(iSegment) & s.timestamps.' pictureTypes{iType} ' <= s.timestamps.segmentEnd(iSegment) );']);
+            
             for iPicture = 1:length(ts)
 
                 tStart = round((ts(iPicture) + timeWindow(1)) *s.fs);

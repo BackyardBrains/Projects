@@ -17,9 +17,10 @@ if exist('serialEEG','var')
     global indexesOfImage;
     global erps;
     global erpsCounter;
-    global classOfImage;
-
-    classOfImage = [];
+    global corectClasses;
+    global predictedClasses;
+    predictedClasses = [];
+    corectClasses = [];
     indexesOfImage = [];
     erps = [];
     erpsCounter = 1;
