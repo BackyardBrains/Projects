@@ -156,7 +156,11 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 stop(timer2)
                 disp('End decoding')
                 disp('******************************')
-
+                truePositivePercent = 100*(sum(predictedClasses(corectClasses==1)==1)/sum(corectClasses==1))
+                falsePositivePercent = 100*(sum(predictedClasses(corectClasses~=1)==1)/sum(corectClasses~=1))
+                trueNegativePercent = 100*(sum(predictedClasses(corectClasses~=1)~=1)/sum(corectClasses~=1))
+                falseNegativePercent = 100*(sum(predictedClasses(corectClasses==1)~=1)/sum(corectClasses==1))
+                
                 clear serialEMG
                 clear timer2;
             end
