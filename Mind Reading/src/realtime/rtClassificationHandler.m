@@ -21,7 +21,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
 
         twoFs = 2*fs;
         maxEncodingLength = ceil(0.8*fs);
-        roiTime = [-0.5, 0.5];
+        roiTime = [-0.1, 0.5];
         roi = ceil(roiTime*fs);
  
  
@@ -112,7 +112,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     encodingChannel = double(EEGMatrix(6,allPositions(j)-100:allPositions(j)+fs));
                                     logicalEncoding = (diff((double(encodingChannel)<0.5*(max(double(encodingChannel))+min(double(encodingChannel)))))>0 );
                                     corectClasses = [corectClasses (sum(logicalEncoding)-1)];
-                                    correctClass = (sum(logicalEncoding)-1;
+                                    correctClass = (sum(logicalEncoding)-1);
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 

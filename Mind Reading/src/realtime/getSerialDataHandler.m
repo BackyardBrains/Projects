@@ -18,7 +18,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
 
         twoFs = 2*fs;
         maxEncodingLength = ceil(0.8*fs);
-        roiTime = [-0.5, 0.5];
+        roiTime = [-0.1, 0.5];
         roi = ceil(roiTime*fs);
  
  
