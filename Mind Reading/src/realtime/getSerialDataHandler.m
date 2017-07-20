@@ -126,8 +126,11 @@ function [ output_args ] = getSerialDataHandler(varargin)
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
-                classOfImage = classOfImage;%make so that face is 1
+
+                
                 stop(t)
+                FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
+                save(FileName,'classOfImage', 'EEGMatrix');
                 figure;
                 plot(EEGMatrix')
                 title('Raw EEG data')
