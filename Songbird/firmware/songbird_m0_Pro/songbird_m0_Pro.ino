@@ -286,7 +286,7 @@ void setup()
 
   pinMode(7, INPUT);
   startTimer(sampleRate);
-  attachInterrupt(digitalPinToInterrupt(12), recordToggle, HIGH);
+  attachInterrupt(digitalPinToInterrupt(12), recordToggle, RISING);
 }
 
 
