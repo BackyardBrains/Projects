@@ -44,6 +44,7 @@ for iSession = 1:size( subdirs, 1 )
         end
         
         d.eeg = rawData(:,1:5);
+        d.encoderSignal = rawData(:,6);
         
         switch d.subject
             case 'MR01'
