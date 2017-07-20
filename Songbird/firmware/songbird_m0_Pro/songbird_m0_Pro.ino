@@ -254,12 +254,15 @@ void setup()
   if(!rtc.isrunning()){
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   } 
+  pinMode(13, OUTPUT);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
     Serial.end();
+    digitalWrite(13, LOW);
+    while(1);
   }
-  pinMode(13, OUTPUT);
+  
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
   
