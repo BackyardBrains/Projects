@@ -4,12 +4,12 @@ if exist('serialEEG','var')
     end
     %clear;
     
-    %serialEEG = serial('/dev/cu.usbserial.1441', 'BaudRate', 921600);
-    serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+   % serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
-    serialEEG.InputBufferSize = 80000;
+    serialEEG.InputBufferSize = 140000;
     global dataEEG;
     global EEGMatrix;
     global initialTimer;

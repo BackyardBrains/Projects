@@ -12,7 +12,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
         global erps;
         global erpsCounter;
         global classOfImage;
-        numberOfSeconds = 10;
+        numberOfSeconds = 60*4;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
