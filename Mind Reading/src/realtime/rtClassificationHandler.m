@@ -15,7 +15,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global corectClasses;
         global classifier;
         global predictedClasses;
-        numberOfSeconds = 60*2.5;
+        numberOfSeconds = 60*5;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
