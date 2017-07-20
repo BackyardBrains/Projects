@@ -239,17 +239,9 @@ uint32_t val = 0;           // variable to store the value read
 
 
 bool doRecord = 1;
-bool dRhasFlipped = 0;
 
 void recordToggle(){
-  if(!dRhasFlipped){
-    doRecord = !doRecord;
-    dRhasFlipped = 1;
-  }
-}
-
-void recordToggleLow(){
-  dRhasFlipped = 0;
+  doRecord = !doRecord;
 }
 
 void setup()
@@ -295,7 +287,6 @@ void setup()
   pinMode(7, INPUT);
   startTimer(sampleRate);
   attachInterrupt(digitalPinToInterrupt(12), recordToggle, HIGH);
-  attachInterrupt(digitalPinToInterrupt(12), recordToggleLow, LOW);
 }
 
 
