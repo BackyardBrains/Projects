@@ -152,7 +152,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
                 FileName=['resultsRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
-                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix');
+                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix','classifier');
                 stop(timer2)
                 disp('End decoding')
                 disp('******************************')
