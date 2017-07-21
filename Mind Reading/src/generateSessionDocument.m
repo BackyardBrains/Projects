@@ -111,9 +111,9 @@ for iSession = 1:size(d,2)
         hold on;
         %By Looping through the pictures.
         for iPic = 1:4
-            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscoreERP(:,iCh), 'color', color.pic{iPic} );
+            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.meanERP(:,iCh), 'color', color.pic{iPic} );
         end
-        ylim([-1.5 1.5]);
+        %ylim([-1.5 1.5]);
         Ylim = get( gca, 'ylim' ); minY = Ylim(1); maxY = Ylim(2);
         ff = text( -0.45, 0.9 * range(Ylim) +  minY  , ['Channel ' num2str(iCh) ' (' d{iSession}.eegLocations{iCh} ')' ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'bold', 'color', color.ch{ iCh } );
         cleanUpLabels( h(p.erpCh(iCh)) );
@@ -124,7 +124,7 @@ for iSession = 1:size(d,2)
     temp_t = linspace(0, d{iSession}.t(end), length(d{iSession}.encoderSignal) );
     plot( temp_t,  d{iSession}.encoderSignal, 'k' );
     xlim( [0 max(d{iSession}.t)] );
-    ylim( [-0.1 0.6]);   
+    %ylim( [-0.1 0.6]);   
         
     
     %Now Loop by Picture
@@ -133,7 +133,7 @@ for iSession = 1:size(d,2)
         hold on;
         %Then Show by Channel ERPs
         for iCh = 1:size(d{iSession}.eeg,2)
-            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.zscoreERP(:,iCh), 'color', color.ch{iCh} );
+            plot( d{iSession}.erp{iPic}.t, d{iSession}.erp{iPic}.meanERP(:,iCh), 'color', color.ch{iCh} );
         end
         Ylim = get( gca, 'ylim' ); minY = Ylim(1); maxY = Ylim(2);
         ff = text( -0.45, 0.9 * range(Ylim) +  minY  , ['Picture [' d{iSession}.erp{iPic}.name(1:end-2) ']' ], 'FontName', 'Helvetica', 'FontSize', 11, 'FontWeight', 'bold', 'color', color.pic{ iPic } );
