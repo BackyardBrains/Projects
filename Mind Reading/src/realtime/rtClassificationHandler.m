@@ -19,7 +19,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global a;
         global zi;
 
-        numberOfSeconds = 30;
+        numberOfSeconds = 60*5;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
