@@ -28,6 +28,27 @@
     dataEEG=[];
     fopen(serialEEG);
     
+    
+    clear top;
+    top.sp = [3 1];
+    top.h = [.25 .75/2 .75/2];
+    top.c(1).sp = [1 2]; 
+    top.c(1).w = [0.25 0.75];
+    top.c(2).sp = [1 2];
+    top.c(2).w = [0.5 0.5];
+    top.c(3).sp = [1 2];
+    top.c(3).w = [0.5 0.5];
+    top.c(1).c(2).sp = [6 1];
+    %subsubplot_showlayout(top); 
+
+    global p;
+    %make portable position handles
+    p.info          = 1;
+    p.eeg           = 2:7;
+    p.erpCh         = 8:11;
+    p.h = subsubplot(top);
+        
+    
     global t
     t = timer('TimerFcn', @(x,y)getSerialDataHandler(serialEEG, dataEEG), 'Period',  0.1);
     set(t,'ExecutionMode','fixedRate');
