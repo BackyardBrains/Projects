@@ -29,18 +29,7 @@ function [ out ] = getSerialDataHandler(varargin)
         roiTime = [-0.1, 0.5];
         roi = ceil(roiTime*fs);
  
-<<<<<<< HEAD
-        global p;
-=======
-        fc = 100;
 
-
-       
-
-
- 
-        
->>>>>>> 59bff5a9247421a1428805585b677f0d127bc05f
         
         if serialEEG.BytesAvailable > 0
             %disp('0');
@@ -150,26 +139,7 @@ function [ out ] = getSerialDataHandler(varargin)
                 audiowrite(FileNameWav,EEGMatrixN',1666);
                 
                 FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
-<<<<<<< HEAD
-                save(FileName,'classOfImage', 'EEGMatrix');
-                
-                subplot( p.h(p.info ) );
-                %Say something about trial...
-                
-                %plot(EEGMatrix');
-                for i=1:6
-                    subplot( p.h(p.eeg(i) ) );
-                    plot(EEGMatrix(i,:));
-                end
-                
-                %title('Raw EEG data')
-                %figure;
-                for i=1:4
-                     subplot( p.h(p.erpCh(i) ) );
-                     plot(mean(erps(:,:,i)));
-                     %title('Mean ERP for first channel')
-                end
-=======
+
                 save(FileName,'classOfImage', 'EEGMatrix', 'erps');
                 figure;
                 plot(EEGMatrix')
@@ -189,7 +159,7 @@ function [ out ] = getSerialDataHandler(varargin)
                 figure;plot(class4Aver);
                 title('Weird ERP (Training)');
                 
->>>>>>> 59bff5a9247421a1428805585b677f0d127bc05f
+
                 clear serialEMG
                 clear t;
                 startClassifier( erps, classOfImage );
