@@ -4,8 +4,8 @@
     end
     %clear;
     
-    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-    % serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    %serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+     serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -18,6 +18,15 @@
     global erps;
     global erpsCounter;
     global classOfImage;
+    global b;
+    global a;
+    global zi;
+    
+    fs = 1666;
+    fc = 100;
+     [b,a] = butter(2,fc/(fs/2));
+        zi = [];
+    
     classOfImage = [];
     indexesOfImage = [];
     erps = [];
