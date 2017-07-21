@@ -187,7 +187,7 @@ function [ out ] = getSerialDataHandler(varargin)
                 title('Nature ERP (Training)');
                 class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
                 figure;plot(class4Aver);
-                title('Weerd ERP (Training)');
+                title('Weird ERP (Training)');
                 
 >>>>>>> 59bff5a9247421a1428805585b677f0d127bc05f
                 clear serialEMG

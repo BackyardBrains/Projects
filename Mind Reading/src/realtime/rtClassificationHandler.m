@@ -183,7 +183,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 title('Nature ERP (Testing)');
                 class4Aver = squeeze(mean(erps(corectClasses==4,:,:),1));
                 figure;plot(class4Aver);
-                title('Weerd ERP (Testing)');
+                title('Weird ERP (Testing)');
                 clear serialEMG
                 clear timer2;
             end
