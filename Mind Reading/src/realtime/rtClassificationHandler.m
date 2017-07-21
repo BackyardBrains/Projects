@@ -15,7 +15,11 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global corectClasses;
         global classifier;
         global predictedClasses;
-        numberOfSeconds = 60*5;
+        global b;
+        global a;
+        global zi;
+
+        numberOfSeconds = 30;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -84,7 +88,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(9,:).*128 + andedeegMatrix(10,:)];
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(11,:).*128 + andedeegMatrix(12,:)];
                        
-                        
+                        [resulteegMatrix,zi] = filter(b,a,double(resulteegMatrix),zi,2);
                         EEGMatrix = [EEGMatrix resulteegMatrix];
                         
                         
@@ -140,8 +144,8 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     correctClass
                                      disp('------------------------------')
 
-                                %erps(erpsCounter,:,:) = roiEEG;%EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))' ;
-                                %erpsCounter = erpsCounter+1;
+                                    erps(erpsCounter,:,:) = roiEEG;
+                                    erpsCounter = erpsCounter+1;
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
                         end
@@ -151,8 +155,13 @@ function [ output_args ] = rtClassificationHandler(varargin)
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
+                
+                EEGMatrixN = (int16(EEGMatrix) -512)*30;
+                FileNameWav=['resultsRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.wav'];
+                audiowrite(FileNameWav,EEGMatrixN',1666);
+                
                 FileName=['resultsRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
-                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix','classifier');
+                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix','classifier','erps');
                 stop(timer2)
                 disp('End decoding')
                 disp('******************************')
@@ -160,7 +169,21 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 falsePositivePercent = 100*(sum(predictedClasses(corectClasses~=1)==1)/sum(corectClasses~=1))
                 trueNegativePercent = 100*(sum(predictedClasses(corectClasses~=1)~=1)/sum(corectClasses~=1))
                 falseNegativePercent = 100*(sum(predictedClasses(corectClasses==1)~=1)/sum(corectClasses==1))
-                
+                figure;
+                plot(EEGMatrix')
+                title('Raw EEG data (Testing)')
+                faceAverage = squeeze(mean(erps(corectClasses==1,:,:),1));
+                figure;plot(faceAverage);
+                title('Face ERP (Testing)');
+                class2Aver = squeeze(mean(erps(corectClasses==2,:,:),1));
+                figure;plot(class2Aver);
+                title('House ERP (Testing)');
+                class3Aver = squeeze(mean(erps(corectClasses==3,:,:),1));
+                figure;plot(class3Aver);
+                title('Nature ERP (Testing)');
+                class4Aver = squeeze(mean(erps(corectClasses==4,:,:),1));
+                figure;plot(class4Aver);
+                title('Weerd ERP (Testing)');
                 clear serialEMG
                 clear timer2;
             end

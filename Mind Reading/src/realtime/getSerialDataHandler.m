@@ -12,7 +12,15 @@ function [ out ] = getSerialDataHandler(varargin)
         global erps;
         global erpsCounter;
         global classOfImage;
-        numberOfSeconds = 60*8;
+        global b;
+        global a;
+        global zi;
+    
+
+        
+        
+        
+        numberOfSeconds = 30;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -21,7 +29,18 @@ function [ out ] = getSerialDataHandler(varargin)
         roiTime = [-0.1, 0.5];
         roi = ceil(roiTime*fs);
  
+<<<<<<< HEAD
         global p;
+=======
+        fc = 100;
+
+
+       
+
+
+ 
+        
+>>>>>>> 59bff5a9247421a1428805585b677f0d127bc05f
         
         if serialEEG.BytesAvailable > 0
             %disp('0');
@@ -78,7 +97,7 @@ function [ out ] = getSerialDataHandler(varargin)
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(9,:).*128 + andedeegMatrix(10,:)];
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(11,:).*128 + andedeegMatrix(12,:)];
                        
-                        
+                        [resulteegMatrix,zi] = filter(b,a,double(resulteegMatrix),zi,2);
                         EEGMatrix = [EEGMatrix resulteegMatrix];
                         
                         
@@ -112,7 +131,7 @@ function [ out ] = getSerialDataHandler(varargin)
                                     roiEEG = roiEEG - mMat; 
 
 
-                                erps(erpsCounter,:,:) = roiEEG;%EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))' ;
+                                erps(erpsCounter,:,:) = roiEEG;
                                 erpsCounter = erpsCounter+1;
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
@@ -126,7 +145,12 @@ function [ out ] = getSerialDataHandler(varargin)
 
                 
                 stop(t)
+                EEGMatrixN = (int16(EEGMatrix) -512)*30;
+                FileNameWav=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.wav'];
+                audiowrite(FileNameWav,EEGMatrixN',1666);
+                
                 FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
+<<<<<<< HEAD
                 save(FileName,'classOfImage', 'EEGMatrix');
                 
                 subplot( p.h(p.info ) );
@@ -145,6 +169,27 @@ function [ out ] = getSerialDataHandler(varargin)
                      plot(mean(erps(:,:,i)));
                      %title('Mean ERP for first channel')
                 end
+=======
+                save(FileName,'classOfImage', 'EEGMatrix', 'erps');
+                figure;
+                plot(EEGMatrix')
+                title('Raw EEG data (Training)')
+
+                
+                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+                figure;plot(faceAverage);
+                title('Face ERP (Training)');
+                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+                figure;plot(class2Aver);
+                title('House ERP (Training)');
+                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+                figure;plot(class3Aver);
+                title('Nature ERP (Training)');
+                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+                figure;plot(class4Aver);
+                title('Weerd ERP (Training)');
+                
+>>>>>>> 59bff5a9247421a1428805585b677f0d127bc05f
                 clear serialEMG
                 clear t;
                 startClassifier( erps, classOfImage );
