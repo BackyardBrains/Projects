@@ -137,7 +137,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     set(graphic.h21, 'ydata', roiEEG(:,3)');
                                     set(graphic.h22, 'ydata', roiEEG(:,4)');
                                     set(graphic.h31, 'ydata', roiEEG(:,5)');
-                                    set(graphic.h32, 'ydata', double(EEGMatrix(6,allPositions(j)+roi(1):allPositions(j)+roi(2))'));
+                                    set(graphic.h32, 'ydata', encodingChannel);
                                     
                                     
                                      %predict output for test data

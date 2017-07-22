@@ -64,7 +64,9 @@
     title(graphic.ax22, 'Fourth channel'); 
     graphic.h31 = plot(graphic.ax31, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
     title(graphic.ax31, 'Fifth channel');
-    graphic.h32 = plot(graphic.ax32, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    
+    lengthOfSixth = fs+100+1;
+    graphic.h32 = plot(graphic.ax32, linspace(-100/fs, 1,lengthOfSixth), zeros(1,lengthOfSixth));
     title(graphic.ax32, 'Sixth channel');   
     
     
