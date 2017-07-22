@@ -75,7 +75,8 @@
     sceneimg = imread('scene.jpg');
     trainingimg = imread('training.jpg');
     image(trainingimg);
-
+    set(gca, 'XTick', []);
+    set(gca, 'YTick', []);
     graphic.imageHandle = get(gca,'Children');
 
     
