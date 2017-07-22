@@ -202,18 +202,26 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 figure;
                 plot(EEGMatrix')
                 title('Raw EEG data (Testing)')
+                
+                figure;
+                subplot(2,2,1);
                 faceAverage = squeeze(mean(erps(corectClasses==1,:,:),1));
-                figure;plot(faceAverage);
+                plot(faceAverage);
                 title('Face ERP (Testing)');
+                subplot(2,2,2);
                 class2Aver = squeeze(mean(erps(corectClasses==2,:,:),1));
-                figure;plot(class2Aver);
+                plot(class2Aver);
                 title('House ERP (Testing)');
+                subplot(2,2,3);
                 class3Aver = squeeze(mean(erps(corectClasses==3,:,:),1));
-                figure;plot(class3Aver);
+                plot(class3Aver);
                 title('Nature ERP (Testing)');
+                subplot(2,2,4);
                 class4Aver = squeeze(mean(erps(corectClasses==4,:,:),1));
-                figure;plot(class4Aver);
+                plot(class4Aver);
                 title('Weird ERP (Testing)');
+                
+                
                 clear serialEMG
                 clear timer2;
             end

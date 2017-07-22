@@ -153,23 +153,27 @@ function [ out ] = getSerialDataHandler(varargin)
                 FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
 
                 save(FileName,'classOfImage', 'EEGMatrix', 'erps');
-%                 figure;
-%                 plot(EEGMatrix')
-%                 title('Raw EEG data (Training)')
-% 
-%                 
-%                 faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
-%                 figure;plot(faceAverage);
-%                 title('Face ERP (Training)');
-%                 class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
-%                 figure;plot(class2Aver);
-%                 title('House ERP (Training)');
-%                 class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
-%                 figure;plot(class3Aver);
-%                 title('Nature ERP (Training)');
-%                 class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
-%                 figure;plot(class4Aver);
-%                 title('Weird ERP (Training)');
+                figure;
+                plot(EEGMatrix')
+                title('Raw EEG data (Training)')
+
+                figure;
+                subplot(2,2,1);
+                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+                plot(faceAverage);
+                title('Face ERP (Training)');
+                subplot(2,2,2);
+                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+                plot(class2Aver);
+                title('House ERP (Training)');
+                subplot(2,2,3);
+                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+                plot(class3Aver);
+                title('Nature ERP (Training)');
+                subplot(2,2,4);
+                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+                plot(class4Aver);
+                title('Weird ERP (Training)');
                 
 
                 clear serialEMG
