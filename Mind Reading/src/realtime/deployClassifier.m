@@ -22,6 +22,7 @@ if exist('serialEEG','var')
     global b;
     global a;
     global zi;
+    global roi;
     
     fs = 1666;
     fc = 100;

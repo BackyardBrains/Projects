@@ -18,8 +18,15 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global b;
         global a;
         global zi;
+        global roi;
+        global graphic;
+        
+        global faceimg;
+        global sceneimg;
 
-        numberOfSeconds = 60*5;
+
+
+        numberOfSeconds = 60;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -124,6 +131,15 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     
                                     %create input vector
                                     inputVector = [roiEEG(:,1);roiEEG(:,2);roiEEG(:,4)]';
+                                    
+                                    set(graphic.h11, 'ydata', roiEEG(:,1)');
+                                    set(graphic.h12, 'ydata', roiEEG(:,2)');
+                                    set(graphic.h21, 'ydata', roiEEG(:,3)');
+                                    set(graphic.h22, 'ydata', roiEEG(:,4)');
+                                    set(graphic.h31, 'ydata', roiEEG(:,5)');
+                                    set(graphic.h32, 'ydata', double(EEGMatrix(6,allPositions(j)+roi(1):allPositions(j)+roi(2))'));
+                                    
+                                    
                                      %predict output for test data
                                      disp('------------------------------')
                                      disp('Decoding...')
@@ -132,8 +148,10 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
+                                        set(graphic.imageHandle,'CData',faceimg);
                                     else
                                         disp('Predicted: Non Face')
+                                        set(graphic.imageHandle,'CData',sceneimg);
                                     end
                                     
                                     if(correctClass ==1)

@@ -15,21 +15,21 @@ function [ out ] = getSerialDataHandler(varargin)
         global b;
         global a;
         global zi;
-    
-
+        global graphic;
+        global roi;
         
         
         
-        numberOfSeconds = 60*8;
+        numberOfSeconds = 60;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
         twoFs = 2*fs;
         maxEncodingLength = ceil(0.8*fs);
-        roiTime = [-0.1, 0.5];
-        roi = ceil(roiTime*fs);
+
  
 
+        
         
         if serialEEG.BytesAvailable > 0
             %disp('0');
@@ -122,6 +122,18 @@ function [ out ] = getSerialDataHandler(varargin)
 
                                 erps(erpsCounter,:,:) = roiEEG;
                                 erpsCounter = erpsCounter+1;
+                                
+                                
+                                
+                                set(graphic.h11, 'ydata', roiEEG(:,1)');
+                                set(graphic.h12, 'ydata', roiEEG(:,2)');
+                                set(graphic.h21, 'ydata', roiEEG(:,3)');
+                                set(graphic.h22, 'ydata', roiEEG(:,4)');
+                                set(graphic.h31, 'ydata', roiEEG(:,5)');
+                                set(graphic.h32, 'ydata', double(EEGMatrix(6,allPositions(j)+roi(1):allPositions(j)+roi(2))'));
+                                
+
+                                
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
                         end
@@ -141,23 +153,23 @@ function [ out ] = getSerialDataHandler(varargin)
                 FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
 
                 save(FileName,'classOfImage', 'EEGMatrix', 'erps');
-                figure;
-                plot(EEGMatrix')
-                title('Raw EEG data (Training)')
-
-                
-                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
-                figure;plot(faceAverage);
-                title('Face ERP (Training)');
-                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
-                figure;plot(class2Aver);
-                title('House ERP (Training)');
-                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
-                figure;plot(class3Aver);
-                title('Nature ERP (Training)');
-                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
-                figure;plot(class4Aver);
-                title('Weird ERP (Training)');
+%                 figure;
+%                 plot(EEGMatrix')
+%                 title('Raw EEG data (Training)')
+% 
+%                 
+%                 faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+%                 figure;plot(faceAverage);
+%                 title('Face ERP (Training)');
+%                 class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+%                 figure;plot(class2Aver);
+%                 title('House ERP (Training)');
+%                 class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+%                 figure;plot(class3Aver);
+%                 title('Nature ERP (Training)');
+%                 class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+%                 figure;plot(class4Aver);
+%                 title('Weird ERP (Training)');
                 
 
                 clear serialEMG
