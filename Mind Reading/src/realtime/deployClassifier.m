@@ -25,6 +25,7 @@ if exist('serialEEG','var')
     global roi;
     global graphic;
     global classifier;
+    global roiTime;
     
     testingimg = imread('testing.jpg');
     set(graphic.imageHandle,'CData',testingimg);
@@ -33,13 +34,13 @@ if exist('serialEEG','var')
     subplot(1,3,1);
     sizeOfInput = -roi(1)+roi(2)+1;
     subplot(1,3,1);
-    plot(classifier.ClassificationSVM.Beta(1:sizeOfInput));
+    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(1:sizeOfInput));
     title('Wights of SVM for 1th channel')
     subplot(1,3,2);
-    plot(classifier.ClassificationSVM.Beta(sizeOfInput+1:2*sizeOfInput));
+    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(sizeOfInput+1:2*sizeOfInput));
     title('Wights of SVM for 2nd channel')
     subplot(1,3,3);
-    plot(classifier.ClassificationSVM.Beta(2*sizeOfInput+1:3*sizeOfInput));
+    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(2*sizeOfInput+1:3*sizeOfInput));
     title('Wights of SVM for 4th channel')
     
     

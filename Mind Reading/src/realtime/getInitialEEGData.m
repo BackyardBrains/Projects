@@ -23,7 +23,7 @@
     global zi;
     global graphic;
     global roi;
-    
+    global roiTime;
     fs = 1666;
     fc = 100;
      [b,a] = butter(2,fc/(fs/2));
