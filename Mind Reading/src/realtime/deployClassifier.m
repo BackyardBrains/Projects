@@ -23,6 +23,10 @@ if exist('serialEEG','var')
     global a;
     global zi;
     global roi;
+    global graphic;
+    
+    testingimg = imread('testing.jpg');
+    set(graphic.imageHandle,'CData',testingimg);
     
     fs = 1666;
     fc = 100;

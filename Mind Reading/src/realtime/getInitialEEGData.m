@@ -68,16 +68,18 @@
     title(graphic.ax32, 'Sixth channel');   
     
     
-    figure;
+    figure('Position', [100 100 622 622]);
     global faceimg;
     global sceneimg;
     faceimg = imread('face.jpg');
     sceneimg = imread('scene.jpg');
+    
     trainingimg = imread('training.jpg');
     image(trainingimg);
     set(gca, 'XTick', []);
     set(gca, 'YTick', []);
     graphic.imageHandle = get(gca,'Children');
+    graphic.imageLabel = get(gca,'xlabel');
 
     
     

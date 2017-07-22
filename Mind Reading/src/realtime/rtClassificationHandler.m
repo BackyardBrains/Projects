@@ -149,16 +149,28 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
                                         set(graphic.imageHandle,'CData',faceimg);
+                                        
+                                        if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Non Face') 
+                                        end
+                                        
                                     else
                                         disp('Predicted: Non Face')
                                         set(graphic.imageHandle,'CData',sceneimg);
+                                         if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Non Face') 
+                                        end
                                     end
                                     
-                                    if(correctClass ==1)
-                                        disp('Correct: Face')
-                                    else
-                                        disp('Correct: Non Face')
-                                    end
+                                    
                                     correctClass
                                      disp('------------------------------')
 
