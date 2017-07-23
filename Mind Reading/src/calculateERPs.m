@@ -48,7 +48,12 @@ function [ s ] = calculateERPs( s )
         s.erp{iType }.trialERPs = rawERPEEGForOneImage;
         
         %Calcualte the session averages
-        s.erp{iType }.meanERP = squeeze(mean(squeeze(mean(e))));
+        if ndims(squeeze(mean(e)))==2
+            %if we don't have multiple segments
+            s.erp{iType }.meanERP = squeeze(mean(e));
+        else
+            s.erp{iType }.meanERP = squeeze(mean(squeeze(mean(e))));
+        end
         s.erp{iType }.zscoreERP = bsxfun(@minus, s.erp{iType}.meanERP, mean(s.eeg));
         s.erp{iType }.zscoreERP = bsxfun(@rdivide, s.erp{iType }.zscoreERP, std(s.eeg));
         

@@ -239,17 +239,9 @@ uint32_t val = 0;           // variable to store the value read
 
 
 bool doRecord = 1;
-bool dRhasFlipped = 0;
 
 void recordToggle(){
-  if(!dRhasFlipped){
-    doRecord = !doRecord;
-    dRhasFlipped = 1;
-  }
-}
-
-void recordToggleLow(){
-  dRhasFlipped = 0;
+  doRecord = !doRecord;
 }
 
 void setup()
@@ -262,12 +254,15 @@ void setup()
   if(!rtc.isrunning()){
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   } 
+  pinMode(13, OUTPUT);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
     Serial.end();
+    digitalWrite(13, LOW);
+    while(1);
   }
-  pinMode(13, OUTPUT);
+  
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
   
@@ -294,8 +289,7 @@ void setup()
 
   pinMode(7, INPUT);
   startTimer(sampleRate);
-  attachInterrupt(digitalPinToInterrupt(12), recordToggle, HIGH);
-  attachInterrupt(digitalPinToInterrupt(12), recordToggleLow, LOW);
+  attachInterrupt(digitalPinToInterrupt(12), recordToggle, RISING);
 }
 
 

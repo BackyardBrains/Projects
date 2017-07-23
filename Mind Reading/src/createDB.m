@@ -44,6 +44,7 @@ for iSession = 1:size( subdirs, 1 )
         end
         
         d.eeg = rawData(:,1:5);
+        d.encoderSignal = rawData(:,6);
         
         switch d.subject
             case 'MR01'
@@ -133,4 +134,5 @@ for iSession = 1:size( subdirs, 1 )
 end   
   % figure; hold on; plot(d{k}.erp{1}.zscore(:,1), 'g'); plot(d{k}.erp11}.zscore(:,2), 'm'); plot(d{k}.erp{1}.zscore(:,3), 'b'); plot(d{k}.erp{1}.zscore(:,4), 'r'); plot(d{k}.erp{1}.zscore(:,5), 'k')
 end
-        
+  % EEGMatrix = (int16(EEGMatrix) -512)*30;      
+  % audiowrite('trainingRT-20-Jul-2017-15-17-54.wav',EEGMatrix',1666);

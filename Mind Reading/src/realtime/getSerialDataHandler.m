@@ -1,9 +1,9 @@
-function [ output_args ] = getSerialDataHandler(varargin)
+function [ out ] = getSerialDataHandler(varargin)
         %sampling freq EEG 1666Hz
 
         serialEEG = varargin{1};
         global dataEEG;
-        global t
+        global t;
         global initialTimer;
         global EEGMatrix;
         global lastProcessedIndex;
@@ -12,18 +12,23 @@ function [ output_args ] = getSerialDataHandler(varargin)
         global erps;
         global erpsCounter;
         global classOfImage;
-        numberOfSeconds = 10;
+        global b;
+        global a;
+        global zi;
+        global graphic;
+        global roi;
+        
+        
+        
+        numberOfSeconds = 60;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
         twoFs = 2*fs;
         maxEncodingLength = ceil(0.8*fs);
-        roiTime = [-0.1, 0.5];
-        roi = ceil(roiTime*fs);
- 
- 
 
  
+
         
         
         if serialEEG.BytesAvailable > 0
@@ -81,7 +86,7 @@ function [ output_args ] = getSerialDataHandler(varargin)
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(9,:).*128 + andedeegMatrix(10,:)];
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(11,:).*128 + andedeegMatrix(12,:)];
                        
-                        
+                        [resulteegMatrix,zi] = filter(b,a,double(resulteegMatrix),zi,2);
                         EEGMatrix = [EEGMatrix resulteegMatrix];
                         
                         
@@ -115,8 +120,20 @@ function [ output_args ] = getSerialDataHandler(varargin)
                                     roiEEG = roiEEG - mMat; 
 
 
-                                erps(erpsCounter,:,:) = roiEEG;%EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))' ;
+                                erps(erpsCounter,:,:) = roiEEG;
                                 erpsCounter = erpsCounter+1;
+                                
+                                
+                                
+                                set(graphic.h11, 'ydata', roiEEG(:,1)');
+                                set(graphic.h12, 'ydata', roiEEG(:,2)');
+                                set(graphic.h21, 'ydata', roiEEG(:,3)');
+                                set(graphic.h22, 'ydata', roiEEG(:,4)');
+                                set(graphic.h31, 'ydata', roiEEG(:,5)');
+                                set(graphic.h32, 'ydata', encodingChannel);
+                                
+
+                                
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
                         end
@@ -126,14 +143,39 @@ function [ output_args ] = getSerialDataHandler(varargin)
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
-                classOfImage = classOfImage;%make so that face is 1
+
+                
                 stop(t)
+                EEGMatrixN = (int16(EEGMatrix) -512)*30;
+                FileNameWav=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.wav'];
+                audiowrite(FileNameWav,EEGMatrixN',1666);
+                
+                FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
+
+                save(FileName,'classOfImage', 'EEGMatrix', 'erps');
                 figure;
                 plot(EEGMatrix')
-                title('Raw EEG data')
+                title('Raw EEG data (Training)')
+
                 figure;
-                plot(mean(erps(:,:,1)));
-                title('Mean ERP for first channel')
+                subplot(2,2,1);
+                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+                plot(faceAverage);
+                title('Face ERP (Training)');
+                subplot(2,2,2);
+                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+                plot(class2Aver);
+                title('House ERP (Training)');
+                subplot(2,2,3);
+                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+                plot(class3Aver);
+                title('Nature ERP (Training)');
+                subplot(2,2,4);
+                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+                plot(class4Aver);
+                title('Weird ERP (Training)');
+                
+
                 clear serialEMG
                 clear t;
                 startClassifier( erps, classOfImage );

@@ -15,7 +15,18 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global corectClasses;
         global classifier;
         global predictedClasses;
-        numberOfSeconds = 10;
+        global b;
+        global a;
+        global zi;
+        global roi;
+        global graphic;
+        
+        global faceimg;
+        global sceneimg;
+
+
+
+        numberOfSeconds = 60;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -84,7 +95,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(9,:).*128 + andedeegMatrix(10,:)];
                         resulteegMatrix = [resulteegMatrix; andedeegMatrix(11,:).*128 + andedeegMatrix(12,:)];
                        
-                        
+                        [resulteegMatrix,zi] = filter(b,a,double(resulteegMatrix),zi,2);
                         EEGMatrix = [EEGMatrix resulteegMatrix];
                         
                         
@@ -120,6 +131,15 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     
                                     %create input vector
                                     inputVector = [roiEEG(:,1);roiEEG(:,2);roiEEG(:,4)]';
+                                    
+                                    set(graphic.h11, 'ydata', roiEEG(:,1)');
+                                    set(graphic.h12, 'ydata', roiEEG(:,2)');
+                                    set(graphic.h21, 'ydata', roiEEG(:,3)');
+                                    set(graphic.h22, 'ydata', roiEEG(:,4)');
+                                    set(graphic.h31, 'ydata', roiEEG(:,5)');
+                                    set(graphic.h32, 'ydata', encodingChannel);
+                                    
+                                    
                                      %predict output for test data
                                      disp('------------------------------')
                                      disp('Decoding...')
@@ -128,20 +148,34 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
+                                        set(graphic.imageHandle,'CData',faceimg);
+                                        
+                                        if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Non Face') 
+                                        end
+                                        
                                     else
                                         disp('Predicted: Non Face')
+                                        set(graphic.imageHandle,'CData',sceneimg);
+                                         if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Non Face') 
+                                        end
                                     end
                                     
-                                    if(correctClass ==1)
-                                        disp('Correct: Face')
-                                    else
-                                        disp('Correct: Non Face')
-                                    end
+                                    
                                     correctClass
                                      disp('------------------------------')
 
-                                %erps(erpsCounter,:,:) = roiEEG;%EEGMatrix(:,allPositions(j)+roi(1):allPositions(j)+roi(2))' ;
-                                %erpsCounter = erpsCounter+1;
+                                    erps(erpsCounter,:,:) = roiEEG;
+                                    erpsCounter = erpsCounter+1;
                             end
                             indexesOfImage  = [indexesOfImage allPositions];
                         end
@@ -151,8 +185,13 @@ function [ output_args ] = rtClassificationHandler(varargin)
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
+                
+                EEGMatrixN = (int16(EEGMatrix) -512)*30;
+                FileNameWav=['resultsRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.wav'];
+                audiowrite(FileNameWav,EEGMatrixN',1666);
+                
                 FileName=['resultsRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
-                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix');
+                save(FileName,'predictedClasses','corectClasses', 'EEGMatrix','classifier','erps');
                 stop(timer2)
                 disp('End decoding')
                 disp('******************************')
@@ -160,6 +199,28 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 falsePositivePercent = 100*(sum(predictedClasses(corectClasses~=1)==1)/sum(corectClasses~=1))
                 trueNegativePercent = 100*(sum(predictedClasses(corectClasses~=1)~=1)/sum(corectClasses~=1))
                 falseNegativePercent = 100*(sum(predictedClasses(corectClasses==1)~=1)/sum(corectClasses==1))
+                figure;
+                plot(EEGMatrix')
+                title('Raw EEG data (Testing)')
+                
+                figure;
+                subplot(2,2,1);
+                faceAverage = squeeze(mean(erps(corectClasses==1,:,:),1));
+                plot(faceAverage);
+                title('Face ERP (Testing)');
+                subplot(2,2,2);
+                class2Aver = squeeze(mean(erps(corectClasses==2,:,:),1));
+                plot(class2Aver);
+                title('House ERP (Testing)');
+                subplot(2,2,3);
+                class3Aver = squeeze(mean(erps(corectClasses==3,:,:),1));
+                plot(class3Aver);
+                title('Nature ERP (Testing)');
+                subplot(2,2,4);
+                class4Aver = squeeze(mean(erps(corectClasses==4,:,:),1));
+                plot(class4Aver);
+                title('Weird ERP (Testing)');
+                
                 
                 clear serialEMG
                 clear timer2;
