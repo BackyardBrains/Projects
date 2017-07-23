@@ -43,6 +43,7 @@ class TMRModelEnd : TMRModel  {
             screen.shareData(info: [jsonString])
         }
         else if end.contains(position){
+            context.reset()
             context.nextModel = .Home
         }
     }

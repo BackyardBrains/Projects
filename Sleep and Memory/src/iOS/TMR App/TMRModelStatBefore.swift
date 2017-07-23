@@ -18,7 +18,7 @@ class TMRModelStatBefore : TMRModel {
     
     var percentCorrect:CGFloat = 0
     
-    var next = SKSpriteNode() //to comments
+    var nextt = SKSpriteNode() //to comments
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
@@ -36,8 +36,8 @@ class TMRModelStatBefore : TMRModel {
         left.isHidden = true
         screen.addChild(left)
        
-        next = SKSpriteNode(imageName: "next", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "next", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0,y:0), position: CGPoint(x:10,y:10), zPosition: 1, alpha: 1)
+        screen.addChild(nextt)
         
         let green = SKSpriteNode(color: .green, width: 20, height: 20, anchorPoint: CGPoint(x:0,y:0.5), position: CGPoint(x:screen.frame.width/10+40,y:screen.frame.height/2-20), zPosition: 1, alpha: 1)
         screen.addChild(green)
@@ -128,7 +128,7 @@ class TMRModelStatBefore : TMRModel {
             }
         }
         
-        if next.contains(position){
+        if nextt.contains(position){
             if context.project.getGuiSetting().getTreatmentNum() == 1{
                 context.nextModel = .Queuing
             }

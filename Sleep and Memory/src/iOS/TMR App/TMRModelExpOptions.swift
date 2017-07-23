@@ -19,7 +19,7 @@ class TMRModelExpOptions:TMRModel{
     var treatment2 = SKLabelNode()
     var button2 = SKSpriteNode()
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
     
     var currentTreatment = 0 // default option (none selected) 1 - sleep, 2 - no sleep
@@ -64,8 +64,8 @@ class TMRModelExpOptions:TMRModel{
             }
         }
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
         prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
@@ -133,7 +133,7 @@ class TMRModelExpOptions:TMRModel{
             context.nextModel = .TimingData
         }
         
-        if next.contains(position){
+        if nextt.contains(position){
             if currentTreatment != 0{
                 if currentTreatment == 1{
                     context.project.setSubjectNapped(num: 1)

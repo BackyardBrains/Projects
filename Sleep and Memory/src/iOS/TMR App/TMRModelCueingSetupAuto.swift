@@ -14,7 +14,7 @@ import SpriteKit
 class TMRModelCueingSetupAuto:TMRModel{
     
     var field = UITextField()
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
@@ -28,8 +28,8 @@ class TMRModelCueingSetupAuto:TMRModel{
         field.center = CGPoint(x:view.frame.width/2, y: view.frame.height*0.3)
         view.addSubview(field)
         
-        next = SKSpriteNode(imageName: "done", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "done", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
         prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
@@ -45,7 +45,7 @@ class TMRModelCueingSetupAuto:TMRModel{
             field.removeFromSuperview()
             context.nextModel = .CueingSetup
         }
-        if next.contains(position){
+        if nextt.contains(position){
             context.setupPassed[5] = true
             if let text = field.text{
                 if let num = Int(text){
@@ -69,10 +69,56 @@ class TMRModelCueingSetupAuto:TMRModel{
                 context.project.setGuiSetting(guiSetting: setting)
             }
             field.removeFromSuperview()
+            
+            setAll(screen:screen,context:context)
+            
             context.nextModel = .Settings
             print(context.project.getGuiSetting().getCuedPercent())
         }
     }
+    
+    func setAll(screen:TMRScreen,context:TMRContext){
+        let settings = context.project.getGuiSetting()
+        let resource = context.project.getTMRResource()
+        
+        // create training list, randomly generated now
+        let trainingList = RandomNumberGenerator.generateRandomNumbers(
+            range: resource.getNumberOfResourceEntries(),
+            sampleSize: settings.getSampleSize())
+        //print("trainingList \(trainingList)")
+        
+        // set this list back to project
+        context.project.setResourceIndexEntries(resourceIndexEntries: trainingList)
+        context.setResourceIndexList(resourceIndexList: trainingList)
+        //print("after set trainingList")
+        
+        // create position list
+        let posList = RandomNumberGenerator.generateRandomPositions(
+            rangeX: (Int(screen.imgSize/2),Int(screen.width-screen.imgSize)),
+            rangeY: (Int(screen.imgSize/2),Int(screen.height-screen.imgSize)),
+            sampleSize: settings.getSampleSize())
+        //print("posList \(posList)")
+        
+        // set position list to project
+        for (idx,(x,y)) in zip(trainingList,posList) {
+            context.project.setPosition(resourceIndex: idx, posX: x, posY: y)
+        }
+        //print("after set posList")
+        
+        // create target list
+        let sampleSize = Int(round(Double(settings.getSampleSize()*settings.getCuedPercent())/100.0))
+        let targetIndexList = RandomNumberGenerator.generateRandomNumbers(
+            range: trainingList.count,
+            sampleSize: sampleSize)
+        
+        // set target list to project
+        var targetList = [Int]();
+        for i in 0..<targetIndexList.count {
+            targetList.append(trainingList[targetIndexList[i]])
+        }
+        context.project.setTargetIndexEntries(resourceIndexEntries: targetList)
+    }
+    
     
     override func end(screen : TMRScreen, context : TMRContext){
         

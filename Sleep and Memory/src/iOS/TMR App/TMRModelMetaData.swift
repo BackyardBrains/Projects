@@ -18,7 +18,9 @@ class TMRModelMetaData:TMRModel{
     var experimenterField = UITextField()
     var locationField = UITextField()
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
+    var prev = SKSpriteNode()
+    
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
@@ -54,8 +56,11 @@ class TMRModelMetaData:TMRModel{
         }
         
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
+        
+        prev = SKSpriteNode(imageName: "home", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(prev)
 
     }
     
@@ -64,9 +69,27 @@ class TMRModelMetaData:TMRModel{
     }
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
-        if next.contains(position){
+        if prev.contains(position){
+            subjectNameField.removeFromSuperview()
+            locationField.removeFromSuperview()
+            experimenterField.removeFromSuperview()
+            projectNameField.removeFromSuperview()
+            context.reset()
+            context.nextModel = .Home
+        }
+        if nextt.contains(position){
             context.userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-            context.project = TMRProjectFactory.getTMRProject(userAccount : context.userAccount)
+            
+            if let name = projectNameField.text{
+                if name != ""{
+                    context.project = TMRProjectFactory.getTMRProject(projectName: name, userAccount: context.userAccount)
+                }else{
+                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", userAccount: context.userAccount)
+                }
+            }else{
+                context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", userAccount: context.userAccount)
+            }
+            
             if let subject = subjectNameField.text{
                 if subject != ""{
                     context.project.setSubject(name: subject)
@@ -90,14 +113,6 @@ class TMRModelMetaData:TMRModel{
                     context.project.setExperimenter(name: "Not Set")
                 }
             }else{context.project.setExperimenter(name: "Not Set")}
-            
-            if let name = projectNameField.text{
-                if name != ""{
-                    context.project.setTMRProjectName(name: name)
-                }else{
-                    context.project.setTMRProjectName(name: "Untitled")
-                }
-            }else{context.project.setTMRProjectName(name: "Untitled")}
             
             subjectNameField.removeFromSuperview()
             locationField.removeFromSuperview()

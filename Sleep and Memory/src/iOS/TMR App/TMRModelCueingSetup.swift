@@ -18,7 +18,7 @@ class TMRModelCueingSetup:TMRModel{
     var buttonA = SKSpriteNode()
     var buttonM = SKSpriteNode()
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
     
     var isASelected = false
@@ -62,8 +62,8 @@ class TMRModelCueingSetup:TMRModel{
             }
         }
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
         prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
@@ -130,7 +130,7 @@ class TMRModelCueingSetup:TMRModel{
         if prev.contains(position){
             context.nextModel = .ExpOptions
         }
-        if next.contains(position){
+        if nextt.contains(position){
             context.setupPassed[4] = true
             if currentMode != 0{
                 if currentMode == 1{

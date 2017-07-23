@@ -208,4 +208,6 @@ protocol TMRProject {
     
     func getControlArray()->[Double]
     func setControlArray(array:[Double])
+    
+    func reset()
 }

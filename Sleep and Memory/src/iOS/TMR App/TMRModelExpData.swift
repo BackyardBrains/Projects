@@ -16,7 +16,7 @@ class TMRModelExpData:TMRModel{
     var colNumField = UITextField()
     var sampleSizeField = UITextField()
     var errorThreshold = UITextField()
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
@@ -43,8 +43,8 @@ class TMRModelExpData:TMRModel{
             errorThreshold.text = String(context.project.getGuiSetting().getDistanceThreshold())
         }
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
         prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
@@ -62,7 +62,7 @@ class TMRModelExpData:TMRModel{
             errorThreshold.removeFromSuperview()
             context.nextModel = .MetaData
         }
-        if next.contains(position){
+        if nextt.contains(position){
             context.setupPassed[1] = true
             if let p = colNumField.text{
                 if let col = Int(p){

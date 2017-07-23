@@ -12,7 +12,7 @@ import SpriteKit
 
 enum ModelType {
     case None,
-        Home,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+        Loading,Home,ViewProj,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
         Queuing,Control,Retest,Result,Comments,End
 }
 
@@ -21,6 +21,7 @@ class TMRContext {
     var userAccount : UserAccount
     var userNameList : [String] = []
     var selUserName : String = "default"
+    var allProjects : [TMRProject] = []
     
     var project     : TMRProject
     var projNameList : [String] = []// list in file
@@ -57,7 +58,7 @@ class TMRContext {
         UserAccountFactory.save(name: userAccount.getUserName(), user: userAccount.getUserAccountTuple())
         project = TMRProjectFactory.getTMRProject(userAccount : userAccount)
         
-        model  = TMRModelHome() as TMRModel // initial model
+        model  = TMRLoading() as TMRModel // initial model
     }
     
     func modelUpdate(screen : TMRScreen,view:SKView){
@@ -70,8 +71,12 @@ class TMRContext {
         self.model.end(screen: screen, context: self)
         // get next
         switch(self.nextModel){
+        case .Loading:
+            self.model = TMRLoading()
         case .Home:
             self.model = TMRModelHome()
+        case .ViewProj:
+            self.model = TMRViewProj()
         case .MetaData:
             self.model = TMRModelMetaData()
         case .ExpData:
@@ -111,7 +116,6 @@ class TMRContext {
         self.model.begin(screen: screen, context: self,view:view)
         // start next
     }
-
     
     func getResourceIndexList() -> [Int] {
         return resourceIndexList
@@ -119,6 +123,14 @@ class TMRContext {
     
     func setResourceIndexList(resourceIndexList : [Int] ) {
         self.resourceIndexList = resourceIndexList
+    }
+    
+    func reset(){
+        controlModel = 1
+        setupPassed = [false,false,false,false,false,false,false]
+        isAuto = true
+        repeatCnt = 0
+        curIdx = 0
     }
     
 }

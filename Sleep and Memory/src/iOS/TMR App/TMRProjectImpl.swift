@@ -56,6 +56,45 @@ class TMRProjectImpl : TMRProject {
     var tmrResource : TMRResource
     var user : UserAccount?
     var controlArray:[Double] = [0,0,0,0]
+    
+    func reset(){
+        projectTuple.tmrProjectName = ""
+        projectTuple.subject = ""
+        projectTuple.experimenter = ""
+        projectTuple.timeBegin = ""
+        projectTuple.timeEnd = ""
+        projectTuple.tmrNote = ""
+        projectTuple.location = ""
+        projectTuple.displayDevice = ""
+        projectTuple.deviceOrientation = ""
+        
+        projectTuple.tmrResourceName = "default"
+        projectTuple.userAccountName = "Robert"
+        projectTuple.guiSetting.reset()
+        projectTuple.tmrEntries = []
+        projectTuple.experimentCompleted = false
+        projectTuple.beginTime = ""
+        projectTuple.endTime = ""
+        
+        projectTuple.JSONVersion = ""
+        projectTuple.software = ""
+        
+        projectTuple.timeStart1 = ""
+        projectTuple.timeEnd1 = ""
+        projectTuple.timeStart2 = ""
+        projectTuple.timeEnd2 = ""
+        projectTuple.timeStartBeforeSleep = ""
+        projectTuple.timeEndBeforeSleep = ""
+        projectTuple.timeStartAfterSleep = ""
+        projectTuple.timeEndAfterSleep = ""
+        
+        
+        projectTuple.cueTimeBegin = ""
+        projectTuple.cueTimeEnd = ""
+        projectTuple.cueTimeBegin2 = ""
+        projectTuple.cueTimeEnd2 = ""
+        projectTuple.subjectNapped = 1
+    }
 
     func getTMRProjectTuple() -> TMRProjectTuple { return projectTuple }
     func setTMRProjectTuple(tuple : TMRProjectTuple) { projectTuple = tuple }

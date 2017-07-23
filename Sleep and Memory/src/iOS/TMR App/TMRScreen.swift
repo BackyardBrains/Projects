@@ -59,6 +59,15 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         objc_sync_exit(self)
     }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first!
+        let location = touch.location(in:self)
+        objc_sync_enter(self)
+        context.model.touchEnd(screen: self, context: context, position: location)
+        context.modelUpdate(screen: self,view:view!)
+        objc_sync_exit(self)
+    }
+    
     func addGrid(){
         let numRows = context.project.getGuiSetting().getNumRows()
         let numCol = context.project.getGuiSetting().getNumColumns()

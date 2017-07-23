@@ -18,7 +18,7 @@ class TMRModelTimingData:TMRModel{
     var testing = UITextField()
     var cueing = UITextField()
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
@@ -51,8 +51,8 @@ class TMRModelTimingData:TMRModel{
         }
         
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
         prev = SKSpriteNode(imageName: "PrevIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
@@ -72,7 +72,7 @@ class TMRModelTimingData:TMRModel{
             cueing.removeFromSuperview()
             context.nextModel = .ExpData
         }
-        if next.contains(position){//3135
+        if nextt.contains(position){//3135
             context.setupPassed[2] = true
             if let p = training.text{
                 if let t = Int(p){

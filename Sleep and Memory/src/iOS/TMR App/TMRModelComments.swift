@@ -14,7 +14,7 @@ import SpriteKit
 
 class TMRModelComments:TMRModel{
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     
     var field = UITextView()
     
@@ -30,8 +30,8 @@ class TMRModelComments:TMRModel{
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Comments For Experimenter", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.2), zPosition: 2, alpha: 1)
-        screen.addChild(next)
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*0.2), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
         
     }
     
@@ -40,7 +40,7 @@ class TMRModelComments:TMRModel{
     }
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
-        if next.contains(position){
+        if nextt.contains(position){
             if let f = field.text{
                 if f != ""{
                     context.project.setTMRProjectNote(note: f)
@@ -50,6 +50,7 @@ class TMRModelComments:TMRModel{
             }else{
                 context.project.setTMRProjectNote(note: "No Comments Were Made")
             }
+            context.project.setExperimentCompleted()
             field.removeFromSuperview()
             context.nextModel = .End
             

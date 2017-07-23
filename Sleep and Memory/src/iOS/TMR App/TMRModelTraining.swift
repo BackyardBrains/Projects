@@ -47,6 +47,7 @@ class TMRModelTraining : TMRModel {
         }
         else{
             isWaiting = true
+            print(context.getResourceIndexList())
             let resIndex = context.getResourceIndexList()[context.curIdx]
             let picture = context.project.getPictureName(resourceIndex: resIndex)
             let sound = context.project.getAudioUrl(resourceIndex: resIndex)

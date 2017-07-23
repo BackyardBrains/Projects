@@ -39,6 +39,22 @@ class GuiSetting : EVObject, NSCopying {
     //Percent of images cued
     var percentCued : Int = 50
     
+    func reset(){
+        numColumns = 10
+        numRows = 6
+        sampleSize = 2
+        distanceThreshold = 15
+        trainingInterval = 0
+        intertrainingInterval = 0
+        testingInterval = 0
+        sleepInterval = 0
+        repeatTimesForTestAfterTraining = 2
+        json = 2
+        software = 4.1
+        treatmentNum = 1
+        percentCued = 50
+    }
+    
     /*
     func toJSON() -> [String:Any] {
         var dictionary: [String : Any] = [:]
