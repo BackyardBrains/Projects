@@ -19,14 +19,15 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global a;
         global zi;
         global roi;
-        global graphic;
+        %global graphic;
+        global p;
         
         global faceimg;
         global sceneimg;
 
 
 
-        numberOfSeconds = 60;
+        numberOfSeconds = 60*6.25;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -132,41 +133,42 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     %create input vector
                                     inputVector = [roiEEG(:,1);roiEEG(:,2);roiEEG(:,4)]';
                                     
-                                    set(graphic.h11, 'ydata', roiEEG(:,1)');
-                                    set(graphic.h12, 'ydata', roiEEG(:,2)');
-                                    set(graphic.h21, 'ydata', roiEEG(:,3)');
-                                    set(graphic.h22, 'ydata', roiEEG(:,4)');
-                                    set(graphic.h31, 'ydata', roiEEG(:,5)');
-                                    set(graphic.h32, 'ydata', encodingChannel);
+                                    set( p.h( p.eeg(1)), 'ydata', roiEEG(:,1)');
+                                    set( p.h( p.eeg(2)), 'ydata', roiEEG(:,2)');
+                                    set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
+                                    set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
+                                    set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
+                                    set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                     
                                     
                                      %predict output for test data
                                      disp('------------------------------')
                                      disp('Decoding...')
                                     predictedOutputs = classifier.predictFcn(inputVector);
-                                    predictedOutputs
+                                    %predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
-                                        set(graphic.imageHandle,'CData',faceimg);
-                                        
+                                        set( p.h( p.image ),'CData',faceimg);
+                                        predictedOutputs
                                         if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Face') 
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Non Face') 
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Non Face') 
                                         end
                                         
                                     else
                                         disp('Predicted: Non Face')
-                                        set(graphic.imageHandle,'CData',sceneimg);
+                                        set(p.h( p.image ),'CData',sceneimg);
+                                        predictedOutputs
                                          if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set(graphic.imageLabel, 'string', 'Incorrect  - Correct: Face') 
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set(graphic.imageLabel, 'string', 'Match!  - Correct: Non Face') 
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Non Face') 
                                         end
                                     end
                                     
@@ -195,10 +197,14 @@ function [ output_args ] = rtClassificationHandler(varargin)
                 stop(timer2)
                 disp('End decoding')
                 disp('******************************')
-                truePositivePercent = 100*(sum(predictedClasses(corectClasses==1)==1)/sum(corectClasses==1))
-                falsePositivePercent = 100*(sum(predictedClasses(corectClasses~=1)==1)/sum(corectClasses~=1))
-                trueNegativePercent = 100*(sum(predictedClasses(corectClasses~=1)~=1)/sum(corectClasses~=1))
-                falseNegativePercent = 100*(sum(predictedClasses(corectClasses==1)~=1)/sum(corectClasses==1))
+                correct = sum(predictedClasses(corectClasses==1)==1)+sum(predictedClasses(corectClasses~=1)~=1);
+                total = sum(predictedClasses(corectClasses==1)==1)+sum(predictedClasses(corectClasses~=1)==1)+ sum(predictedClasses(corectClasses~=1)~=1)+sum(predictedClasses(corectClasses==1)~=1)
+                correctGuess = 100*(correct/total)
+                %truePositivePercent = 100*(sum(predictedClasses(corectClasses==1)==1)/sum(corectClasses==1))
+                %falsePositivePercent = 100*(sum(predictedClasses(corectClasses~=1)==1)/sum(corectClasses~=1))
+                %trueNegativePercent = 100*(sum(predictedClasses(corectClasses~=1)~=1)/sum(corectClasses~=1))
+                %falseNegativePercent = 100*(sum(predictedClasses(corectClasses==1)~=1)/sum(corectClasses==1))
+                
                 figure;
                 plot(EEGMatrix')
                 title('Raw EEG data (Testing)')

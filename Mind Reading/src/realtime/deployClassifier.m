@@ -4,8 +4,8 @@ if exist('serialEEG','var')
     end
     %clear;
     
-    %serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-    serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -26,26 +26,28 @@ if exist('serialEEG','var')
     global graphic;
     global classifier;
     global roiTime;
+    global p;
     
     testingimg = imread('testing.jpg');
-    set(graphic.imageHandle,'CData',testingimg);
-    
-    figure;
-    subplot(1,3,1);
-    sizeOfInput = -roi(1)+roi(2)+1;
-    subplot(1,3,1);
-    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(1:sizeOfInput));
-    title('Wights of SVM for 1th channel')
-    subplot(1,3,2);
-    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(sizeOfInput+1:2*sizeOfInput));
-    title('Wights of SVM for 2nd channel')
-    subplot(1,3,3);
-    plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(2*sizeOfInput+1:3*sizeOfInput));
-    title('Wights of SVM for 4th channel')
-    
+    %subplot( p.h( p.image ) );
+    set(p.h( p.image ),'CData',testingimg);
+%     
+%     figure;
+%     subplot(1,3,1);
+%     sizeOfInput = -roi(1)+roi(2)+1;
+%     subplot(1,3,1);
+%     plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(1:sizeOfInput));
+%     title('Wights of SVM for 1th channel')
+%     subplot(1,3,2);
+%     plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(sizeOfInput+1:2*sizeOfInput));
+%     title('Wights of SVM for 2nd channel')
+%     subplot(1,3,3);
+%     plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(2*sizeOfInput+1:3*sizeOfInput));
+%     title('Wights of SVM for 4th channel')
+%     
     
     fs = 1666;
-    fc = 100;
+    fc = 60;
      [b,a] = butter(2,fc/(fs/2));
         zi = [];
     

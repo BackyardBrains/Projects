@@ -15,7 +15,8 @@ function [ out ] = getSerialDataHandler(varargin)
         global b;
         global a;
         global zi;
-        global graphic;
+        %global graphic;
+        global p;
         global roi;
         
         
@@ -125,12 +126,12 @@ function [ out ] = getSerialDataHandler(varargin)
                                 
                                 
                                 
-                                set(graphic.h11, 'ydata', roiEEG(:,1)');
-                                set(graphic.h12, 'ydata', roiEEG(:,2)');
-                                set(graphic.h21, 'ydata', roiEEG(:,3)');
-                                set(graphic.h22, 'ydata', roiEEG(:,4)');
-                                set(graphic.h31, 'ydata', roiEEG(:,5)');
-                                set(graphic.h32, 'ydata', encodingChannel);
+                                set( p.h( p.eeg(1)), 'ydata', roiEEG(:,1)');
+                                set( p.h( p.eeg(2)), 'ydata', roiEEG(:,2)');
+                                set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
+                                set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
+                                set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
+                                set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                 
 
                                 
@@ -153,27 +154,30 @@ function [ out ] = getSerialDataHandler(varargin)
                 FileName=['trainingRT-',datestr(now, 'dd-mmm-yyyy-HH-MM-SS'),'.mat'];
 
                 save(FileName,'classOfImage', 'EEGMatrix', 'erps');
-                figure;
-                plot(EEGMatrix')
-                title('Raw EEG data (Training)')
+                %figure;
+                %plot(EEGMatrix')
+                %title('Raw EEG data (Training)')
 
-                figure;
-                subplot(2,2,1);
+                %figure;
+                subplot(  p.h( p.erp(1) ));
                 faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
                 plot(faceAverage);
-                title('Face ERP (Training)');
-                subplot(2,2,2);
+                %title('Face ERP (Training)');
+                
+                subplot(  p.h( p.erp(2) ));
                 class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
                 plot(class2Aver);
-                title('House ERP (Training)');
-                subplot(2,2,3);
+                %title('House ERP (Training)');
+                
+                subplot(  p.h( p.erp(3) ));
                 class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
                 plot(class3Aver);
-                title('Nature ERP (Training)');
-                subplot(2,2,4);
+                %title('Nature ERP (Training)');
+
+                subplot(  p.h( p.erp(4) ));
                 class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
                 plot(class4Aver);
-                title('Weird ERP (Training)');
+                %title('Weird ERP (Training)');
                 
 
                 clear serialEMG
