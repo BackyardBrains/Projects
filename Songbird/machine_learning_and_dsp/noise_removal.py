@@ -67,7 +67,8 @@ class noiseCleaner:
                 # time.sleep might help here
             pass
 
-        segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
+        segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
+                                          weight, False)  # get onsets
         prev_end = 0
         activity_files = []
         noise_files = []

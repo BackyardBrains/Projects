@@ -18,7 +18,7 @@ const uint32_t  PinMASK = (1ul << g_APinDescription[PIN].ulPin);
 #define TIMER_PRESCALER_DIV 64
 #define LED_PIN 2
 
-#define sampleRate 25000
+#define sampleRate 24000
 
 bool isLEDOn = false;
 
@@ -66,7 +66,7 @@ void sdInit(){
   else{
     myFile.seek(44);
     fileOpen = 1;
-    digitalWrite(13, fileOpen);
+    digitalWrite(13, !fileOpen);
   }
 
   Serial.end();
@@ -314,7 +314,7 @@ void loop()
         myFile.flush();
         myFile.close();
         fileOpen = 0;
-        digitalWrite(13, fileOpen);
+        digitalWrite(13, !fileOpen);
         if(doRecord){
           sdInit();
         }
