@@ -37,9 +37,13 @@ class TMRViewProj:TMRModel{
     }
     
     func setupData(screen:TMRScreen,context:TMRContext){
-        let export = SKSpriteNode(imageName: "export", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height/2), zPosition: 2, alpha: 1)
+        let export = SKSpriteNode(imageName: "export", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width*5/7,y:screen.frame.height/2), zPosition: 2, alpha: 1)
         export.name = "export"
         screen.addChild(export)
+        
+        let data = SKSpriteNode(imageName: "data", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width*2/7,y:screen.frame.height/2), zPosition: 2, alpha: 1)
+        data.name = "data"
+        screen.addChild(data)
     }
     
     func setupStart(screen:TMRScreen,context:TMRContext){
@@ -76,6 +80,9 @@ class TMRViewProj:TMRModel{
             if node.name == "export" && node.contains(position){
                 let jsonString = TMRProjectFactory.exportProjectToFile(project: context.project, screen:screen)
                 screen.shareData(info: [jsonString])
+            }
+            if node.name == "data" && node.contains(position){
+                context.nextModel = .PostTestStats
             }
         }
     }

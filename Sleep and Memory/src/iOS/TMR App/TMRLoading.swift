@@ -22,9 +22,11 @@ class TMRLoading : TMRModel  {
         
         context.projNameList = TMRProjectFactory.getNameList()
         
+        var numProjects = 0
         for projectName in context.projNameList{
             let project = TMRProjectFactory.importProjectFromFile(projectName: projectName)
             context.allProjects.append(project)
+            numProjects+=1
         }
         
         context.userNameList = UserAccountFactory.getNameList()
@@ -35,6 +37,11 @@ class TMRLoading : TMRModel  {
         }
         
         context.nextModel = .Home
+        
+        //THIS SHOULD NOT BE HERE!!!!!!!
+        context.userAccount.setID(ID: numProjects)
+        //TEMPORARY FIX
+        
     }
     
 }

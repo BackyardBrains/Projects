@@ -23,8 +23,8 @@ xcuserdata/
 *.xcscmblueprint
 
 .DS_Store
-Sleep\and\Memory/.DS_Store
-Sleep\and\Memory/src/.DS_Store
+Sleep\ and\ Memory/.DS_Store
+Sleep\ and\ Memory/src/.DS_Store
 
 ## Obj-C/Swift specific
 *.hmap

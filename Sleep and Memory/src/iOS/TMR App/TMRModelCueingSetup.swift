@@ -138,8 +138,8 @@ class TMRModelCueingSetup:TMRModel{
                     context.nextModel = .CueingSetupAuto
                 }
                 if currentMode == 2{
-                    //context.isAuto = false
-                    //context.nextModel = .CueingSetupManual
+                    context.isAuto = false
+                    context.nextModel = .CueingSetupManual
                 }
             }else{
                 context.nextModel = .CueingSetupAuto

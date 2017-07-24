@@ -11,8 +11,7 @@ import UIKit
 import SpriteKit
 
 enum ModelType {
-    case None,
-    Loading,Home,ViewProj,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+    case None,Loading,Home,ViewProj,PostTestStats,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
     Queuing,Control,Retest,Result,Comments,End
 }
 
@@ -77,6 +76,8 @@ class TMRContext {
             self.model = TMRModelHome()
         case .ViewProj:
             self.model = TMRViewProj()
+        case .PostTestStats:
+            self.model = TMRPostTestStats()
         case .MetaData:
             self.model = TMRModelMetaData()
         case .ExpData:

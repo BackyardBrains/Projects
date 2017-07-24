@@ -93,6 +93,8 @@ class TMRModelMetaData:TMRModel{
                 context.userAccount.setID(ID: context.userAccount.getID()+1)
             }
             
+            UserAccountFactory.save(name: context.userAccount.getUserName(), user: context.userAccount.getUserAccountTuple())
+            
             if let subject = subjectNameField.text{
                 if subject != ""{
                     context.project.setSubject(name: subject)

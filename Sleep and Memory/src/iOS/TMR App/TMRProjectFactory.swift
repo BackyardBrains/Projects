@@ -130,8 +130,8 @@ class TMRProjectFactory {
     }
     
     static func save(name:String,proj : TMRProjectTuple){
+        del(name: name)
         proj.saveToDocuments(name+".proj")
-        
     }
     
     static func load(name:String) -> TMRProjectTuple {
