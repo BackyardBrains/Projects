@@ -1,4 +1,4 @@
-#include <RTCZero.h>
+#include <RTClib.h>
 
 //  Test routine heavily inspired by wiring_analog.c from GITHUB site
 // Global preamble
@@ -18,7 +18,7 @@ const uint32_t  PinMASK = (1ul << g_APinDescription[PIN].ulPin);
 #define TIMER_PRESCALER_DIV 64
 #define LED_PIN 2
 
-#define sampleRate 25000
+#define sampleRate 24000
 
 bool isLEDOn = false;
 
@@ -32,15 +32,15 @@ void setTimerFrequency(int frequencyHz) {
   while (TC->STATUS.bit.SYNCBUSY == 1);
 }
 
-RTCZero rtc;
+RTC_DS1307 rtc;
 
 void dateTime(uint16_t* date, uint16_t* time) {
-  
-  // return date using FAT_DATE macro to format fields
-  *date = FAT_DATE(rtc.getYear()+2000, rtc.getMonth(), rtc.getDay());
+ DateTime now = rtc.now();
+ 
+ *date = FAT_DATE(now.year(), now.month(), now.day());
 
-  // return time using FAT_TIME macro to format fields
-  *time = FAT_TIME(rtc.getHours(), rtc.getMinutes(), rtc.getSeconds());
+ // return time using FAT_TIME macro to format fields
+ *time = FAT_TIME(now.hour(), now.minute(), now.second());
 }
 
 File myFile;
@@ -66,7 +66,7 @@ void sdInit(){
   else{
     myFile.seek(44);
     fileOpen = 1;
-    digitalWrite(13, fileOpen);
+    digitalWrite(13, !fileOpen);
   }
 
   Serial.end();
@@ -246,12 +246,26 @@ void recordToggle(){
 
 void setup()
 {
-  rtc.begin();
-  SD.begin(8);
+  if(!rtc.begin()){
+    Serial.begin(9600);
+    Serial.println("RTC cannot start");
+    Serial.end();
+  }
+  if(!rtc.isrunning()){
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  } 
+  pinMode(13, OUTPUT);
+  if(!SD.begin(8)){
+    Serial.begin(9600);
+    Serial.println("Cannot connect to SD Card");
+    Serial.end();
+    digitalWrite(13, LOW);
+    while(1);
+  }
+  
   sdInit();
   pinMode(PIN, OUTPUT);        // setup timing marker
-  pinMode(13, OUTPUT);
-
+  
   //###################################################################################
   // ADC setup stuff
   //###################################################################################
@@ -275,7 +289,7 @@ void setup()
 
   pinMode(7, INPUT);
   startTimer(sampleRate);
-  attachInterrupt(digitalPinToInterrupt(12), recordToggle, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(12), recordToggle, RISING);
 }
 
 
@@ -294,7 +308,7 @@ void loop()
         myFile.flush();
         myFile.close();
         fileOpen = 0;
-        digitalWrite(13, fileOpen);
+        digitalWrite(13, !fileOpen);
         if(doRecord){
           sdInit();
         }

@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 import pathos.multiprocessing as mp
 import pyAudioAnalysis.audioBasicIO as audioBasicIO
@@ -66,7 +67,8 @@ class noiseCleaner:
                 # time.sleep might help here
             pass
 
-        segmentLimits = aS.silenceRemoval(x, Fs, 0.05, 0.05, smoothingWindow, weight, False)  # get onsets
+        segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
+                                          weight, False)  # get onsets
         prev_end = 0
         activity_files = []
         noise_files = []
@@ -91,21 +93,23 @@ class noiseCleaner:
         recombine_wavfiles(noise_files, noise_out)
         recombine_wavfiles(activity_files, activity_out)
 
-        # try:
-        tfs = sox.Transformer()
-        noise_profile_path = '.'.join([noise_out, 'prof'])
-        tfs.noiseprof(noise_out, noise_profile_path)
-        tfs.build(noise_out, '-n')
-        tfs.clear_effects()
-        tfs.noisered(noise_profile_path, amount=sensitivity)
-        clean_out = os.path.join(dir, clean_dir, inputFile)
-        tfs.build(activity_out, clean_out)
+        try:
+            tfs = sox.Transformer()
+            noise_profile_path = '.'.join([noise_out, 'prof'])
+            tfs.noiseprof(noise_out, noise_profile_path)
+            tfs.build(noise_out, '-n')
+            tfs.clear_effects()
+            tfs.noisered(noise_profile_path, amount=sensitivity)
+            clean_out = os.path.join(dir, clean_dir, inputFile)
+            tfs.build(activity_out, clean_out)
 
-        # except:
-        #     original_file = os.path.join(dir, inputFile)
-        #     sys.stderr.write("Sox error in noise reduction of file: %s.\n" % original_file)
-        #     clean_out = os.path.join(dir, clean_dir, inputFile)
-        #     shutil.copyfile(original_file, clean_out)
+        except:
+            original_file = os.path.join(dir, inputFile)
+            sys.stderr.write("Sox error in noise reduction of file: %s.\n" % original_file)
+            clean_out = os.path.join(dir, clean_dir, inputFile)
+            shutil.copyfile(original_file, clean_out)
+            with open('NR_fail_record.log', 'w') as fail_record:
+                fail_record.write('%s\n' % original_file)
 
         if not debug:
             shutil.rmtree(os.path.join(dir, "noise"))
@@ -128,7 +132,7 @@ class noiseCleaner:
         wav_files = []
         for root, dirs, files in os.walk(rootdir):
             for file in files:
-                if file.endswith('.wav'):
+                if file.endswith('.wav') or file.endswith('.WAV'):
                     wav_files.append(os.path.join(root, file))
                     num_samples_processed += 1
                     if not num_threads:
