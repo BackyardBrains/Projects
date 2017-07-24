@@ -26,7 +26,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global incorrectimg;
 
 
-        numberOfSeconds = 60*6;
+        numberOfSeconds = 60*8;
         % numberOfSeconds = 60*6.25;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;

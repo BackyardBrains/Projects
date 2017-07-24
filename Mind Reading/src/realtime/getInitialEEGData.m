@@ -7,7 +7,7 @@
     %clear;
     
     serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-     %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -108,8 +108,8 @@
     %figure('Position', [100 100 622 622]);
     global correctimg;
     global incorrectimg;
-    correctimg = imread('correct.png');
-    incorrectimg = imread('incorrect.png');
+    correctimg = imread('correct.jpg');
+    incorrectimg = imread('incorrect.jpg');
     subplot( p.h( p.image ) );
     trainingimg = imread('training.jpg');
     p.h( p.image ) = image(trainingimg);
