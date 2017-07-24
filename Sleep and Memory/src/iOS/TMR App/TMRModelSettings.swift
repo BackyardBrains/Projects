@@ -45,7 +45,7 @@ class TMRModelSettings : TMRModel  {
             UserAccountFactory.save(name: userName, user: context.userAccount.getUserAccountTuple())
             
             // save project to file
-            let projName = context.project.getTMRProjectName()
+            let projName = context.project.getTMRID()
             TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
             context.allProjects.append(context.project)
             context.reset()
@@ -53,7 +53,7 @@ class TMRModelSettings : TMRModel  {
         }
         if trash.contains(position){
             context.nextModel = .Home
-            TMRProjectFactory.del(name: context.project.getTMRProjectName())
+            TMRProjectFactory.del(name: context.project.getTMRID())
             //remove from all projects too
         }
         if cont.contains(position){
@@ -63,7 +63,7 @@ class TMRModelSettings : TMRModel  {
             context.allProjects.append(context.project)
             
             // save project to file
-            let projName = context.project.getTMRProjectName()
+            let projName = context.project.getTMRID()
             TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
             context.nextModel = .Training
         }

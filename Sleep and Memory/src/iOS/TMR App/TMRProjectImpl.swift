@@ -12,6 +12,7 @@ import EVReflection
 
 class TMRProjectTuple : EVObject {
     var tmrProjectName : String = ""
+    var tmrID:String = "proj0"
     var subject:String = ""
     var experimenter:String = ""
     var timeBegin:String = ""
@@ -59,6 +60,7 @@ class TMRProjectImpl : TMRProject {
     
     func reset(){
         projectTuple.tmrProjectName = ""
+        projectTuple.tmrID = "proj0"
         projectTuple.subject = ""
         projectTuple.experimenter = ""
         projectTuple.timeBegin = ""
@@ -95,11 +97,13 @@ class TMRProjectImpl : TMRProject {
         projectTuple.cueTimeEnd2 = ""
         projectTuple.subjectNapped = 1
     }
-
+    
     func getTMRProjectTuple() -> TMRProjectTuple { return projectTuple }
     func setTMRProjectTuple(tuple : TMRProjectTuple) { projectTuple = tuple }
     func getTMRProjectName() -> String { return projectTuple.tmrProjectName}
     func setTMRProjectName(name:String) { projectTuple.tmrProjectName = name}
+    func getTMRID()->String{return projectTuple.tmrID}
+    func setTMRID(ID:String){projectTuple.tmrID = ID}
     func getSubject() -> String {return projectTuple.subject}
     func setSubject(name: String) {projectTuple.subject = name}
     func getExperimenter() -> String {return projectTuple.experimenter}
@@ -140,12 +144,13 @@ class TMRProjectImpl : TMRProject {
         setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
         setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
         self.user?.addTMRRecord(project: self)
-
+        
     }
     
-    init(projectName:String, user : UserAccount) {
+    init(projectName:String, ID:String, user : UserAccount) {
         projectTuple.tmrProjectName = projectName;
         projectTuple.userAccountName = user.getUserName()
+        projectTuple.tmrID = ID
         tmrResource = TMRResourceFactory.getTMRResource()
         projectTuple.tmrResourceName = tmrResource.getResourceName()
         self.user = UserAccount(userName: user.getUserName(), password: user.getPassword())
@@ -285,7 +290,7 @@ class TMRProjectImpl : TMRProject {
         
         projectTuple.endTime = endTime;
     }
-
+    
     
     func setTMRResource(resourceName:String) {
         tmrResource = TMRResourceFactory.getTMRResource(resourceName: resourceName);
@@ -950,7 +955,7 @@ class TMRProjectImpl : TMRProject {
     func setSubjectNapped(num: Int) {
         projectTuple.subjectNapped = num
     }
-   
+    
     func getNumOfCorrectRecordsBeforeSleep() -> Int {
         var ret:Int = 0
         for tmrEntry in projectTuple.tmrEntries {
@@ -1250,62 +1255,62 @@ class TMRProjectImpl : TMRProject {
         return tmrExportAllEntry
     }
     /*
-    func toJSON() -> [String:Any] {
-        tmrResource = TMRResourceFactory.getTMRResource();
-        var dictionary: [String : Any] = [:]
-        
-        dictionary["projectName"] = projectTuple.tmrProjectName
-        dictionary["note"] = projectTuple.tmrNote
-        dictionary["user"] = user?.toJSON()
-        dictionary["guiSetting"] = projectTuple.guiSetting?.toJSON()
-        
-        var tmrEntriesDictionary: [String : Any] = [:]
-        
-        var i : Int = 0
-        for tmrEntry in projectTuple.tmrEntries.values {
-            let nickName = getNickName(resourceIndex: tmrEntry.getSoundImageIndex())
-            tmrEntriesDictionary["\(nickName)"] = tmrEntry.toJSON()
-            i = i+1
-        }
-        print("protect:toJSON, array end")
-        dictionary["tmrEntries"] = tmrEntriesDictionary
-        if ( projectTuple.experimentCompleted ) {
-            dictionary["experimentCompleted"] = "True"
-        }
-        else {
-            dictionary["experimentCompleted"] = "False"
-        }
-        return dictionary
-    }
-    
-    func fromJson (dictionary : [String : Any]) {
-        self.tmrResource = TMRResourceFactory.getTMRResource();
-        var stringName : String = dictionary["projectName"] as! String
-        projectTuple.tmrProjectName = stringName
-        stringName = dictionary["note"] as! String
-        projectTuple.tmrNote = stringName
-        var _user : [String: Any]  = dictionary["user"] as! [String : Any]
-        self.user?.fromJson(dictionary: _user)
-        var _guiSetting : [String : Any] = dictionary["guiSetting"] as! [String : Any]
-        projectTuple.guiSetting?.fromJson(dictionary: _guiSetting)
-        
-        var _tmrEntries = dictionary["tmrEntries"] as! [[String: Any]]
-        for i in 0..<_tmrEntries.count {
-            var _tmrEntry : [String : Any] = _tmrEntries[i]
-            var tmrEntry = TMREntry()
-            tmrEntry.fromJson(dictionary: _tmrEntry)
-            projectTuple.tmrEntries[tmrEntry.getSoundImageIndex()] = tmrEntry
-        }
-
-        var stringNum = dictionary["experimentCompleted"] as! String
-        if stringNum == "True" {
-            projectTuple.experimentCompleted = true
-        }
-        else {
-            projectTuple.experimentCompleted = false
-        }
-    }
-    */
+     func toJSON() -> [String:Any] {
+     tmrResource = TMRResourceFactory.getTMRResource();
+     var dictionary: [String : Any] = [:]
+     
+     dictionary["projectName"] = projectTuple.tmrProjectName
+     dictionary["note"] = projectTuple.tmrNote
+     dictionary["user"] = user?.toJSON()
+     dictionary["guiSetting"] = projectTuple.guiSetting?.toJSON()
+     
+     var tmrEntriesDictionary: [String : Any] = [:]
+     
+     var i : Int = 0
+     for tmrEntry in projectTuple.tmrEntries.values {
+     let nickName = getNickName(resourceIndex: tmrEntry.getSoundImageIndex())
+     tmrEntriesDictionary["\(nickName)"] = tmrEntry.toJSON()
+     i = i+1
+     }
+     print("protect:toJSON, array end")
+     dictionary["tmrEntries"] = tmrEntriesDictionary
+     if ( projectTuple.experimentCompleted ) {
+     dictionary["experimentCompleted"] = "True"
+     }
+     else {
+     dictionary["experimentCompleted"] = "False"
+     }
+     return dictionary
+     }
+     
+     func fromJson (dictionary : [String : Any]) {
+     self.tmrResource = TMRResourceFactory.getTMRResource();
+     var stringName : String = dictionary["projectName"] as! String
+     projectTuple.tmrProjectName = stringName
+     stringName = dictionary["note"] as! String
+     projectTuple.tmrNote = stringName
+     var _user : [String: Any]  = dictionary["user"] as! [String : Any]
+     self.user?.fromJson(dictionary: _user)
+     var _guiSetting : [String : Any] = dictionary["guiSetting"] as! [String : Any]
+     projectTuple.guiSetting?.fromJson(dictionary: _guiSetting)
+     
+     var _tmrEntries = dictionary["tmrEntries"] as! [[String: Any]]
+     for i in 0..<_tmrEntries.count {
+     var _tmrEntry : [String : Any] = _tmrEntries[i]
+     var tmrEntry = TMREntry()
+     tmrEntry.fromJson(dictionary: _tmrEntry)
+     projectTuple.tmrEntries[tmrEntry.getSoundImageIndex()] = tmrEntry
+     }
+     
+     var stringNum = dictionary["experimentCompleted"] as! String
+     if stringNum == "True" {
+     projectTuple.experimentCompleted = true
+     }
+     else {
+     projectTuple.experimentCompleted = false
+     }
+     }
+     */
     
     
 }

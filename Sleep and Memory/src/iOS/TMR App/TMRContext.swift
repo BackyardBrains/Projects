@@ -12,8 +12,8 @@ import SpriteKit
 
 enum ModelType {
     case None,
-        Loading,Home,ViewProj,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
-        Queuing,Control,Retest,Result,Comments,End
+    Loading,Home,ViewProj,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+    Queuing,Control,Retest,Result,Comments,End
 }
 
 // current running context
@@ -52,12 +52,12 @@ class TMRContext {
     var repeatCnt : Int = 0
     
     var curIdx = 0;
-
+    
     init() {
         userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
         UserAccountFactory.save(name: userAccount.getUserName(), user: userAccount.getUserAccountTuple())
-        project = TMRProjectFactory.getTMRProject(userAccount : userAccount)
-        
+        //project = TMRProjectFactory.getTMRProject(userAccount : userAccount,ID:userAccount.getID())
+        project = TMRProjectImpl()
         model  = TMRLoading() as TMRModel // initial model
     }
     

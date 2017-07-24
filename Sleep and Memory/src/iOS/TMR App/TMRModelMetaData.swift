@@ -24,7 +24,7 @@ class TMRModelMetaData:TMRModel{
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
-
+        
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Setup: If blank, default value is used", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
         
@@ -61,7 +61,7 @@ class TMRModelMetaData:TMRModel{
         
         prev = SKSpriteNode(imageName: "home", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2-screen.frame.height/14-10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
         screen.addChild(prev)
-
+        
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -82,12 +82,15 @@ class TMRModelMetaData:TMRModel{
             
             if let name = projectNameField.text{
                 if name != ""{
-                    context.project = TMRProjectFactory.getTMRProject(projectName: name, userAccount: context.userAccount)
+                    context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
+                    context.userAccount.setID(ID: context.userAccount.getID()+1)
                 }else{
-                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", userAccount: context.userAccount)
+                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", ID:context.userAccount.getID(),userAccount: context.userAccount)
+                    context.userAccount.setID(ID: context.userAccount.getID()+1)
                 }
             }else{
-                context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", userAccount: context.userAccount)
+                context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled",ID:context.userAccount.getID(),userAccount: context.userAccount)
+                context.userAccount.setID(ID: context.userAccount.getID()+1)
             }
             
             if let subject = subjectNameField.text{
@@ -121,15 +124,10 @@ class TMRModelMetaData:TMRModel{
             
             context.setupPassed[0] = true
             context.nextModel = .ExpData
-            
-            print(context.project.getSubject())
-            print(context.project.getExperimenter())
-            print(context.project.getLocation())
-            print(context.project.getTMRProjectName())
         }
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-
+        
     }
 }

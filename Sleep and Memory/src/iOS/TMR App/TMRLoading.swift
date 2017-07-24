@@ -12,7 +12,6 @@ import UIKit
 
 
 class TMRLoading : TMRModel  {
-    
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         print("model home begin")
@@ -27,7 +26,6 @@ class TMRLoading : TMRModel  {
             let project = TMRProjectFactory.importProjectFromFile(projectName: projectName)
             context.allProjects.append(project)
         }
-    
         
         context.userNameList = UserAccountFactory.getNameList()
         if context.userNameList.count > 0 {
@@ -37,8 +35,6 @@ class TMRLoading : TMRModel  {
         }
         
         context.nextModel = .Home
-        
-        
     }
     
 }

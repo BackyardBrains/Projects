@@ -11,6 +11,9 @@ import SpriteKit
 
 protocol TMRProject {
     //Explicit Exported Data
+    //projectID
+    func getTMRID()->String
+    func setTMRID(ID:String)
     //projectName
     func getTMRProjectTuple() -> TMRProjectTuple
     func setTMRProjectTuple(tuple : TMRProjectTuple)
@@ -69,7 +72,7 @@ protocol TMRProject {
     func setPosition(resourceIndex : Int, posX : Int, posY : Int)
     func getBasedSoundNames() -> [String]
     func getBasedSoundsForTargeted() -> [URL]
-
+    
     func getPreNapEntries() -> TMRExportAllEntry
     func getPostNapEntries() -> TMRExportAllEntry
     
@@ -195,9 +198,9 @@ protocol TMRProject {
     func setCueTimeEnd2(time:Date)
     //
     /*
-    func toJSON() -> [String:Any]
-    func fromJson (dictionary : [String : Any])
-    */
+     func toJSON() -> [String:Any]
+     func fromJson (dictionary : [String : Any])
+     */
     
     func getBeginTime () -> String
     func setBeginTime(beginTime:Date)

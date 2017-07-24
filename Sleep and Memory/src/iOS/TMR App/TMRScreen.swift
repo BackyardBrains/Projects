@@ -33,7 +33,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
             return max(self.frame.height,self.frame.width) * 0.125
         }
     }
-
+    
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x:0,y:0)
         self.physicsWorld.contactDelegate = self
@@ -49,7 +49,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         timerInterval(interval: 2)
         objc_sync_exit(self)
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
         let location = touch.location(in:self)
@@ -106,7 +106,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
             self.addChild(node)
         }
     }
-
+    
     func timerTick(){
         objc_sync_enter(self)
         context.model.timerTick(screen: self, context: context)
@@ -143,7 +143,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
     }
     
     func addLabel(text: String, position: CGPoint, name: String,
-                 fontSize: CGFloat = 40, fontColor: UIColor = UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: String = "Arial Bold"){
+                  fontSize: CGFloat = 40, fontColor: UIColor = UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: String = "Arial Bold"){
         let label = SKLabelNode(position: CGPoint(x:position.x,y:position.y),
                                 zPosition: 4,
                                 text: text,
@@ -162,9 +162,9 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         }
         return false
     }
-
     
-    // position is in pixel
+    
+    // position is in points
     func showImage(path: String, position: CGPoint, sound : URL, name : String = "image"){
         print("showImage: \(path) \(position)\n \(sound)")
         let settings = context.project.getGuiSetting()
@@ -190,7 +190,7 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
         }
         return nil
     }
-
+    
     func playSound(name: String, sound: String, repeats: Bool = false){
         let url = getAudioURL(path: sound)
         if (url != nil) {
@@ -221,8 +221,8 @@ class TMRScreen : SKScene, SKPhysicsContactDelegate {
     func showText(text : String, fontSize: CGFloat = 40, xPercent: Int=50, yPercent: Int=50){
         addLabel(text: text,
                  position: CGPoint(
-                        x:self.frame.width*CGFloat(xPercent)/100.0,
-                        y:self.frame.height*CGFloat(yPercent)/100.0),
+                    x:self.frame.width*CGFloat(xPercent)/100.0,
+                    y:self.frame.height*CGFloat(yPercent)/100.0),
                  name: "text",fontSize: fontSize, fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold")
     }
     

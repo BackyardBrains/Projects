@@ -11,11 +11,26 @@ import Foundation
 class TMRProjectFactory {
     
     static var listTMRProject : [String : TMRProject] = [:]
-    static func getTMRProject(projectName : String, userAccount : UserAccount,
-                              resourceName : String ) -> TMRProject {
+    
+    /*
+     static func getTMRProject(userAccount : UserAccount,
+     resourceName : String ) -> TMRProject {
+     
+     let _projectName = "project_0\(listTMRProject.count)"
+     
+     let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, resourceName: resourceName, user: userAccount)
+     
+     listTMRProject[_projectName] = retProject
+     return retProject;
+     }
+     */
+    
+    static func getTMRProject(projectName : String, ID:Int, userAccount : UserAccount) -> TMRProject {
         
-        if let project = listTMRProject[projectName] {
-                return project;
+        let ID = "proj"+String(ID)
+        
+        if let project = listTMRProject[ID] {
+            return project;
         }
         
         var _projectName = projectName
@@ -25,67 +40,39 @@ class TMRProjectFactory {
             _projectName = "project_0\(listTMRProject.count)"
         }
         
-        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, resourceName: resourceName, user: userAccount)
+        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, ID:ID, user: userAccount)
         
-        listTMRProject[projectName] = retProject
-        return retProject;
-    }
-    
-    static func getTMRProject(userAccount : UserAccount,
-                              resourceName : String ) -> TMRProject {
-        
-        let _projectName = "project_0\(listTMRProject.count)"
-        
-        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, resourceName: resourceName, user: userAccount)
-        
-        listTMRProject[_projectName] = retProject
-        return retProject;
-    }
-    
-    static func getTMRProject(projectName : String, userAccount : UserAccount) -> TMRProject {
-        
-        if let project = listTMRProject[projectName] {
-                return project;
-        }
-        
-        var _projectName = projectName
-        
-        if projectName.isEmpty {
-            print("projectName is empty")
-            _projectName = "project_0\(listTMRProject.count)"
-        }
-        
-        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, user: userAccount)
-        
-        listTMRProject[_projectName] = retProject
+        listTMRProject[ID] = retProject
         return retProject;
     }
     
     static func getTMRProject(tuple : TMRProjectTuple) -> TMRProject {
         
-        if let project = listTMRProject[tuple.tmrProjectName] {
+        if let project = listTMRProject[tuple.tmrID] {
             return project;
         }
         
         let retProject:TMRProjectImpl = TMRProjectImpl(tuple: tuple)
         
-        listTMRProject[tuple.tmrProjectName] = retProject
-        return retProject;
-    }
-
-    static func getTMRProject(userAccount : UserAccount) -> TMRProject {
-        
-        let _projectName = "project_0\(listTMRProject.count)"
-        
-        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, user: userAccount)
-        
-        listTMRProject[_projectName] = retProject
+        listTMRProject[tuple.tmrID] = retProject
         return retProject;
     }
     
-    static func getTMRProject(projectName : String) -> TMRProject? {
+    static func getTMRProject(userAccount : UserAccount,ID:Int) -> TMRProject {
         
-        if let project = listTMRProject[projectName] {
+        let _projectName = "project_0\(listTMRProject.count)"
+        
+        let ID = "proj"+String(ID)
+        
+        let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, ID:ID, user: userAccount)
+        
+        listTMRProject[ID] = retProject
+        return retProject;
+    }
+    
+    static func getTMRProject(ID : String) -> TMRProject? {
+        
+        if let project = listTMRProject[ID] {
             return project;
         }
         
@@ -119,13 +106,13 @@ class TMRProjectFactory {
             save(name: project.key, proj: project.value.getTMRProjectTuple())
         }
     }
-
+    
     
     static func exportProjectToFile(project: TMRProject, screen:TMRScreen) -> String {
         print("Entering exportProjectToFile")
         var retString = "default"
         var tmrSession = Session(project: project)
-        let file = "\(project.getTMRProjectName())Exported.project.txt"
+        let file = "\(project.getTMRID())Exported.project.txt"
         let session = tmrSession.toJsonString()
         print("Exiting exportProjectToFile")
         return session
@@ -185,5 +172,5 @@ class TMRProjectFactory {
             del(name: file)
         }
     }
-
+    
 }
