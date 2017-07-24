@@ -106,17 +106,17 @@
     
     
     %figure('Position', [100 100 622 622]);
-    global faceimg;
-    global sceneimg;
-    faceimg = imread('face.jpg');
-    sceneimg = imread('scene.jpg');
+    global correctimg;
+    global incorrectimg;
+    correctimg = imread('correct.png');
+    incorrectimg = imread('incorrect.png');
     subplot( p.h( p.image ) );
     trainingimg = imread('training.jpg');
     p.h( p.image ) = image(trainingimg);
 
     set(gca, 'XTick', []);
     set(gca, 'YTick', []);
-  
+    
     
     global t
     t = timer('TimerFcn', @(x,y)getSerialDataHandler(serialEEG, dataEEG), 'Period',  0.1);
