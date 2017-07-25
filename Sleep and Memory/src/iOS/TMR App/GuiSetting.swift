@@ -39,53 +39,6 @@ class GuiSetting : EVObject, NSCopying {
     //Percent of images cued
     var percentCued : Int = 50
     
-    /*
-    func toJSON() -> [String:Any] {
-        var dictionary: [String : Any] = [:]
-        
-        dictionary["numColumns"] = "\(self.numColumns)"
-        dictionary["numRows"] = "\(self.numRows)"
-        dictionary["sampleSize"] = "\(self.sampleSize)"
-        dictionary["distanceThreshold"] = "\(self.distanceThreshold)"
-        dictionary["trainingInterval"] = "\(self.trainingInterval)"
-        dictionary["testingInterval"] = "\(self.testingInterval)"
-        dictionary["sleepInterval"] = "\(self.sleepInterval)"
-        dictionary["repeatTimesForTestAfterTraining"] = self.repeatTimesForTestAfterTraining
-        dictionary["intertrialInterval"] = self.intertrainingInterval
-        return dictionary
-    }
-    
-    func fromJson (dictionary : [String : Any]) {
-        var stringNum : String = dictionary["numColumns"] as! String
-        var num : Int = Int(stringNum)!
-        self.numColumns = num
-        stringNum = dictionary["numRows"] as! String
-        num = Int(stringNum)!
-        self.numRows = num
-        stringNum = dictionary["sampleSize"] as! String
-        num = Int(stringNum)!
-        self.sampleSize = num
-        stringNum = dictionary["distanceThreshold"] as! String
-        num = Int(stringNum)!
-        self.distanceThreshold = num
-        stringNum = dictionary["trainingInterval"] as! String
-        num = Int(stringNum)!
-        self.trainingInterval = num
-        stringNum = dictionary["repeatTimesForTestAfterTraining"] as! String
-        num = Int(stringNum)!
-        self.repeatTimesForTestAfterTraining = num
-        stringNum = dictionary["testingInterval"] as! String
-        num = Int(stringNum)!
-        self.testingInterval = num
-        stringNum = dictionary["sleepInterval"] as! String
-        num = Int(stringNum)!
-        self.sleepInterval = num
-        stringNum = dictionary["intertrialInterval"] as! String
-        num = Int(stringNum)!
-        self.intertrainingInterval = num
-    }
-    */
-    
     func getJSONVersion() -> Float{
         return json
     }
@@ -111,12 +64,6 @@ class GuiSetting : EVObject, NSCopying {
     func getSampleSize() -> Int {
         return sampleSize
     }
-    
-    /*
-    func getResource() -> TMRResource {
-        return resource
-    }
-    */
     
     func getDistanceThreshold() -> Int {
         return distanceThreshold

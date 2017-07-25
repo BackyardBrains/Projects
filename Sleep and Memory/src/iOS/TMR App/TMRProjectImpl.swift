@@ -12,6 +12,7 @@ import EVReflection
 
 class TMRProjectTuple : EVObject {
     var tmrProjectName : String = ""
+    var tmrID:String = "proj0"
     var subject:String = ""
     var experimenter:String = ""
     var timeBegin:String = ""
@@ -21,9 +22,11 @@ class TMRProjectTuple : EVObject {
     var displayDevice:String = ""
     var deviceOrientation:String = ""
     
+    var setupPassed:[Int] = [0,0,0,0,0,0,0,0] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual,7settings
+    
     var tmrResourceName:String = "default"
     var userAccountName : String = "Robert"
-    var guiSetting : GuiSetting!
+    var guiSetting : GuiSetting = GuiSetting()
     var tmrEntries : [TMREntry] = []
     var experimentCompleted:Bool = false
     var beginTime : String = ""
@@ -47,20 +50,23 @@ class TMRProjectTuple : EVObject {
     var cueTimeBegin2:String = ""
     var cueTimeEnd2:String = ""
     var subjectNapped:Int = 1
+    
+    var isAuto = true
 }
 
-
-class TMRProjectImpl : TMRProject {
+class TMRProjectImpl : TMRProject,NSCopying {
     var projectTuple : TMRProjectTuple = TMRProjectTuple()
     
     var tmrResource : TMRResource
     var user : UserAccount?
     var controlArray:[Double] = [0,0,0,0]
-
+    
     func getTMRProjectTuple() -> TMRProjectTuple { return projectTuple }
     func setTMRProjectTuple(tuple : TMRProjectTuple) { projectTuple = tuple }
     func getTMRProjectName() -> String { return projectTuple.tmrProjectName}
     func setTMRProjectName(name:String) { projectTuple.tmrProjectName = name}
+    func getTMRID()->String{return projectTuple.tmrID}
+    func setTMRID(ID:String){projectTuple.tmrID = ID}
     func getSubject() -> String {return projectTuple.subject}
     func setSubject(name: String) {projectTuple.subject = name}
     func getExperimenter() -> String {return projectTuple.experimenter}
@@ -73,21 +79,27 @@ class TMRProjectImpl : TMRProject {
     func setDisplayDevice(name: String) {projectTuple.displayDevice = name}
     func getDeviceOrientation() -> String {return projectTuple.deviceOrientation}
     func setDeviceOrientation(name: String) {projectTuple.deviceOrientation = name}
-    
+    func getSetupPassed()->[Int] {return projectTuple.setupPassed}
+    func setSetupPassed(array:[Int]) {projectTuple.setupPassed = array}
     
     func getTMRResource()-> TMRResource { return tmrResource}
     func setTMRResource(resource:TMRResource) { tmrResource = resource }
     
     func getJSON()->String{return projectTuple.JSONVersion}
     func setJSON(name:Float) {
-        projectTuple.guiSetting?.setJSONVersion(version: name)
+        projectTuple.guiSetting.setJSONVersion(version: name)
         let version = "Version \(projectTuple.guiSetting.getJSONVersion())"
         projectTuple.JSONVersion = version
     }
     
+    func copy(with zone:NSZone? = nil)->Any{
+        let copy = TMRProjectImpl(tuple: getTMRProjectTuple())
+        return copy
+    }
+    
     func getSoftware()->String{return projectTuple.software}
     func setSoftware(name:Float) {
-        projectTuple.guiSetting?.setSoftwareVersion(version: name)
+        projectTuple.guiSetting.setSoftwareVersion(version: name)
         let version = "Mark \(projectTuple.guiSetting.getSoftwareVersion())"
         projectTuple.software = version
     }
@@ -98,23 +110,24 @@ class TMRProjectImpl : TMRProject {
         self.user = UserAccountFactory.getUserAccount(userName: tuple.userAccountName)
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
         self.user?.addTMRRecord(project: self)
-
+        
     }
     
-    init(projectName:String, user : UserAccount) {
+    init(projectName:String, ID:String, user : UserAccount) {
         projectTuple.tmrProjectName = projectName;
         projectTuple.userAccountName = user.getUserName()
+        projectTuple.tmrID = ID
         tmrResource = TMRResourceFactory.getTMRResource()
         projectTuple.tmrResourceName = tmrResource.getResourceName()
         self.user = UserAccount(userName: user.getUserName(), password: user.getPassword())
         projectTuple.guiSetting = user.getGuiSetting().copy() as! GuiSetting
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
     }
     
     init(projectName:String, resourceName:String, user : UserAccount) {
@@ -126,8 +139,8 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting = user.getGuiSetting().copy() as! GuiSetting
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
     }
     
     init() {
@@ -139,8 +152,15 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting = GuiSetting()
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
+    }
+    
+    func setIsAuto(bool: Bool) {
+        projectTuple.isAuto = bool
+    }
+    func getIsAuto() -> Bool {
+        return projectTuple.isAuto
     }
     
     func getControlArray() -> [Double] {
@@ -246,7 +266,7 @@ class TMRProjectImpl : TMRProject {
         
         projectTuple.endTime = endTime;
     }
-
+    
     
     func setTMRResource(resourceName:String) {
         tmrResource = TMRResourceFactory.getTMRResource(resourceName: resourceName);
@@ -265,7 +285,7 @@ class TMRProjectImpl : TMRProject {
     }
     
     func getGuiSetting() -> GuiSetting {
-        let guiSettingCopy : GuiSetting = projectTuple.guiSetting!.copy() as! GuiSetting
+        let guiSettingCopy : GuiSetting = projectTuple.guiSetting.copy() as! GuiSetting
         return guiSettingCopy
     }
     
@@ -911,7 +931,7 @@ class TMRProjectImpl : TMRProject {
     func setSubjectNapped(num: Int) {
         projectTuple.subjectNapped = num
     }
-   
+    
     func getNumOfCorrectRecordsBeforeSleep() -> Int {
         var ret:Int = 0
         for tmrEntry in projectTuple.tmrEntries {
@@ -1029,13 +1049,9 @@ class TMRProjectImpl : TMRProject {
             print("numOfBaseSoundSetForTargeted is \(numOfBaseSoundSetForTargeted)")
             var numOfIncrements = 0
             for (i,j) in zip(numOfBaseSoundSetForTargeted..<targetedIndexEntries.count, 0..<unSelectedResourceIndexEntries.count) {
-                print("i is \(i)")
-                print("j is \(j)")
                 let entryKey = targetedIndexEntries[i]
-                print("entryKey is \(entryKey)")
                 let tmrEntry = getTMREntry(entryKey)
                 let unSelectedSoundImageIndex = unSelectedResourceIndexEntries[j]
-                print("baseSoundIndex is \(unSelectedSoundImageIndex)")
                 tmrEntry?.setBaseSoundName(baseSoundName: tmrResource.getSoundName(index: unSelectedSoundImageIndex))
                 tmrEntry?.setBaseSoundNickname(unSelectedSoundImageIndex)
                 if ( numOfBaseSoundSetForTargeted + j + 1 >= targetedIndexEntries.count ) {
@@ -1211,62 +1227,62 @@ class TMRProjectImpl : TMRProject {
         return tmrExportAllEntry
     }
     /*
-    func toJSON() -> [String:Any] {
-        tmrResource = TMRResourceFactory.getTMRResource();
-        var dictionary: [String : Any] = [:]
-        
-        dictionary["projectName"] = projectTuple.tmrProjectName
-        dictionary["note"] = projectTuple.tmrNote
-        dictionary["user"] = user?.toJSON()
-        dictionary["guiSetting"] = projectTuple.guiSetting?.toJSON()
-        
-        var tmrEntriesDictionary: [String : Any] = [:]
-        
-        var i : Int = 0
-        for tmrEntry in projectTuple.tmrEntries.values {
-            let nickName = getNickName(resourceIndex: tmrEntry.getSoundImageIndex())
-            tmrEntriesDictionary["\(nickName)"] = tmrEntry.toJSON()
-            i = i+1
-        }
-        print("protect:toJSON, array end")
-        dictionary["tmrEntries"] = tmrEntriesDictionary
-        if ( projectTuple.experimentCompleted ) {
-            dictionary["experimentCompleted"] = "True"
-        }
-        else {
-            dictionary["experimentCompleted"] = "False"
-        }
-        return dictionary
-    }
-    
-    func fromJson (dictionary : [String : Any]) {
-        self.tmrResource = TMRResourceFactory.getTMRResource();
-        var stringName : String = dictionary["projectName"] as! String
-        projectTuple.tmrProjectName = stringName
-        stringName = dictionary["note"] as! String
-        projectTuple.tmrNote = stringName
-        var _user : [String: Any]  = dictionary["user"] as! [String : Any]
-        self.user?.fromJson(dictionary: _user)
-        var _guiSetting : [String : Any] = dictionary["guiSetting"] as! [String : Any]
-        projectTuple.guiSetting?.fromJson(dictionary: _guiSetting)
-        
-        var _tmrEntries = dictionary["tmrEntries"] as! [[String: Any]]
-        for i in 0..<_tmrEntries.count {
-            var _tmrEntry : [String : Any] = _tmrEntries[i]
-            var tmrEntry = TMREntry()
-            tmrEntry.fromJson(dictionary: _tmrEntry)
-            projectTuple.tmrEntries[tmrEntry.getSoundImageIndex()] = tmrEntry
-        }
-
-        var stringNum = dictionary["experimentCompleted"] as! String
-        if stringNum == "True" {
-            projectTuple.experimentCompleted = true
-        }
-        else {
-            projectTuple.experimentCompleted = false
-        }
-    }
-    */
+     func toJSON() -> [String:Any] {
+     tmrResource = TMRResourceFactory.getTMRResource();
+     var dictionary: [String : Any] = [:]
+     
+     dictionary["projectName"] = projectTuple.tmrProjectName
+     dictionary["note"] = projectTuple.tmrNote
+     dictionary["user"] = user?.toJSON()
+     dictionary["guiSetting"] = projectTuple.guiSetting?.toJSON()
+     
+     var tmrEntriesDictionary: [String : Any] = [:]
+     
+     var i : Int = 0
+     for tmrEntry in projectTuple.tmrEntries.values {
+     let nickName = getNickName(resourceIndex: tmrEntry.getSoundImageIndex())
+     tmrEntriesDictionary["\(nickName)"] = tmrEntry.toJSON()
+     i = i+1
+     }
+     print("protect:toJSON, array end")
+     dictionary["tmrEntries"] = tmrEntriesDictionary
+     if ( projectTuple.experimentCompleted ) {
+     dictionary["experimentCompleted"] = "True"
+     }
+     else {
+     dictionary["experimentCompleted"] = "False"
+     }
+     return dictionary
+     }
+     
+     func fromJson (dictionary : [String : Any]) {
+     self.tmrResource = TMRResourceFactory.getTMRResource();
+     var stringName : String = dictionary["projectName"] as! String
+     projectTuple.tmrProjectName = stringName
+     stringName = dictionary["note"] as! String
+     projectTuple.tmrNote = stringName
+     var _user : [String: Any]  = dictionary["user"] as! [String : Any]
+     self.user?.fromJson(dictionary: _user)
+     var _guiSetting : [String : Any] = dictionary["guiSetting"] as! [String : Any]
+     projectTuple.guiSetting?.fromJson(dictionary: _guiSetting)
+     
+     var _tmrEntries = dictionary["tmrEntries"] as! [[String: Any]]
+     for i in 0..<_tmrEntries.count {
+     var _tmrEntry : [String : Any] = _tmrEntries[i]
+     var tmrEntry = TMREntry()
+     tmrEntry.fromJson(dictionary: _tmrEntry)
+     projectTuple.tmrEntries[tmrEntry.getSoundImageIndex()] = tmrEntry
+     }
+     
+     var stringNum = dictionary["experimentCompleted"] as! String
+     if stringNum == "True" {
+     projectTuple.experimentCompleted = true
+     }
+     else {
+     projectTuple.experimentCompleted = false
+     }
+     }
+     */
     
     
 }

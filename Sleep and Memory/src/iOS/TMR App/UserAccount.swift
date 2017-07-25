@@ -13,6 +13,7 @@ class UserAccountTuple : EVObject{
     var userName : String = "Robert"
     var password : String = ""
     var guiSetting : GuiSetting = GuiSetting()
+    var currentID:Int = 0
 }
 
 class UserAccount {
@@ -44,6 +45,8 @@ class UserAccount {
         listTMRResource.append(resource)
     }
     
+    func getID()->Int{return userAccountTuple.currentID}
+    func setID(ID:Int){userAccountTuple.currentID = ID}
     func getGuiSetting() -> GuiSetting { return userAccountTuple.guiSetting }
     func setGuiSetting(guiSetting : GuiSetting) {userAccountTuple.guiSetting = guiSetting }
     func getUserName() -> String { return userAccountTuple.userName }
@@ -94,23 +97,5 @@ class UserAccount {
             listTMRProject.remove(at: index)
         }
     }
-    
-    /*
-    
-    func toJSON() -> [String:Any] {
-        var dictionary: [String : Any] = [:]
-        
-        dictionary["userName"] = userName
-        dictionary["password"] = password
-        return dictionary
-    }
-    
-    func fromJson (dictionary : [String : Any]) {
-        var stringName : String = dictionary["userName"] as! String
-        self.userName = stringName
-        stringName = dictionary["password"] as! String
-        self.password = stringName
-    }
-    */
     
 }

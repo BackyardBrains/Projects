@@ -24,9 +24,16 @@
 		97A08FA51EF4906C00D11427 /* UserAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A08FA41EF4906C00D11427 /* UserAccountFactory.swift */; };
 		E10722471F05D383007204CA /* TMRSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10722461F05D383007204CA /* TMRSession.swift */; };
 		E10BD9531F09692C005D8AE4 /* Date Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10BD9521F09692C005D8AE4 /* Date Extension.swift */; };
+		E13F5CEE1F26AABF00B75D43 /* TMRUserSignin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */; };
+		E13F5CF21F27738600B75D43 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F5CF11F27738600B75D43 /* StringExtension.swift */; };
 		E150F9361EF8979C00D4690B /* baseline.wav in Resources */ = {isa = PBXBuildFile; fileRef = E150F9351EF8979C00D4690B /* baseline.wav */; };
 		E150F9381EF8BD3100D4690B /* TMRModelStatBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */; };
 		E150F93A1EF9400400D4690B /* SettingsGUIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */; };
+		E16BDF3F1F1FEDF10004C7D6 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16BDF3E1F1FEDF10004C7D6 /* HomeCell.swift */; };
+		E16BDF411F2160C30004C7D6 /* TMRViewProj.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16BDF401F2160C30004C7D6 /* TMRViewProj.swift */; };
+		E16BDF431F22957C0004C7D6 /* TMRLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16BDF421F22957C0004C7D6 /* TMRLoading.swift */; };
+		E17400D91F263323005FC5DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17400D81F263323005FC5DD /* Main.storyboard */; };
+		E17400DB1F264124005FC5DD /* TMRPostTestStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17400DA1F264124005FC5DD /* TMRPostTestStats.swift */; };
 		E18E675B1F0ED4460032C5BD /* TMRModelMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */; };
 		E18E675D1F0ED4560032C5BD /* TMRModelExpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */; };
 		E18E675F1F0ED4620032C5BD /* TMRModelTimingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */; };
@@ -43,7 +50,6 @@
 		E1BB36201EE5F90D000F3AF0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */; };
 		E1BB36221EE5F90D000F3AF0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36211EE5F90D000F3AF0 /* Actions.sks */; };
 		E1BB36261EE5F90D000F3AF0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB36251EE5F90D000F3AF0 /* GameViewController.swift */; };
-		E1BB36291EE5F90D000F3AF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36271EE5F90D000F3AF0 /* Main.storyboard */; };
 		E1BB362B1EE5F90D000F3AF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1BB362A1EE5F90D000F3AF0 /* Assets.xcassets */; };
 		E1BB362E1EE5F90D000F3AF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1BB362C1EE5F90D000F3AF0 /* LaunchScreen.storyboard */; };
 		E1BB36371EE5FC7D000F3AF0 /* LabelNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB36361EE5FC7D000F3AF0 /* LabelNodeExtension.swift */; };
@@ -122,6 +128,7 @@
 		E1BB37041EE8CF4F000F3AF0 /* s70.wav in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36BC1EE8CF4F000F3AF0 /* s70.wav */; };
 		E1BB37051EE8CF4F000F3AF0 /* s71.wav in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36BD1EE8CF4F000F3AF0 /* s71.wav */; };
 		E1BB37061EE8CF4F000F3AF0 /* s72.wav in Resources */ = {isa = PBXBuildFile; fileRef = E1BB36BE1EE8CF4F000F3AF0 /* s72.wav */; };
+		E1D073BA1F264A91003178B0 /* ManualCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D073B91F264A91003178B0 /* ManualCell.swift */; };
 		E1DBA4661EF607D700DB11D1 /* whiteNoise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E1DBA4651EF607D700DB11D1 /* whiteNoise.mp3 */; };
 		EAD70DEB1EF4C6E300675802 /* TMRScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD70DE41EF4C6E300675802 /* TMRScreen.swift */; };
 		EAD70DEC1EF4C6E300675802 /* TMRModelTraining.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD70DE51EF4C6E300675802 /* TMRModelTraining.swift */; };
@@ -153,9 +160,16 @@
 		97A08FA41EF4906C00D11427 /* UserAccountFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccountFactory.swift; sourceTree = "<group>"; };
 		E10722461F05D383007204CA /* TMRSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRSession.swift; sourceTree = "<group>"; };
 		E10BD9521F09692C005D8AE4 /* Date Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date Extension.swift"; sourceTree = "<group>"; };
+		E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRUserSignin.swift; sourceTree = "<group>"; };
+		E13F5CF11F27738600B75D43 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E150F9351EF8979C00D4690B /* baseline.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = baseline.wav; sourceTree = "<group>"; };
 		E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelStatBefore.swift; sourceTree = "<group>"; };
 		E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGUIScreen.swift; sourceTree = "<group>"; };
+		E16BDF3E1F1FEDF10004C7D6 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		E16BDF401F2160C30004C7D6 /* TMRViewProj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRViewProj.swift; sourceTree = "<group>"; };
+		E16BDF421F22957C0004C7D6 /* TMRLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRLoading.swift; sourceTree = "<group>"; };
+		E17400D81F263323005FC5DD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E17400DA1F264124005FC5DD /* TMRPostTestStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRPostTestStats.swift; sourceTree = "<group>"; };
 		E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelMetaData.swift; sourceTree = "<group>"; };
 		E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelExpData.swift; sourceTree = "<group>"; };
 		E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelTimingData.swift; sourceTree = "<group>"; };
@@ -173,7 +187,6 @@
 		E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		E1BB36211EE5F90D000F3AF0 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		E1BB36251EE5F90D000F3AF0 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		E1BB36281EE5F90D000F3AF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E1BB362A1EE5F90D000F3AF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1BB362D1EE5F90D000F3AF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1BB362F1EE5F90D000F3AF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -253,6 +266,7 @@
 		E1BB36BC1EE8CF4F000F3AF0 /* s70.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s70.wav; sourceTree = "<group>"; };
 		E1BB36BD1EE8CF4F000F3AF0 /* s71.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s71.wav; sourceTree = "<group>"; };
 		E1BB36BE1EE8CF4F000F3AF0 /* s72.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = s72.wav; sourceTree = "<group>"; };
+		E1D073B91F264A91003178B0 /* ManualCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualCell.swift; sourceTree = "<group>"; };
 		E1DBA4651EF607D700DB11D1 /* whiteNoise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whiteNoise.mp3; sourceTree = "<group>"; };
 		E208BDDC03B3A6A391E51178 /* Pods_TMR_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMR_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD70DE41EF4C6E300675802 /* TMRScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRScreen.swift; sourceTree = "<group>"; };
@@ -298,10 +312,14 @@
 		E18E67661F0ED7F60032C5BD /* TMRModels */ = {
 			isa = PBXGroup;
 			children = (
-				974975101EF545AF009A3BFF /* TMRContext.swift */,
 				EAD70DE41EF4C6E300675802 /* TMRScreen.swift */,
 				EAD70DEA1EF4C6E300675802 /* TMRModel.swift */,
+				974975101EF545AF009A3BFF /* TMRContext.swift */,
+				E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */,
+				E16BDF421F22957C0004C7D6 /* TMRLoading.swift */,
 				EAD70DF61EF6D3E400675802 /* TMRModelHome.swift */,
+				E16BDF401F2160C30004C7D6 /* TMRViewProj.swift */,
+				E17400DA1F264124005FC5DD /* TMRPostTestStats.swift */,
 				E18E675A1F0ED4460032C5BD /* TMRModelMetaData.swift */,
 				E18E675C1F0ED4560032C5BD /* TMRModelExpData.swift */,
 				E18E675E1F0ED4620032C5BD /* TMRModelTimingData.swift */,
@@ -353,6 +371,8 @@
 				97A08F9E1EF4030200D11427 /* TMRSoundImage.swift */,
 				97A08FA01EF45F7B00D11427 /* GuiSetting.swift */,
 				E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */,
+				E16BDF3E1F1FEDF10004C7D6 /* HomeCell.swift */,
+				E1D073B91F264A91003178B0 /* ManualCell.swift */,
 				974975081EF4E7F4009A3BFF /* TMRProject.swift */,
 				974975091EF4E7F4009A3BFF /* TMRProjectImpl.swift */,
 				97A08FA21EF476E900D11427 /* UserAccount.swift */,
@@ -373,7 +393,7 @@
 				E1BB361F1EE5F90D000F3AF0 /* GameScene.sks */,
 				E1BB36211EE5F90D000F3AF0 /* Actions.sks */,
 				E1BB36251EE5F90D000F3AF0 /* GameViewController.swift */,
-				E1BB36271EE5F90D000F3AF0 /* Main.storyboard */,
+				E17400D81F263323005FC5DD /* Main.storyboard */,
 				E1BB362C1EE5F90D000F3AF0 /* LaunchScreen.storyboard */,
 				E1BB362F1EE5F90D000F3AF0 /* Info.plist */,
 				E1BB36361EE5FC7D000F3AF0 /* LabelNodeExtension.swift */,
@@ -382,6 +402,7 @@
 				E1BB363A1EE5FC99000F3AF0 /* ExtendedSprite.swift */,
 				E1BB363C1EE5FCA2000F3AF0 /* Screen Template.swift */,
 				E10BD9521F09692C005D8AE4 /* Date Extension.swift */,
+				E13F5CF11F27738600B75D43 /* StringExtension.swift */,
 				E190B9351F06795700AD2525 /* Beautify.swift */,
 				E190B9371F069ABE00AD2525 /* UIDeviceFind.swift */,
 			);
@@ -543,6 +564,7 @@
 				E1BB36DB1EE8CF4F000F3AF0 /* s29.wav in Resources */,
 				E1BB36C31EE8CF4F000F3AF0 /* s5.wav in Resources */,
 				E1BB36CF1EE8CF4F000F3AF0 /* s17.wav in Resources */,
+				E17400D91F263323005FC5DD /* Main.storyboard in Resources */,
 				E1BB37051EE8CF4F000F3AF0 /* s71.wav in Resources */,
 				E1BB36DE1EE8CF4F000F3AF0 /* s32.wav in Resources */,
 				E1BB36ED1EE8CF4F000F3AF0 /* s47.wav in Resources */,
@@ -558,7 +580,6 @@
 				E1BB36E61EE8CF4F000F3AF0 /* s40.wav in Resources */,
 				E1BB36DF1EE8CF4F000F3AF0 /* s33.wav in Resources */,
 				E1BB36E31EE8CF4F000F3AF0 /* s37.wav in Resources */,
-				E1BB36291EE5F90D000F3AF0 /* Main.storyboard in Resources */,
 				E1BB36C71EE8CF4F000F3AF0 /* s9.wav in Resources */,
 				E1BB36E11EE8CF4F000F3AF0 /* s35.wav in Resources */,
 				E1BB36F01EE8CF4F000F3AF0 /* s50.wav in Resources */,
@@ -681,6 +702,8 @@
 				EAD70DFB1EF6D44D00675802 /* TMRModelEnd.swift in Sources */,
 				E190B9381F069ABE00AD2525 /* UIDeviceFind.swift in Sources */,
 				97A08F951EF38CB100D11427 /* TMREntry.swift in Sources */,
+				E1D073BA1F264A91003178B0 /* ManualCell.swift in Sources */,
+				E16BDF431F22957C0004C7D6 /* TMRLoading.swift in Sources */,
 				E1BB36261EE5F90D000F3AF0 /* GameViewController.swift in Sources */,
 				EAD70DF11EF4C6E300675802 /* TMRModel.swift in Sources */,
 				971BE6981EF7262700EBC37D /* TMRProjectFactory.swift in Sources */,
@@ -691,12 +714,16 @@
 				97A08F981EF3978B00D11427 /* TMRResource.swift in Sources */,
 				97A08F9D1EF3F31900D11427 /* TMRResourceFactory.swift in Sources */,
 				9749750D1EF54506009A3BFF /* RandomNumGenerator.swift in Sources */,
+				E13F5CF21F27738600B75D43 /* StringExtension.swift in Sources */,
+				E16BDF411F2160C30004C7D6 /* TMRViewProj.swift in Sources */,
 				E1BB36371EE5FC7D000F3AF0 /* LabelNodeExtension.swift in Sources */,
+				E13F5CEE1F26AABF00B75D43 /* TMRUserSignin.swift in Sources */,
 				E1BB363B1EE5FC99000F3AF0 /* ExtendedSprite.swift in Sources */,
 				E18E67651F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift in Sources */,
 				97A08FA11EF45F7B00D11427 /* GuiSetting.swift in Sources */,
 				97A08F9F1EF4030200D11427 /* TMRSoundImage.swift in Sources */,
 				EAD70DF01EF4C6E300675802 /* TMRModelQueuing.swift in Sources */,
+				E16BDF3F1F1FEDF10004C7D6 /* HomeCell.swift in Sources */,
 				EAD70DED1EF4C6E300675802 /* TMRModelTesting.swift in Sources */,
 				E18E67611F0ED46C0032C5BD /* TMRModelExpOptions.swift in Sources */,
 				E18E675B1F0ED4460032C5BD /* TMRModelMetaData.swift in Sources */,
@@ -714,20 +741,13 @@
 				97A08FA31EF476E900D11427 /* UserAccount.swift in Sources */,
 				E18E67631F0ED47B0032C5BD /* TMRModelCueingSetup.swift in Sources */,
 				E10722471F05D383007204CA /* TMRSession.swift in Sources */,
+				E17400DB1F264124005FC5DD /* TMRPostTestStats.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E1BB36271EE5F90D000F3AF0 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1BB36281EE5F90D000F3AF0 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E1BB362C1EE5F90D000F3AF0 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

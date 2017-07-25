@@ -7,7 +7,15 @@
     %clear;
     
     serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+<<<<<<< HEAD
+<<<<<<< HEAD
+     %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+=======
     %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -106,17 +114,38 @@
     
     
     %figure('Position', [100 100 622 622]);
+<<<<<<< HEAD
+<<<<<<< HEAD
+    global faceimg;
+    global sceneimg;
+    faceimg = imread('face.jpg');
+    sceneimg = imread('scene.jpg');
+=======
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
     global correctimg;
     global incorrectimg;
     correctimg = imread('correct.jpg');
     incorrectimg = imread('incorrect.jpg');
+<<<<<<< HEAD
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
     subplot( p.h( p.image ) );
     trainingimg = imread('training.jpg');
     p.h( p.image ) = image(trainingimg);
 
     set(gca, 'XTick', []);
     set(gca, 'YTick', []);
+<<<<<<< HEAD
+<<<<<<< HEAD
+  
+=======
     
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+    
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
     
     global t
     t = timer('TimerFcn', @(x,y)getSerialDataHandler(serialEEG, dataEEG), 'Period',  0.1);

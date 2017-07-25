@@ -25,6 +25,8 @@ class TMRModelEnd : TMRModel  {
         //should only appear when export button clicked
         export = SKSpriteNode(imageName: "export", xSize: screen.frame.width/10, anchorPoint: CGPoint(x:0.5,y:0), position: CGPoint(x:screen.frame.width/2,y:10), zPosition: 1, alpha: 1)
         screen.addChild(export)
+        
+        
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -43,6 +45,7 @@ class TMRModelEnd : TMRModel  {
             screen.shareData(info: [jsonString])
         }
         else if end.contains(position){
+            context.reset()
             context.nextModel = .Home
         }
     }
@@ -50,6 +53,6 @@ class TMRModelEnd : TMRModel  {
     override func end(screen : TMRScreen, context : TMRContext){
         print("model End")
         let project : TMRProject = context.project
-        //TMRProjectFactory.save(name: project.getTMRProjectName(), proj: project.getTMRProjectTuple())
+        TMRProjectFactory.save(name: project.getTMRID(), proj: project.getTMRProjectTuple())
     }
 }

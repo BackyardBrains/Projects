@@ -12,7 +12,7 @@ import AVFoundation
 
 class TMRModelQueuing : TMRModel {
     var start = SKSpriteNode()
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
     var redo = SKSpriteNode()
     var startLabel = SKLabelNode()
     var dont = SKLabelNode()
@@ -65,7 +65,7 @@ class TMRModelQueuing : TMRModel {
             queueLabel.isHidden = false
             screen.timerInterval(interval: Double(context.project.getGuiSetting().getSleepInterval()), repeats : true)
         }
-        if next.contains(position){
+        if nextt.contains(position){
             context.nextModel = .Retest
             context.project.setCueTimeEnd(time: Date())
         }
@@ -88,7 +88,7 @@ class TMRModelQueuing : TMRModel {
             }
             toplay.shuffle()
             redo.removeFromParent()
-            next.removeFromParent()
+            nextt.removeFromParent()
         }
     }
     
@@ -117,8 +117,8 @@ class TMRModelQueuing : TMRModel {
             context.project.setCueTimeEnd2(time: Date())
             queueLabel.isHidden = true
             screen.timerInterval(interval: 0)
-            next = SKSpriteNode(imageName: "next", xSize: screen.frame.width/5, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/3,y:screen.frame.height/2), zPosition: 1, alpha: 1)
-            screen.addChild(next)
+            nextt = SKSpriteNode(imageName: "next", xSize: screen.frame.width/5, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/3,y:screen.frame.height/2), zPosition: 1, alpha: 1)
+            screen.addChild(nextt)
             redo = SKSpriteNode(imageName: "redo", xSize: screen.frame.width/5, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/3*2,y:screen.frame.height/2), zPosition: 1, alpha: 1)
             screen.addChild(redo)
         }

@@ -8,45 +8,133 @@
 
 import Foundation
 import SpriteKit
+import UIKit
 
 
 class TMRModelHome : TMRModel  {
     
+    var cells:[HomeCell] = []
+    var screen:TMRScreen!
+    
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
-        print("model home begin")
+        print("homeIDs:\(context.getAllProjectNames())")
+        print("saveIDs:\(TMRProjectFactory.getNameList())")
+        print("currentID:\(context.userAccount.getID())")
         screen.clearScreen()
         
-        let label = SKLabelNode(position: CGPoint(x:screen.width/2,y:screen.height/2), zPosition: 1, text: "Click For New Project", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
+        
+        
+        //screen.addChild(label)
+        self.screen = screen
+        
+        let navigationBar = SKSpriteNode(color: .black, width: screen.frame.width, height: screen.frame.height/6, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-screen.frame.height/12), zPosition: 2, alpha: 1)
+        navigationBar.name = "nav"
+        let label = SKLabelNode(position: CGPoint(x:0,y:0), zPosition: 1, text: "TMR App", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 40, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         label.name = "homeLabel"
-        screen.addChild(label)
+        navigationBar.addChild(label)
         
-        //TMRProjectFactory.delAll()
+        let plusSign = SKSpriteNode(imageName: "plus", ySize: navigationBar.frame.height-10, anchorPoint: CGPoint(x:1,y:1), position: CGPoint(x:screen.frame.width-5,y:screen.frame.height-5), zPosition: 3, alpha: 1)
+        plusSign.name = "plus"
+        screen.addChild(plusSign)
+        screen.addChild(navigationBar)
         
-        context.userNameList = UserAccountFactory.getNameList()
-        if context.userNameList.count > 0 {
-            context.selUserName = context.userNameList[0]
-            context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
-            print("\(context.userAccount.getUserAccountTuple())")
+        context.sortProjectByIndex()
+        var counter = context.allProjects.count-1
+        for projectIndex in 0..<context.allProjects.count{
+            let cell = HomeCell(screen: screen, yNum: CGFloat(counter), project: context.allProjects[projectIndex], projectIndex: projectIndex)
+            counter-=1
+            screen.addChild(cell)
+            cells.append(cell)
         }
         
-        context.projNameList = TMRProjectFactory.getNameList()
-        if context.projNameList.count > 0 {
-            context.selProjName = context.projNameList[0] // select first for now
-            context.project = TMRProjectFactory.importProjectFromFile(projectName: context.selProjName)
-            print("\(context.project.getTMRProjectTuple())")
+        //Gesture Recognizers
+        let upGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target:self, action:#selector(self.swipe))
+        upGesture.direction = .up
+        upGesture.numberOfTouchesRequired = 1 //You can edit this - how many fingers need to do the swipe.
+        view.addGestureRecognizer(upGesture)
+        
+        let downGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target:self, action:#selector(self.swipe))
+        downGesture.direction = .down
+        downGesture.numberOfTouchesRequired = 1 //You can edit this - how many fingers need to do the swipe.
+        view.addGestureRecognizer(downGesture)
+
+    }
+    
+    func swipe(gesture:UISwipeGestureRecognizer){
+        if gesture.direction == .up{
+            var ta = 0
+            var t = 0
+            for cell in cells{
+                t+=1
+                if cell.position.y-cell.frame.height/2 > 0{
+                    ta+=1
+                }
+            }
+            if ta < t{
+                for cell in cells{
+                    cell.scrollUp()
+                }
+            }
+        }
+        if gesture.direction == .down{
+            var ta = 0
+            var t = 0
+            for cell in cells{
+                t+=1
+                if cell.position.y+cell.frame.height/2 < screen.frame.height{
+                    ta+=1
+                }
+            }
+            if ta<t{
+                for cell in cells{
+                   
+                    cell.scrollDown()
+                }
+            }
         }
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
-        print("model home tick")
+        
     }
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
-        context.nextModel = .MetaData
+        for node in screen.children{
+            if node.name == "cell"{
+                if node.contains(position){
+                    let cell = node as! HomeCell
+                    cell.hasTouchedDown = true
+                }
+            }
+   
+            if node.name == "plus" && node.contains(position){
+                //add new project
+                context.nextModel = .MetaData
+                context.project = TMRProjectImpl()
+            }
+        }
+    }
+    
+    override func touchEnd(screen: TMRScreen, context: TMRContext, position: CGPoint) {
+        for node in screen.children{
+            if node.name == "cell"{
+                if node.contains(position){
+                    let cell = node as! HomeCell
+                    if cell.hasTouchedDown{
+                        cell.hasTouchedDown = false
+                        context.project = context.allProjects[cell.projectIndex]
+                        let new = context.project as! TMRProjectImpl
+                        context.baseProjectCopy = new.copy() as! TMRProject
+                        context.nextModel = .ViewProj
+                        print(context.project.getSetupPassed())
+                    }
+                }
+            }
+        }
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-        print("model home end")
+        
     }
 }

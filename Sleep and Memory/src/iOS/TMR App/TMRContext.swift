@@ -11,24 +11,23 @@ import UIKit
 import SpriteKit
 
 enum ModelType {
-    case None,
-        Home,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
-        Queuing,Control,Retest,Result,Comments,End
+    case None,UserSignIn,Loading,Home,ViewProj,PostTestStats,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+    Queuing,Control,Retest,Result,Comments,End
 }
 
 // current running context
 class TMRContext {
-    var userAccount : UserAccount
+    var userAccount : UserAccount = UserAccount()
     var userNameList : [String] = []
     var selUserName : String = "default"
+    var allProjects : [TMRProject] = []
     
-    var project     : TMRProject
+    var project     : TMRProject = TMRProjectImpl()
     var projNameList : [String] = []// list in file
     var selProjName : String = "default"
     
     var controlModel = 1
-    var setupPassed = [false,false,false,false,false,false,false] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual
-    var isAuto = true
+    var baseProjectCopy:TMRProject = TMRProjectImpl()
     
     //resourceIndexList either get from project like training, or the shuffled one for testing
     var resourceIndexList = [Int]()
@@ -51,13 +50,32 @@ class TMRContext {
     var repeatCnt : Int = 0
     
     var curIdx = 0;
-
+    
     init() {
-        userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-        UserAccountFactory.save(name: userAccount.getUserName(), user: userAccount.getUserAccountTuple())
-        project = TMRProjectFactory.getTMRProject(userAccount : userAccount)
-        
-        model  = TMRModelHome() as TMRModel // initial model
+        model  = TMRUserSignin() as TMRModel // initial model
+    }
+    
+    func getAllProjectNames()->[String]{
+        var array:[String] = []
+        for project in allProjects{
+            array.append(project.getTMRID())
+        }
+        return array
+    }
+    
+    func sortProjectByIndex(){
+        var sortedArray:[TMRProject] = []
+        for num in 0..<allProjects.count{
+            for project in allProjects{
+                if let new = Int(project.getTMRID().chopPrefix(4)){
+                    if new == num{
+                        sortedArray.append(project)
+                    }
+                }
+            }
+        }
+        allProjects = sortedArray
+        print(sortedArray)
     }
     
     func modelUpdate(screen : TMRScreen,view:SKView){
@@ -70,8 +88,16 @@ class TMRContext {
         self.model.end(screen: screen, context: self)
         // get next
         switch(self.nextModel){
+        case .UserSignIn:
+            self.model = TMRUserSignin()
+        case .Loading:
+            self.model = TMRLoading()
         case .Home:
             self.model = TMRModelHome()
+        case .ViewProj:
+            self.model = TMRViewProj()
+        case .PostTestStats:
+            self.model = TMRPostTestStats()
         case .MetaData:
             self.model = TMRModelMetaData()
         case .ExpData:
@@ -111,7 +137,6 @@ class TMRContext {
         self.model.begin(screen: screen, context: self,view:view)
         // start next
     }
-
     
     func getResourceIndexList() -> [Int] {
         return resourceIndexList
@@ -119,6 +144,12 @@ class TMRContext {
     
     func setResourceIndexList(resourceIndexList : [Int] ) {
         self.resourceIndexList = resourceIndexList
+    }
+    
+    func reset(){
+        controlModel = 1
+        repeatCnt = 0
+        curIdx = 0
     }
     
 }

@@ -22,12 +22,27 @@ function [ output_args ] = rtClassificationHandler(varargin)
         %global graphic;
         global p;
         
+<<<<<<< HEAD
+<<<<<<< HEAD
+        global faceimg;
+        global sceneimg;
+
+
+
+        numberOfSeconds = 60*6.25;
+=======
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
         global correctimg;
         global incorrectimg;
 
 
         numberOfSeconds = 65;
         % numberOfSeconds = 60*6.25;
+<<<<<<< HEAD
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -149,6 +164,18 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                        set( p.h( p.image ),'CData',faceimg);
+                                        predictedOutputs
+                                        if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+=======
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
                                         %set( p.h( p.image ),'CData',faceimg);
                                         predictedOutputs
                                         if(correctClass ==1)
@@ -158,11 +185,27 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                         else
                                             disp('Correct: Non Face')
                                             set( p.h( p.image ),'CData',incorrectimg);
+<<<<<<< HEAD
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
                                             %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Non Face') 
                                         end
                                         
                                     else
                                         disp('Predicted: Non Face')
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                        set(p.h( p.image ),'CData',sceneimg);
+                                        predictedOutputs
+                                         if(correctClass ==1)
+                                            disp('Correct: Face')
+                                            %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Face') 
+                                        else
+                                            disp('Correct: Non Face')
+=======
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
                                         % set(p.h( p.image ),'CData',sceneimg);
                                         predictedOutputs
                                          if(correctClass ==1)
@@ -172,6 +215,10 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                         else
                                             disp('Correct: Non Face')
                                             set( p.h( p.image ),'CData',correctimg);
+<<<<<<< HEAD
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
+=======
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Non Face') 
                                         end
                                     end
