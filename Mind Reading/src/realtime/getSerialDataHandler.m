@@ -119,10 +119,25 @@ function [ out ] = getSerialDataHandler(varargin)
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 
-
-
-                                erps(erpsCounter,:,:) = roiEEG;
-                                erpsCounter = erpsCounter+1;
+                                    erps(erpsCounter,:,:) = roiEEG;
+                                    erpsCounter = erpsCounter+1;
+                                    
+                                    
+                                    
+                                    
+                                    %UNCOMMENT THIS BELOW IF YOU WANT TO
+                                    %ADD GRAY IMAGE AS A CLASS
+%------------------------------------------------------------------------------------------                                    
+%                                     
+%                                     %get gray image also
+%                                     roiEEG = double(EEGMatrix(1:5,allPositions(j)+roi(1)-ceil(0.6*fs):allPositions(j)+roi(2)-ceil(0.6*fs))');
+%                                     classOfImage = [classOfImage 0];
+%                                     m = mean(roiEEG,1);
+%                                     mMat = repmat(m, [size(roiEEG,1),1]);
+%                                     roiEEG = roiEEG - mMat; 
+%                                     erps(erpsCounter,:,:) = roiEEG;
+%                                     erpsCounter = erpsCounter+1;
+%------------------------------------------------------------------------------------------                                 
                                 
                                 
                                 

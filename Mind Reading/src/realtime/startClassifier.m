@@ -3,40 +3,21 @@ function [ out ] = startClassifier( erps, outputClasses )
 disp('Start Classifier')
 out = [];
 channels = [1 2 4];%we use only some of the channels
-faceClass = 1;
 
-%prepare data
-allSelectedClass = [];%input data for other classes 
-faces = erps(outputClasses==faceClass,:,:);
 
+
+allInputs = [];
 for ch =1:length(channels)
-    allSelectedClass = [allSelectedClass faces(:,:,ch)];
+    allInputs = [allInputs erps(:,:,ch)];
 end
 
-
-allOtherClassesEEG = erps(outputClasses~=faceClass,:,:);
-allOther = [];
-for ch =1:length(channels)
-    allOther = [allOther allOtherClassesEEG(:,:,ch)];
-end
-
-
-
-% make training and test set so that we have same number of examples for
-% both classes
-numberOfSelectedClassExample = size(allSelectedClass,1);
-randSelectedNonClass= randperm(numberOfSelectedClassExample);
-allOther = allOther(randSelectedNonClass,:);
-
-%get training data
-trainingInputs = [allSelectedClass; allOther];
-trainingOutputs = [ones(1, numberOfSelectedClassExample) zeros(1, numberOfSelectedClassExample)]';
+outputClasses(outputClasses>4) = 0;
 
 
 
 %make output variable
-out.trainingInputs = trainingInputs;
-out.trainingOutputs = trainingOutputs;
+out.trainingInputs = allInputs;
+out.trainingOutputs = outputClasses';
 
 disp('Train SVM')
 %train network

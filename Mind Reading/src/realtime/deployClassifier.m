@@ -32,6 +32,14 @@
     global classifier;
     global roiTime;
     global p;
+    global weirdimage;
+    global houseimage;
+    global faceimage;
+    global sceneryimage;
+    weirdimage = imread('weirdtext.jpg');
+    houseimage = imread('housetext.jpg');
+    faceimage = imread('facetext.jpg');
+    sceneryimage = imread('scenerytext.jpg');
     
     testingimg = imread('testing.jpg');
     %subplot( p.h( p.image ) );

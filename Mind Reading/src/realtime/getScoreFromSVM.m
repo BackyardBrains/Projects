@@ -1,4 +1,4 @@
-function [ score ] = getScoreFromSVM( svm, erp )
+function [ score ] = getScoreFromSVM( svm, x )
 %     sv = svm.ClassificationSVM.SupportVectors;
 %     alphaHat = svm.ClassificationSVM.Alpha;
 %     bias = svm.ClassificationSVM.Bias;
@@ -21,6 +21,6 @@ function [ score ] = getScoreFromSVM( svm, erp )
     x = x/s; % Is correct divided my instance by scale of SVM?
 
 
-    score = erp'*alphaHat(:) + bias;
+    score = abs(dot(w,x) + b);
 end
 

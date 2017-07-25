@@ -46,6 +46,10 @@ function [trainedClassifier, validationAccuracy] = trainClassifier(trainingData)
 % Convert input to table
 
 [numberOfExamples,numberOfAllInputs] = size(trainingData);
+maxClass = max(trainingData(:,1));
+minClass = min(trainingData(:,1));
+outputClasses = minClass:maxClass;
+outputClasses = outputClasses';
 f = [];
 predictorNames =[];
 for i = 1:numberOfAllInputs
@@ -74,7 +78,7 @@ classificationSVM = fitcsvm(...
     'KernelScale', 'auto', ...
     'BoxConstraint', 1, ...
     'Standardize', true, ...
-    'ClassNames', [0; 1]);
+    'ClassNames', outputClasses);
 
 % Create the result struct with predict function
 predictorExtractionFcn = @(x) array2table(x, 'VariableNames', predictorNames);
