@@ -1,11 +1,13 @@
-  
+  close all; clc; clear;
+    
+
     if exist('serialEEG','var')
         fclose(serialEEG);
     end
     %clear;
     
-    %serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-     serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -25,7 +27,7 @@
     global roi;
     global roiTime;
     fs = 1666;
-    fc = 100;
+    fc = 60;
      [b,a] = butter(2,fc/(fs/2));
         zi = [];
     
@@ -41,54 +43,80 @@
     initialTimer = 0;
     dataEEG=[];
     fopen(serialEEG);
+   
+    clear top;
+    top.sp = [3 1];
+    top.h = [.25 .75/2 .75/2];
+    top.c(1).sp = [1 2]; 
+    top.c(1).w = [0.25 0.75];
+    top.c(2).sp = [1 2];
+    top.c(2).w = [0.5 0.5];
+    top.c(3).sp = [1 2];
+    top.c(3).w = [0.5 0.5];
+    top.c(1).c(2).sp = [6 1];
+   
+    global p;
+    %make portable position handles
+    p = [];
+    p.image               = 1;
+    p.predictionOutcome   = 8;
+    p.eeg                 = 2:7;
+    p.erp                 = 8:11;
+    p.h = subsubplot(top);
     
- 
-    figure;
+
     graphic = [];
-    graphic.ax11 = subplot(3,2,1);
-    graphic.ax12 = subplot(3,2,2);
-    graphic.ax21 = subplot(3,2,3);
-    graphic.ax22 = subplot(3,2,4);
-    graphic.ax31 = subplot(3,2,5);
-    graphic.ax32 = subplot(3,2,6);
+    graphic.h11 = p.h( p.eeg(1) );
+    graphic.h12 = p.h( p.eeg(2) );
+    graphic.h21 = p.h( p.eeg(3) );
+    graphic.h22 = p.h( p.eeg(4) );
+    graphic.h31 = p.h( p.eeg(5) );
+    graphic.h32 = p.h( p.eeg(6) );
+    graphic.imageHandle = p.h( p.image );
+    graphic.imageLabel = p.h( p.erp(1) );
+
 
     graphic.timeForGraph = linspace(roiTime(1),roiTime(2),-roi(1)+roi(2)+1);
     %first iteration, create the graphics
-    graphic.h11 = plot(graphic.ax11, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
-    title(graphic.ax11, 'First channel');
-    graphic.h12 = plot(graphic.ax12, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
-    title(graphic.ax12, 'Second channel');       
-    graphic.h21 = plot(graphic.ax21, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
-    title(graphic.ax21, 'Third channel');
-    graphic.h22 = plot(graphic.ax22, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
-    title(graphic.ax22, 'Fourth channel'); 
-    graphic.h31 = plot(graphic.ax31, graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
-    title(graphic.ax31, 'Fifth channel');
+    subplot(  p.h( p.eeg(1) ));
+    p.h( p.eeg(1) ) = plot(graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    %title('First channel');
+    
+    subplot(  p.h( p.eeg(2) ));
+    p.h( p.eeg(2) ) = plot(graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    %title('Second channel');       
+    
+    subplot(  p.h( p.eeg(3) ));
+    p.h( p.eeg(3) ) = plot(graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    %title(graphic.ax21, 'Third channel');
+    
+    subplot(  p.h( p.eeg(4) ));
+    p.h( p.eeg(4) ) = plot(graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    %title(graphic.ax22, 'Fourth channel'); 
+    
+    subplot(  p.h( p.eeg(5) ));
+    p.h( p.eeg(5) ) = plot(graphic.timeForGraph, zeros(1,length(graphic.timeForGraph)));
+    %title(graphic.ax31, 'Fifth channel');
     
     lengthOfSixth = fs+100+1;
-    graphic.h32 = plot(graphic.ax32, linspace(-100/fs, 1,lengthOfSixth), zeros(1,lengthOfSixth));
-    title(graphic.ax32, 'Sixth channel');   
+    
+    subplot(  p.h( p.eeg(6) ));
+    p.h( p.eeg(6) ) = plot(linspace(-100/fs, 1,lengthOfSixth), zeros(1,lengthOfSixth));
+    %title(graphic.ax32, 'Sixth channel');   
     
     
-    figure('Position', [100 100 622 622]);
-    global faceimg;
-    global sceneimg;
-    faceimg = imread('face.jpg');
-    sceneimg = imread('scene.jpg');
-    
+    %figure('Position', [100 100 622 622]);
+    global correctimg;
+    global incorrectimg;
+    correctimg = imread('correct.jpg');
+    incorrectimg = imread('incorrect.jpg');
+    subplot( p.h( p.image ) );
     trainingimg = imread('training.jpg');
-    image(trainingimg);
+    p.h( p.image ) = image(trainingimg);
+
     set(gca, 'XTick', []);
     set(gca, 'YTick', []);
-    graphic.imageHandle = get(gca,'Children');
-    graphic.imageLabel = get(gca,'xlabel');
-
     
-    
-    
-    
-    
-        
     
     global t
     t = timer('TimerFcn', @(x,y)getSerialDataHandler(serialEEG, dataEEG), 'Period',  0.1);
