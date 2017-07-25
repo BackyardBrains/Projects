@@ -20,7 +20,7 @@ function [ out ] = getSerialDataHandler(varargin)
         global roi;
         
         
-        numberOfSeconds = 40;
+        numberOfSeconds = 60;
         % numberOfSeconds = 60*8.5;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
@@ -161,23 +161,34 @@ function [ out ] = getSerialDataHandler(varargin)
                 %figure;
                 subplot(  p.h( p.erp(1) ));
                 faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
-                plot(faceAverage);
+                prettyPlotAverage(  p.h( p.erp(1) ), faceAverage);
+                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                text( .2, 0.9 * range(Ylim) +  minY, 'Face', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
+                
                 %title('Face ERP (Training)');
                 
                 subplot(  p.h( p.erp(2) ));
                 class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
-                plot(class2Aver);
+                prettyPlotAverage(  p.h( p.erp(2) ), class2Aver);
+                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                text( .2, 0.9 * range(Ylim) +  minY, 'House', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 %title('House ERP (Training)');
                 
                 subplot(  p.h( p.erp(3) ));
                 class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
-                plot(class3Aver);
+                prettyPlotAverage(  p.h( p.erp(3) ), class3Aver);
+                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                text( .2, 0.9 * range(Ylim) +  minY, 'Scenery', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
+                %plot(class3Aver);
                 %title('Nature ERP (Training)');
 
                 subplot(  p.h( p.erp(4) ));
                 class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
-                plot(class4Aver);
+                %plot(class4Aver);
                 %title('Weird ERP (Training)');
+                prettyPlotAverage(  p.h( p.erp(4) ), class4Aver);
+                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                text( .2, 0.9 * range(Ylim) +  minY, 'Weird', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 
 
                 clear serialEMG
@@ -192,4 +203,23 @@ function [ out ] = getSerialDataHandler(varargin)
             lastProcessedIndex = 1;
             EEGMatrix = [];
         end
+end
+
+    
+function prettyPlotAverage( pp, d )
+
+    global p;
+    set( gca, 'Color', 'k' );
+    set(gca, 'XTick', []);
+    set(gca, 'YTick', []);
+    % set( pp, 'Color', c);
+    hold on;
+    for i = 1:5
+       plot( d(:,i), 'Color', p.colors{i}, 'LineWidth', p.lineWidth );
+    end
+    
+    gg = 1;
+    %set( pp, 'LineWidth', 3 );
+   
+    
 end

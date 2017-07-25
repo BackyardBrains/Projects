@@ -26,7 +26,11 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global incorrectimg;
 
 
+<<<<<<< HEAD
+        numberOfSeconds = 65;
+=======
         numberOfSeconds = 30;
+>>>>>>> 3a2e4701f8c50c8846839b47719d26ed9fc973c7
         % numberOfSeconds = 60*6.25;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
@@ -145,7 +149,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                      disp('------------------------------')
                                      disp('Decoding...')
                                     predictedOutputs = classifier.predictFcn(inputVector);
-                                    %predictedOutputs
+                                    predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
