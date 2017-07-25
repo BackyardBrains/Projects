@@ -20,8 +20,13 @@ function [ out ] = getSerialDataHandler(varargin)
         global roi;
         
         
+<<<<<<< HEAD
         
         numberOfSeconds = 60;
+=======
+        numberOfSeconds = 60*8.2;
+        % numberOfSeconds = 60*8.5;
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 

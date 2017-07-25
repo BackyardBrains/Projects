@@ -36,6 +36,7 @@ class TMRUserSignin : TMRModel  {
             if node.name == "next"{
                 if let name = username.text{
                     if name == "Robert"{
+                        UserAccountFactory.importAllUserAccountssFromFiles()
                         context.userAccount = UserAccountFactory.createUserAccount(userName: name, password: "6")
                         UserAccountFactory.save(name: context.userAccount.getUserName(), user: context.userAccount.getUserAccountTuple())
                         context.nextModel = .Loading

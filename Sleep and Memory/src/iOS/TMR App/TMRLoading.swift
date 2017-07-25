@@ -34,9 +34,9 @@ class TMRLoading : TMRModel  {
         context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
         print(context.userAccount.getUserAccountTuple())
         
-        //THIS SHOULD NOT BE HERE!!!!!!!
-        context.userAccount.setID(ID: numProjects)
-        //TEMPORARY FIX
+//        //THIS SHOULD NOT BE HERE!!!!!!!
+//        context.userAccount.setID(ID: numProjects)
+//        //TEMPORARY FIX
         
         
         context.nextModel = .Home

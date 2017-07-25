@@ -11,7 +11,11 @@ hash*
 *extract*
 Songbird/machine_learning_and_dsp/sox
 .DS_Store
+<<<<<<< HEAD
 Mind Reading/src/realtime/EEGMatrix5.mat
 
 Sleep\ and\ Memory/.DS_Store
 Sleep\ and\ Memory/src/.DS_Store
+=======
+Mind Reading/src/realtime/EEGMatrix5.mat
+>>>>>>> b24a6cecd5aab620d4a2544e50f316ad2f41cf1e

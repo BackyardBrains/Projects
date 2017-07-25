@@ -41,9 +41,11 @@ class TMRModelExpData:TMRModel{
         
         if context.project.getSetupPassed()[1]==1{
             print("1")
+            print("doneexp")
             sampleSizeField.text = String(context.project.getGuiSetting().getSampleSize())
             colNumField.text = String(context.project.getGuiSetting().getNumColumns())
             errorThreshold.text = String(context.project.getGuiSetting().getDistanceThreshold())
+            print("doneexp2")
         }
         
         nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)

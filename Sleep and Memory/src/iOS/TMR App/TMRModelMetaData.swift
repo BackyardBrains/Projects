@@ -85,6 +85,7 @@ class TMRModelMetaData:TMRModel{
                     print(context.userAccount.getID())
                     if context.project.getSetupPassed()[0] == 1{
                         context.project.setTMRProjectName(name: name)
+                        print("donename")
                     }else{
                         context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
                         context.userAccount.setID(ID: context.userAccount.getID()+1)
