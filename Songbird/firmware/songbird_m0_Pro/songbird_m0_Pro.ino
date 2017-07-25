@@ -255,11 +255,12 @@ void setup()
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   } 
   pinMode(13, OUTPUT);
+  digitalWrite(13,LOW);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
     Serial.end();
-    digitalWrite(13, LOW);
+    digitalWrite(13,HIGH);
     while(1);
   }
   
@@ -373,4 +374,5 @@ uint16_t anaRead() {
   return valueRead;
 }
 //##############################################################################
+
 
