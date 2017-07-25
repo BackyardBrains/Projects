@@ -1,4 +1,10 @@
-function [ out ] = startClassifier( erps, outputClasses )
+function [ out ] = startClassifier()
+
+global erps;
+global outputClasses;
+global classOfImage;
+
+outputClasses = classOfImage;
 
 disp('Start Classifier')
 out = [];

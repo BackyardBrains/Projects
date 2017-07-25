@@ -20,8 +20,8 @@ function [ out ] = getSerialDataHandler(varargin)
         global roi;
         
         
-        numberOfSeconds = 60*8.1;
-        % numberOfSeconds = 60*8.5;
+        numberOfSeconds = 70;
+        % numberOfSeconds = 60*8.1;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -131,7 +131,7 @@ function [ out ] = getSerialDataHandler(varargin)
                                 set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
                                 set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
                                 set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
-                                set( p.h( p.eeg(6)), 'ydata', encodingChannel);
+                                % set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                 
 
                                 
@@ -203,6 +203,7 @@ function [ out ] = getSerialDataHandler(varargin)
 
                 clear serialEMG
                 clear t;
+                exit;
                 startClassifier( erps, classOfImage );
             end
         end

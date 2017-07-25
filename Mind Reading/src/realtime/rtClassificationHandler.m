@@ -25,9 +25,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global correctimg;
         global incorrectimg;
 
-        numberOfSeconds = 60*6.1;
+        numberOfSeconds = 60;
 
-        % numberOfSeconds = 60*6.25;
+        % numberOfSeconds = 60*6.1;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -138,7 +138,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
                                     set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
                                     set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
-                                    set( p.h( p.eeg(6)), 'ydata', encodingChannel);
+                                    %set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                     
                                     
                                      %predict output for test data
@@ -153,11 +153,11 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                         predictedOutputs
                                         if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set( p.h( p.image ),'CData',correctimg);
+                                            %set( p.h( p.image ),'CData',correctimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set( p.h( p.image ),'CData',incorrectimg);
+                                            %set( p.h( p.image ),'CData',incorrectimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Non Face') 
                                         end
                                         
@@ -167,11 +167,11 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                         predictedOutputs
                                          if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set( p.h( p.image ),'CData',incorrectimg);
+                                            %set( p.h( p.image ),'CData',incorrectimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set( p.h( p.image ),'CData',correctimg);
+                                            %set( p.h( p.image ),'CData',correctimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Non Face') 
                                         end
                                     end
