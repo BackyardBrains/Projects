@@ -157,36 +157,46 @@ function [ out ] = getSerialDataHandler(varargin)
                 %figure;
                 %plot(EEGMatrix')
                 %title('Raw EEG data (Training)')
+                
+                
+                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+                
+                yMax = max(max( [faceAverage; class2Aver;  class3Aver;  class4Aver ] ));
+                yMin = min(min( [faceAverage; class2Aver;  class3Aver;  class4Aver ] ));
+                
 
                 %figure;
                 subplot(  p.h( p.erp(1) ));
-                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(1) ), faceAverage);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Face', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 
                 %title('Face ERP (Training)');
                 
                 subplot(  p.h( p.erp(2) ));
-                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(2) ), class2Aver);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'House', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 %title('House ERP (Training)');
                 
                 subplot(  p.h( p.erp(3) ));
-                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(3) ), class3Aver);
-                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                ylim( [yMin yMax] );
+                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Scenery', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 %plot(class3Aver);
                 %title('Nature ERP (Training)');
 
                 subplot(  p.h( p.erp(4) ));
-                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
                 %plot(class4Aver);
                 %title('Weird ERP (Training)');
                 prettyPlotAverage(  p.h( p.erp(4) ), class4Aver);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Weird', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 
