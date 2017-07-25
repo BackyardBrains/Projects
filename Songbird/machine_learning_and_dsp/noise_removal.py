@@ -111,7 +111,7 @@ class noiseCleaner:
             sys.stderr.write("Sox error in noise reduction of file: %s.\n" % original_file)
             clean_out = os.path.join(dir, clean_dir, inputFile)
             shutil.copyfile(original_file, clean_out)
-            with open(os.path.join(dir, clean_dir, 'NR_fail_record.log'), 'a+') as fail_record:
+            with open(os.path.join(dir, clean_dir, 'NR_fail_record.log'), 'a') as fail_record:
                 fail_record.write('%s\n' % original_file)
 
         if not debug:
