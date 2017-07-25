@@ -8,8 +8,15 @@
     end
     %clear;
     
-    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    if ismac
+        serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+    elseif isunix
+    	serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+    else ispc
+    	serialEEG = serial('COM21', 'BaudRate', 2000000);
+    end
+    
+       
    
 
     serialEEG.ReadAsyncMode = 'continuous';
