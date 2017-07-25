@@ -26,7 +26,7 @@ class TMRProjectTuple : EVObject {
     
     var tmrResourceName:String = "default"
     var userAccountName : String = "Robert"
-    var guiSetting : GuiSetting!
+    var guiSetting : GuiSetting = GuiSetting()
     var tmrEntries : [TMREntry] = []
     var experimentCompleted:Bool = false
     var beginTime : String = ""
@@ -86,14 +86,14 @@ class TMRProjectImpl : TMRProject {
     
     func getJSON()->String{return projectTuple.JSONVersion}
     func setJSON(name:Float) {
-        projectTuple.guiSetting?.setJSONVersion(version: name)
+        projectTuple.guiSetting.setJSONVersion(version: name)
         let version = "Version \(projectTuple.guiSetting.getJSONVersion())"
         projectTuple.JSONVersion = version
     }
     
     func getSoftware()->String{return projectTuple.software}
     func setSoftware(name:Float) {
-        projectTuple.guiSetting?.setSoftwareVersion(version: name)
+        projectTuple.guiSetting.setSoftwareVersion(version: name)
         let version = "Mark \(projectTuple.guiSetting.getSoftwareVersion())"
         projectTuple.software = version
     }
@@ -104,8 +104,8 @@ class TMRProjectImpl : TMRProject {
         self.user = UserAccountFactory.getUserAccount(userName: tuple.userAccountName)
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
         self.user?.addTMRRecord(project: self)
         
     }
@@ -120,8 +120,8 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting = user.getGuiSetting().copy() as! GuiSetting
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
     }
     
     init(projectName:String, resourceName:String, user : UserAccount) {
@@ -133,8 +133,8 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting = user.getGuiSetting().copy() as! GuiSetting
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
     }
     
     init() {
@@ -146,8 +146,8 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting = GuiSetting()
         findDisplayDevice()
         findDisplayOrientation()
-        setJSON(name: (projectTuple.guiSetting?.getJSONVersion())!)
-        setSoftware(name: (projectTuple.guiSetting?.getSoftwareVersion())!)
+        setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
+        setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
     }
     
     func getControlArray() -> [Double] {
@@ -272,7 +272,7 @@ class TMRProjectImpl : TMRProject {
     }
     
     func getGuiSetting() -> GuiSetting {
-        let guiSettingCopy : GuiSetting = projectTuple.guiSetting!.copy() as! GuiSetting
+        let guiSettingCopy : GuiSetting = projectTuple.guiSetting.copy() as! GuiSetting
         return guiSettingCopy
     }
     
