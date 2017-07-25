@@ -124,8 +124,10 @@ class TMRModelHome : TMRModel  {
                     if cell.hasTouchedDown{
                         cell.hasTouchedDown = false
                         context.project = context.allProjects[cell.projectIndex]
-                        context.baseProjectCopy = TMRProjectImpl(tuple: context.project.getTMRProjectTuple())
+                        let new = context.project as! TMRProjectImpl
+                        context.baseProjectCopy = new.copy() as! TMRProject
                         context.nextModel = .ViewProj
+                        print(context.project.getSetupPassed())
                     }
                 }
             }

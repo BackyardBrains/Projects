@@ -89,7 +89,11 @@ class TMRModelMetaData:TMRModel{
             if let name = projectNameField.text{
                 if name != ""{
                     if context.project.getSetupPassed()[7] == 1{
+                        print(context.baseProjectCopy.getTMRProjectName())
+                        print(context.project.getTMRProjectName())
                         context.project.setTMRProjectName(name: name)
+                        print(context.baseProjectCopy.getTMRProjectName())
+                        print(context.project.getTMRProjectName())
                     }else{
                         context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
                         context.userAccount.setID(ID: context.userAccount.getID()+1)

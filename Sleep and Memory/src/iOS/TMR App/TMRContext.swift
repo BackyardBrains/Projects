@@ -68,9 +68,6 @@ class TMRContext {
         for num in 0..<allProjects.count{
             for project in allProjects{
                 if let new = Int(project.getTMRID().chopPrefix(4)){
-                    print(new)
-                    print(num)
-                    print()
                     if new == num{
                         sortedArray.append(project)
                     }

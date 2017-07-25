@@ -21,18 +21,19 @@ class TMRLoading : TMRModel  {
         screen.addChild(label)
         
         context.projNameList = TMRProjectFactory.getNameList()
+        print(TMRProjectFactory.getNameList())
+        
+        TMRProjectFactory.importAllProjectsFromFiles()
         
         var numProjects = 0
         for projectName in context.projNameList{
             let project = TMRProjectFactory.importProjectFromFile(projectName: projectName)
-            print(project.getTMRProjectTuple())
             context.allProjects.append(project)
             numProjects+=1
         }
         
         context.selUserName = context.userAccount.getUserName()
         context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
-        print(context.userAccount.getUserAccountTuple())
         
 //        //THIS SHOULD NOT BE HERE!!!!!!!
         context.userAccount.setID(ID: numProjects)

@@ -53,7 +53,7 @@ class TMRModelSettings : TMRModel  {
         if save.contains(position){
             // save project to file
             let projName = context.project.getTMRID()
-            TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
+            print(TMRProjectFactory.getNameList())
             
             if let index = context.getAllProjectNames().index(of: projName){
                 context.allProjects.remove(at: index)
@@ -65,6 +65,8 @@ class TMRModelSettings : TMRModel  {
             context.allProjects.append(context.project)
             context.reset()
             context.nextModel = .Home
+            TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
+
         }
         if cont.contains(position){
             var array = context.project.getSetupPassed()

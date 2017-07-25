@@ -54,8 +54,7 @@ class TMRProjectTuple : EVObject {
     var isAuto = true
 }
 
-
-class TMRProjectImpl : TMRProject {
+class TMRProjectImpl : TMRProject,NSCopying {
     var projectTuple : TMRProjectTuple = TMRProjectTuple()
     
     var tmrResource : TMRResource
@@ -91,6 +90,11 @@ class TMRProjectImpl : TMRProject {
         projectTuple.guiSetting.setJSONVersion(version: name)
         let version = "Version \(projectTuple.guiSetting.getJSONVersion())"
         projectTuple.JSONVersion = version
+    }
+    
+    func copy(with zone:NSZone? = nil)->Any{
+        let copy = TMRProjectImpl(tuple: getTMRProjectTuple())
+        return copy
     }
     
     func getSoftware()->String{return projectTuple.software}
