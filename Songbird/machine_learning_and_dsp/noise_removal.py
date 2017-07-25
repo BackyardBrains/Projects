@@ -67,33 +67,36 @@ class noiseCleaner:
                 # time.sleep might help here
             pass
 
-        segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
-                                          weight, False)  # get onsets
-        prev_end = 0
-        activity_files = []
-        noise_files = []
-        for i, s in enumerate(segmentLimits):
-            strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, s[0]))
-            wavfile.write(strOut, Fs, x[int(Fs * prev_end):int(Fs * s[0])])
+        try:
+
+            segmentLimits = aS.silenceRemoval(x, Fs, smoothingWindow / 10.0, smoothingWindow / 10.0, smoothingWindow,
+                                              weight, False)  # get onsets
+            prev_end = 0
+            activity_files = []
+            noise_files = []
+            for i, s in enumerate(segmentLimits):
+                strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, s[0]))
+                wavfile.write(strOut, Fs, x[int(Fs * prev_end):int(Fs * s[0])])
+                noise_files.append(strOut)
+
+                strOut = os.path.join(dir, "activity", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], s[0], s[1]))
+                wavfile.write(strOut, Fs, x[int(Fs * s[0]):int(Fs * s[1])])
+                activity_files.append(strOut)
+
+                prev_end = s[1]
+
+            strOut = os.path.join(dir, "noise",
+                                  "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, len(x) / Fs))
+            wavfile.write(strOut, Fs, x[int(Fs * prev_end):len(x) / Fs])
             noise_files.append(strOut)
 
-            strOut = os.path.join(dir, "activity", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], s[0], s[1]))
-            wavfile.write(strOut, Fs, x[int(Fs * s[0]):int(Fs * s[1])])
-            activity_files.append(strOut)
+            activity_out = os.path.join(dir, "activity", inputFile)
+            noise_out = os.path.join(dir, "noise", inputFile)
 
-            prev_end = s[1]
+            recombine_wavfiles(noise_files, noise_out)
+            recombine_wavfiles(activity_files, activity_out)
 
-        strOut = os.path.join(dir, "noise", "{0:s}_{1:.3f}-{2:.3f}.wav".format(inputFile[0:-4], prev_end, len(x) / Fs))
-        wavfile.write(strOut, Fs, x[int(Fs * prev_end):len(x) / Fs])
-        noise_files.append(strOut)
 
-        activity_out = os.path.join(dir, "activity", inputFile)
-        noise_out = os.path.join(dir, "noise", inputFile)
-
-        recombine_wavfiles(noise_files, noise_out)
-        recombine_wavfiles(activity_files, activity_out)
-
-        try:
             tfs = sox.Transformer()
             noise_profile_path = '.'.join([noise_out, 'prof'])
             tfs.noiseprof(noise_out, noise_profile_path)
@@ -108,7 +111,7 @@ class noiseCleaner:
             sys.stderr.write("Sox error in noise reduction of file: %s.\n" % original_file)
             clean_out = os.path.join(dir, clean_dir, inputFile)
             shutil.copyfile(original_file, clean_out)
-            with open('NR_fail_record.log', 'w') as fail_record:
+            with open(os.path.join(dir, clean_dir, 'NR_fail_record.log'), 'a') as fail_record:
                 fail_record.write('%s\n' % original_file)
 
         if not debug:
@@ -139,7 +142,7 @@ class noiseCleaner:
                         self.noise_removal(os.path.join(root,file))
 
         print "Now beginning preprocessing for: ", num_samples_processed, " samples."
-        
+
         if num_threads:
             pros = Pool(num_threads)
             pros.map(self.noise_removal, wav_files)

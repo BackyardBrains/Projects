@@ -49,7 +49,7 @@ if __name__ == '__main__':
     if not os.path.isfile(model_file):
         raise Exception("Model file:" + model_file + " not found!")
 
-    if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees'):
+    if classifierType not in ('knn', 'svm', 'gradientboosting', 'randomforest', 'extratrees', 'mlp'):
         raise Exception(classifierType + " is not a valid model type!")
 
     classifier0 = classiFier(directory, model_file, classifierType, verbose=verbose, num_threads=num_threads)
