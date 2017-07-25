@@ -54,8 +54,5 @@ class TMRModelEnd : TMRModel  {
         print("model End")
         let project : TMRProject = context.project
         TMRProjectFactory.save(name: project.getTMRID(), proj: project.getTMRProjectTuple())
-//        if let index = context.getAllProjectNames().index(of: project.getTMRID()){
-//            context.allProjects.remove(at: index)
-//        }
     }
 }
