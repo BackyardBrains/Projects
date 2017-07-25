@@ -4,8 +4,8 @@ if exist('serialEEG','var')
     end
     %clear;
     
-    serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
-    %serialEEG = serial('COM21', 'BaudRate', 2000000);    
+    %serialEEG = serial('/dev/cu.usbmodem1411', 'BaudRate', 921600);
+    serialEEG = serial('COM21', 'BaudRate', 2000000);    
    
 
     serialEEG.ReadAsyncMode = 'continuous';
@@ -31,7 +31,7 @@ if exist('serialEEG','var')
     testingimg = imread('testing.jpg');
     %subplot( p.h( p.image ) );
     set(p.h( p.image ),'CData',testingimg);
-    
+%     
 %     figure;
 %     subplot(1,3,1);
 %     sizeOfInput = -roi(1)+roi(2)+1;
@@ -44,7 +44,7 @@ if exist('serialEEG','var')
 %     subplot(1,3,3);
 %     plot(linspace(roiTime(1), roiTime(2),sizeOfInput),classifier.ClassificationSVM.Beta(2*sizeOfInput+1:3*sizeOfInput));
 %     title('Wights of SVM for 4th channel')
-    
+%     
     
     fs = 1666;
     fc = 60;
