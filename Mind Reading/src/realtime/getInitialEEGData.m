@@ -15,9 +15,6 @@
     else ispc
     	serialEEG = serial('COM21', 'BaudRate', 2000000);
     end
-    
-       
-   
 
     serialEEG.ReadAsyncMode = 'continuous';
     serialEEG.InputBufferSize = 140000;
