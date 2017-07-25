@@ -101,7 +101,9 @@ class TMRModelCueingSetupManual:TMRModel{
         for node in screen.children{
             if node.contains(position){
                 if node.name == "done"{
-                    context.setupPassed[6] = true
+                    var array = context.project.getSetupPassed()
+                    array[6] = 1
+                    context.project.setSetupPassed(array:array)
                     //set targetIDs
                     context.project.setTargetIndexEntries(resourceIndexEntries: targetedIDs)
                     //

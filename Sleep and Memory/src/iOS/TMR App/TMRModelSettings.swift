@@ -37,20 +37,17 @@ class TMRModelSettings : TMRModel  {
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
         print("model Settings touch")
         if save.contains(position){
-            let userName = context.userAccount.getUserName()
-            UserAccountFactory.save(name: userName, user: context.userAccount.getUserAccountTuple())
-            
             // save project to file
             let projName = context.project.getTMRID()
             TMRProjectFactory.save(name: projName, proj: context.project.getTMRProjectTuple())
             context.allProjects.append(context.project)
             context.reset()
             context.nextModel = .Home
+            print(context.project.getSetupPassed())
         }
         if cont.contains(position){
             context.reset()
             let userName = context.userAccount.getUserName()
-            UserAccountFactory.save(name: userName, user: context.userAccount.getUserAccountTuple())
             context.allProjects.append(context.project)
             
             // save project to file

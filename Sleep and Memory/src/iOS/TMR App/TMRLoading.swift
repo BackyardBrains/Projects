@@ -25,23 +25,21 @@ class TMRLoading : TMRModel  {
         var numProjects = 0
         for projectName in context.projNameList{
             let project = TMRProjectFactory.importProjectFromFile(projectName: projectName)
+            print(project.getTMRProjectTuple())
             context.allProjects.append(project)
             numProjects+=1
         }
         
-        context.userNameList = UserAccountFactory.getNameList()
-        if context.userNameList.count > 0 {
-            context.selUserName = context.userNameList[0]
-            context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
-            print("\(context.userAccount.getUserAccountTuple())")
-        }
-        
-        context.nextModel = .Home
+        context.selUserName = context.userAccount.getUserName()
+        context.userAccount = UserAccountFactory.importUserAccountFromFile(userName: context.selUserName)
+        print(context.userAccount.getUserAccountTuple())
         
         //THIS SHOULD NOT BE HERE!!!!!!!
         context.userAccount.setID(ID: numProjects)
         //TEMPORARY FIX
         
+        
+        context.nextModel = .Home
     }
     
 }

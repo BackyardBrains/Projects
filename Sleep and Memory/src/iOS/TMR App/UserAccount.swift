@@ -98,22 +98,4 @@ class UserAccount {
         }
     }
     
-    /*
-     
-     func toJSON() -> [String:Any] {
-     var dictionary: [String : Any] = [:]
-     
-     dictionary["userName"] = userName
-     dictionary["password"] = password
-     return dictionary
-     }
-     
-     func fromJson (dictionary : [String : Any]) {
-     var stringName : String = dictionary["userName"] as! String
-     self.userName = stringName
-     stringName = dictionary["password"] as! String
-     self.password = stringName
-     }
-     */
-    
 }

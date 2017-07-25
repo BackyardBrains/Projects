@@ -46,7 +46,9 @@ class TMRModelCueingSetupAuto:TMRModel{
             context.nextModel = .CueingSetup
         }
         if nextt.contains(position){
-            context.setupPassed[5] = true
+            var array = context.project.getSetupPassed()
+            array[5] = 1
+            context.project.setSetupPassed(array:array)
             if let text = field.text{
                 if let num = Int(text){
                     if num >= 0 && num <= 100{

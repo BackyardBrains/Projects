@@ -48,7 +48,7 @@ class TMRModelCueingSetup:TMRModel{
         buttonM.name = "button"
         screen.addChild(buttonM)
         
-        if context.setupPassed[4]{
+        if context.project.getSetupPassed()[4] == 1{
             if context.isAuto{
                 isASelected = true
                 automatic.fontColor = .black
@@ -131,7 +131,9 @@ class TMRModelCueingSetup:TMRModel{
             context.nextModel = .ExpOptions
         }
         if nextt.contains(position){
-            context.setupPassed[4] = true
+            var array = context.project.getSetupPassed()
+            array[4] = 1
+            context.project.setSetupPassed(array:array)
             if currentMode != 0{
                 if currentMode == 1{
                     context.isAuto = true

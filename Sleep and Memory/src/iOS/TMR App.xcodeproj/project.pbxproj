@@ -24,6 +24,7 @@
 		97A08FA51EF4906C00D11427 /* UserAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A08FA41EF4906C00D11427 /* UserAccountFactory.swift */; };
 		E10722471F05D383007204CA /* TMRSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10722461F05D383007204CA /* TMRSession.swift */; };
 		E10BD9531F09692C005D8AE4 /* Date Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10BD9521F09692C005D8AE4 /* Date Extension.swift */; };
+		E13F5CEE1F26AABF00B75D43 /* TMRUserSignin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */; };
 		E150F9361EF8979C00D4690B /* baseline.wav in Resources */ = {isa = PBXBuildFile; fileRef = E150F9351EF8979C00D4690B /* baseline.wav */; };
 		E150F9381EF8BD3100D4690B /* TMRModelStatBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */; };
 		E150F93A1EF9400400D4690B /* SettingsGUIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */; };
@@ -158,6 +159,7 @@
 		97A08FA41EF4906C00D11427 /* UserAccountFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccountFactory.swift; sourceTree = "<group>"; };
 		E10722461F05D383007204CA /* TMRSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRSession.swift; sourceTree = "<group>"; };
 		E10BD9521F09692C005D8AE4 /* Date Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date Extension.swift"; sourceTree = "<group>"; };
+		E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRUserSignin.swift; sourceTree = "<group>"; };
 		E150F9351EF8979C00D4690B /* baseline.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = baseline.wav; sourceTree = "<group>"; };
 		E150F9371EF8BD3100D4690B /* TMRModelStatBefore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRModelStatBefore.swift; sourceTree = "<group>"; };
 		E150F9391EF9400400D4690B /* SettingsGUIScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsGUIScreen.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				EAD70DE41EF4C6E300675802 /* TMRScreen.swift */,
 				EAD70DEA1EF4C6E300675802 /* TMRModel.swift */,
 				974975101EF545AF009A3BFF /* TMRContext.swift */,
+				E13F5CED1F26AABF00B75D43 /* TMRUserSignin.swift */,
 				E16BDF421F22957C0004C7D6 /* TMRLoading.swift */,
 				EAD70DF61EF6D3E400675802 /* TMRModelHome.swift */,
 				E16BDF401F2160C30004C7D6 /* TMRViewProj.swift */,
@@ -710,6 +713,7 @@
 				9749750D1EF54506009A3BFF /* RandomNumGenerator.swift in Sources */,
 				E16BDF411F2160C30004C7D6 /* TMRViewProj.swift in Sources */,
 				E1BB36371EE5FC7D000F3AF0 /* LabelNodeExtension.swift in Sources */,
+				E13F5CEE1F26AABF00B75D43 /* TMRUserSignin.swift in Sources */,
 				E1BB363B1EE5FC99000F3AF0 /* ExtendedSprite.swift in Sources */,
 				E18E67651F0ED4BA0032C5BD /* TMRModelCueingSetupAuto.swift in Sources */,
 				97A08FA11EF45F7B00D11427 /* GuiSetting.swift in Sources */,

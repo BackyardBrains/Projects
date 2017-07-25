@@ -11,23 +11,22 @@ import UIKit
 import SpriteKit
 
 enum ModelType {
-    case None,Loading,Home,ViewProj,PostTestStats,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
+    case None,UserSignIn,Loading,Home,ViewProj,PostTestStats,MetaData,ExpData,TimingData,ExpOptions,CueingSetup,CueingSetupAuto,CueingSetupManual,Settings,Training,Testing,PreNapTest,PreNapResult,
     Queuing,Control,Retest,Result,Comments,End
 }
 
 // current running context
 class TMRContext {
-    var userAccount : UserAccount
+    var userAccount : UserAccount = UserAccount()
     var userNameList : [String] = []
     var selUserName : String = "default"
     var allProjects : [TMRProject] = []
     
-    var project     : TMRProject
+    var project     : TMRProject = TMRProjectImpl()
     var projNameList : [String] = []// list in file
     var selProjName : String = "default"
     
     var controlModel = 1
-    var setupPassed = [false,false,false,false,false,false,false] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual
     var isAuto = true
     
     //resourceIndexList either get from project like training, or the shuffled one for testing
@@ -53,11 +52,7 @@ class TMRContext {
     var curIdx = 0;
     
     init() {
-        userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-        UserAccountFactory.save(name: userAccount.getUserName(), user: userAccount.getUserAccountTuple())
-        //project = TMRProjectFactory.getTMRProject(userAccount : userAccount,ID:userAccount.getID())
-        project = TMRProjectImpl()
-        model  = TMRLoading() as TMRModel // initial model
+        model  = TMRUserSignin() as TMRModel // initial model
     }
     
     func modelUpdate(screen : TMRScreen,view:SKView){
@@ -70,6 +65,8 @@ class TMRContext {
         self.model.end(screen: screen, context: self)
         // get next
         switch(self.nextModel){
+        case .UserSignIn:
+            self.model = TMRUserSignin()
         case .Loading:
             self.model = TMRLoading()
         case .Home:
@@ -128,7 +125,6 @@ class TMRContext {
     
     func reset(){
         controlModel = 1
-        setupPassed = [false,false,false,false,false,false,false]
         isAuto = true
         repeatCnt = 0
         curIdx = 0

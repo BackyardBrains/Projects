@@ -43,7 +43,8 @@ class TMRModelTimingData:TMRModel{
         cueing.center = CGPoint(x:view.frame.width*0.75, y: view.frame.height*0.42)
         view.addSubview(cueing)
         
-        if context.setupPassed[2]{
+        if context.project.getSetupPassed()[2]==1{
+            print("2")
             training.text = String(context.project.getGuiSetting().getTrainingInterval())
             trainingStop.text = String(context.project.getGuiSetting().getInterTrainingInterval())
             testing.text = String(context.project.getGuiSetting().getTestingInterval())
@@ -73,7 +74,9 @@ class TMRModelTimingData:TMRModel{
             context.nextModel = .ExpData
         }
         if nextt.contains(position){//3135
-            context.setupPassed[2] = true
+            var array = context.project.getSetupPassed()
+            array[2] = 1
+            context.project.setSetupPassed(array:array)
             if let p = training.text{
                 if let t = Int(p){
                     let setting = context.project.getGuiSetting()

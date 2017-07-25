@@ -44,6 +44,10 @@ protocol TMRProject {
     func getSoftware()->String
     func setSoftware(name:Float)
     
+    //SetupPass
+    func getSetupPassed()->[Int]
+    func setSetupPassed(array:[Int])
+    
     //Other Data
     func setExperimentCompleted()
     func getExperimentCompleted() -> Bool
@@ -211,6 +215,4 @@ protocol TMRProject {
     
     func getControlArray()->[Double]
     func setControlArray(array:[Double])
-    
-    func reset()
 }

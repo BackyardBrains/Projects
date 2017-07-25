@@ -50,7 +50,7 @@ class TMRModelExpOptions:TMRModel{
         button2.name = "button"
         screen.addChild(button2)
         
-        if context.setupPassed[3]{
+        if context.project.getSetupPassed()[3]==1{
             if context.project.getGuiSetting().getTreatmentNum() == 1{
                 is1Selected = true
                 treatment1.fontColor = .black
@@ -143,7 +143,9 @@ class TMRModelExpOptions:TMRModel{
                 let setting = context.project.getGuiSetting()
                 setting.setTreatmentNum(num: currentTreatment)
                 context.project.setGuiSetting(guiSetting: setting)
-                context.setupPassed[3] = true
+                var array = context.project.getSetupPassed()
+                array[3] = 1
+                context.project.setSetupPassed(array:array)
                 context.nextModel = .CueingSetup
             }else{
 //                let setting = context.project.getGuiSetting()

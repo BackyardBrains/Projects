@@ -30,6 +30,7 @@ class TMRProjectFactory {
         let ID = "proj"+String(ID)
         
         if let project = listTMRProject[ID] {
+            print("old")
             return project;
         }
         
@@ -41,7 +42,7 @@ class TMRProjectFactory {
         }
         
         let retProject:TMRProjectImpl = TMRProjectImpl(projectName: _projectName, ID:ID, user: userAccount)
-        
+        print("new")
         listTMRProject[ID] = retProject
         return retProject;
     }

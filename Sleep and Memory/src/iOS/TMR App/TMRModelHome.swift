@@ -107,7 +107,7 @@ class TMRModelHome : TMRModel  {
             if node.name == "plus" && node.contains(position){
                 //add new project
                 context.nextModel = .MetaData
-                context.reset()
+                context.project = TMRProjectImpl()
             }
         }
     }
@@ -119,7 +119,9 @@ class TMRModelHome : TMRModel  {
                     let cell = node as! HomeCell
                     if cell.hasTouchedDown{
                         cell.hasTouchedDown = false
+                        print(context.project.getSetupPassed())
                         context.project = context.allProjects[cell.projectIndex]
+                        print(context.project.getSetupPassed())
                         context.nextModel = .ViewProj
                     }
                 }

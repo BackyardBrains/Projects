@@ -67,9 +67,6 @@ class TMRViewProj:TMRModel{
             }
             if node.name == "settings" && node.contains(position){
                 context.reset()
-                for s in 0..<context.setupPassed.count{
-                    context.setupPassed[s] = true
-                }
                 context.nextModel = .MetaData
             }
             if node.name == "start" && node.contains(position){

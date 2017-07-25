@@ -22,6 +22,8 @@ class TMRProjectTuple : EVObject {
     var displayDevice:String = ""
     var deviceOrientation:String = ""
     
+    var setupPassed:[Int] = [0,0,0,0,0,0,0] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual
+    
     var tmrResourceName:String = "default"
     var userAccountName : String = "Robert"
     var guiSetting : GuiSetting!
@@ -58,46 +60,6 @@ class TMRProjectImpl : TMRProject {
     var user : UserAccount?
     var controlArray:[Double] = [0,0,0,0]
     
-    func reset(){
-        projectTuple.tmrProjectName = ""
-        projectTuple.tmrID = "proj0"
-        projectTuple.subject = ""
-        projectTuple.experimenter = ""
-        projectTuple.timeBegin = ""
-        projectTuple.timeEnd = ""
-        projectTuple.tmrNote = ""
-        projectTuple.location = ""
-        projectTuple.displayDevice = ""
-        projectTuple.deviceOrientation = ""
-        
-        projectTuple.tmrResourceName = "default"
-        projectTuple.userAccountName = "Robert"
-        projectTuple.guiSetting.reset()
-        projectTuple.tmrEntries = []
-        projectTuple.experimentCompleted = false
-        projectTuple.beginTime = ""
-        projectTuple.endTime = ""
-        
-        projectTuple.JSONVersion = ""
-        projectTuple.software = ""
-        
-        projectTuple.timeStart1 = ""
-        projectTuple.timeEnd1 = ""
-        projectTuple.timeStart2 = ""
-        projectTuple.timeEnd2 = ""
-        projectTuple.timeStartBeforeSleep = ""
-        projectTuple.timeEndBeforeSleep = ""
-        projectTuple.timeStartAfterSleep = ""
-        projectTuple.timeEndAfterSleep = ""
-        
-        
-        projectTuple.cueTimeBegin = ""
-        projectTuple.cueTimeEnd = ""
-        projectTuple.cueTimeBegin2 = ""
-        projectTuple.cueTimeEnd2 = ""
-        projectTuple.subjectNapped = 1
-    }
-    
     func getTMRProjectTuple() -> TMRProjectTuple { return projectTuple }
     func setTMRProjectTuple(tuple : TMRProjectTuple) { projectTuple = tuple }
     func getTMRProjectName() -> String { return projectTuple.tmrProjectName}
@@ -116,7 +78,8 @@ class TMRProjectImpl : TMRProject {
     func setDisplayDevice(name: String) {projectTuple.displayDevice = name}
     func getDeviceOrientation() -> String {return projectTuple.deviceOrientation}
     func setDeviceOrientation(name: String) {projectTuple.deviceOrientation = name}
-    
+    func getSetupPassed()->[Int] {return projectTuple.setupPassed}
+    func setSetupPassed(array:[Int]) {projectTuple.setupPassed = array}
     
     func getTMRResource()-> TMRResource { return tmrResource}
     func setTMRResource(resource:TMRResource) { tmrResource = resource }

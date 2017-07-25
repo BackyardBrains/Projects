@@ -24,6 +24,7 @@ class TMRModelMetaData:TMRModel{
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
+        print(context.project.getSetupPassed())
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Setup: If blank, default value is used", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
@@ -48,7 +49,8 @@ class TMRModelMetaData:TMRModel{
         locationField.autocorrectionType = .no
         view.addSubview(locationField)
         
-        if context.setupPassed[0]{
+        if context.project.getSetupPassed()[0]==1{
+            print("0")
             projectNameField.text = context.project.getTMRProjectName()
             subjectNameField.text = context.project.getSubject()
             experimenterField.text = context.project.getExperimenter()
@@ -78,22 +80,31 @@ class TMRModelMetaData:TMRModel{
             context.nextModel = .Home
         }
         if nextt.contains(position){
-            context.userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-            
             if let name = projectNameField.text{
                 if name != ""{
-                    context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
-                    context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    print(context.userAccount.getID())
+                    if context.project.getSetupPassed()[0] == 1{
+                        context.project.setTMRProjectName(name: name)
+                    }else{
+                        context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
+                        context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    }
                 }else{
-                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", ID:context.userAccount.getID(),userAccount: context.userAccount)
-                    context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    if context.project.getSetupPassed()[0] == 1{
+                       context.project.setTMRProjectName(name: "Untitled")
+                    }else{
+                        context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", ID:context.userAccount.getID(),userAccount: context.userAccount)
+                        context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    }
                 }
             }else{
-                context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled",ID:context.userAccount.getID(),userAccount: context.userAccount)
-                context.userAccount.setID(ID: context.userAccount.getID()+1)
+                if context.project.getSetupPassed()[0] == 1{
+                    context.project.setTMRProjectName(name: "Untitled")
+                }else{
+                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled",ID:context.userAccount.getID(),userAccount: context.userAccount)
+                    context.userAccount.setID(ID: context.userAccount.getID()+1)
+                }
             }
-            
-            UserAccountFactory.save(name: context.userAccount.getUserName(), user: context.userAccount.getUserAccountTuple())
             
             if let subject = subjectNameField.text{
                 if subject != ""{
@@ -124,7 +135,10 @@ class TMRModelMetaData:TMRModel{
             experimenterField.removeFromSuperview()
             projectNameField.removeFromSuperview()
             
-            context.setupPassed[0] = true
+            var array = context.project.getSetupPassed()
+            array[0] = 1
+            print(context.project.getSetupPassed())
+            context.project.setSetupPassed(array:array)
             context.nextModel = .ExpData
         }
     }

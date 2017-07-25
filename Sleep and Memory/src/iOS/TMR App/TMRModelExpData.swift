@@ -37,7 +37,10 @@ class TMRModelExpData:TMRModel{
         errorThreshold.center = CGPoint(x:view.frame.width/2, y: view.frame.height*0.42)
         view.addSubview(errorThreshold)
         
-        if context.setupPassed[1]{
+        print("Exp\(context.project.getSetupPassed())")
+        
+        if context.project.getSetupPassed()[1]==1{
+            print("1")
             sampleSizeField.text = String(context.project.getGuiSetting().getSampleSize())
             colNumField.text = String(context.project.getGuiSetting().getNumColumns())
             errorThreshold.text = String(context.project.getGuiSetting().getDistanceThreshold())
@@ -63,7 +66,9 @@ class TMRModelExpData:TMRModel{
             context.nextModel = .MetaData
         }
         if nextt.contains(position){
-            context.setupPassed[1] = true
+            var array = context.project.getSetupPassed()
+            array[1] = 1
+            context.project.setSetupPassed(array:array)
             if let p = colNumField.text{
                 if let col = Int(p){
                     let setting = context.project.getGuiSetting()
