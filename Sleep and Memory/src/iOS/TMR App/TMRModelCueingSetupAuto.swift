@@ -16,6 +16,7 @@ class TMRModelCueingSetupAuto:TMRModel{
     var field = UITextField()
     var nextt = SKSpriteNode()
     var prev = SKSpriteNode()
+    var x = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
@@ -23,6 +24,10 @@ class TMRModelCueingSetupAuto:TMRModel{
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Choose % Sample Size to be Randomly Cued", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
+        
+        x = SKSpriteNode(imageName: "quit", ySize: screen.frame.height/6-10, anchorPoint: CGPoint(x:0,y:1), position: CGPoint(x:5,y:screen.frame.height-5), zPosition: 3, alpha: 1)
+        x.name = "quit"
+        screen.addChild(x)
         
         field = UITextField(text: "", placeholder: "% Sounds to be Cued 0-100 (default: 50)", font: "Arial Bold", fontSize: 300, textColor: .black, textAlignment: .center, border: .roundedRect, adjustToFit: false, rect: CGRect(x: view.frame.width/2, y: view.frame.height*0.3, width: screen.frame.width/2, height: screen.frame.width/20))
         field.center = CGPoint(x:view.frame.width/2, y: view.frame.height*0.3)
@@ -41,6 +46,19 @@ class TMRModelCueingSetupAuto:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if x.contains(position){
+            field.removeFromSuperview()
+            context.reset()
+            if context.project.getSetupPassed()[7] != 1{
+                context.project.setSetupPassed(array: [0,0,0,0,0,0,0,0])
+                context.userAccount.setID(ID: context.userAccount.getID()-1)
+
+            }
+            if context.project.getSetupPassed()[7] == 1{
+                context.project = context.baseProjectCopy
+            }
+            context.nextModel = .Home
+        }
         if prev.contains(position){
             field.removeFromSuperview()
             context.nextModel = .CueingSetup
@@ -75,7 +93,6 @@ class TMRModelCueingSetupAuto:TMRModel{
             setAll(screen:screen,context:context)
             
             context.nextModel = .Settings
-            print(context.project.getGuiSetting().getCuedPercent())
         }
     }
     
@@ -87,7 +104,6 @@ class TMRModelCueingSetupAuto:TMRModel{
         let trainingList = RandomNumberGenerator.generateRandomNumbers(
             range: resource.getNumberOfResourceEntries(),
             sampleSize: settings.getSampleSize())
-        //print("trainingList \(trainingList)")
         
         // set this list back to project
         context.project.setResourceIndexEntries(resourceIndexEntries: trainingList)

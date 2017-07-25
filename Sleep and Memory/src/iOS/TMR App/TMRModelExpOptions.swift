@@ -26,6 +26,7 @@ class TMRModelExpOptions:TMRModel{
     
     var is1Selected = false
     var is2Selected = false
+    var x = SKSpriteNode()
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
@@ -33,6 +34,10 @@ class TMRModelExpOptions:TMRModel{
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 1, text: "Select Treatment", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
+        
+        x = SKSpriteNode(imageName: "quit", ySize: screen.frame.height/6-10, anchorPoint: CGPoint(x:0,y:1), position: CGPoint(x:5,y:screen.frame.height-5), zPosition: 3, alpha: 1)
+        x.name = "quit"
+        screen.addChild(x)
         
         treatment1 = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height*2/3), zPosition: 2, text: "Cueing During Sleep", fontColor: .lightText, fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .center, horizontalAlignmentMode: .center)
         treatment1.name = "treatment"
@@ -78,6 +83,18 @@ class TMRModelExpOptions:TMRModel{
     
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+        if x.contains(position){
+            context.reset()
+            if context.project.getSetupPassed()[7] != 1{
+                context.userAccount.setID(ID: context.userAccount.getID()-1)
+                context.project.setSetupPassed(array: [0,0,0,0,0,0,0,0])
+            }
+            if context.project.getSetupPassed()[7] == 1{
+                context.project = context.baseProjectCopy
+            }
+            
+            context.nextModel = .Home
+        }
         if button1.contains(position){
             if is1Selected{
                 treatment1.fontColor = .lightText
@@ -147,12 +164,8 @@ class TMRModelExpOptions:TMRModel{
                 array[3] = 1
                 context.project.setSetupPassed(array:array)
                 context.nextModel = .CueingSetup
-            }else{
-//                let setting = context.project.getGuiSetting()
-//                setting.setTreatmentNum(num: 1)
-//                context.project.setGuiSetting(guiSetting: setting)
             }
-            print(context.project.getGuiSetting().getTreatmentNum())
+            
             
         }
     }

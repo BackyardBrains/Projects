@@ -18,8 +18,11 @@ class TMRModelHome : TMRModel  {
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
-        print("model home begin")
+        print("homeIDs:\(context.getAllProjectNames())")
+        print("saveIDs:\(TMRProjectFactory.getNameList())")
+        print("currentID:\(context.userAccount.getID())")
         screen.clearScreen()
+        
         
         
         //screen.addChild(label)
@@ -36,6 +39,7 @@ class TMRModelHome : TMRModel  {
         screen.addChild(plusSign)
         screen.addChild(navigationBar)
         
+        context.sortProjectByIndex()
         var counter = context.allProjects.count-1
         for projectIndex in 0..<context.allProjects.count{
             let cell = HomeCell(screen: screen, yNum: CGFloat(counter), project: context.allProjects[projectIndex], projectIndex: projectIndex)
@@ -119,9 +123,8 @@ class TMRModelHome : TMRModel  {
                     let cell = node as! HomeCell
                     if cell.hasTouchedDown{
                         cell.hasTouchedDown = false
-                        print(context.project.getSetupPassed())
                         context.project = context.allProjects[cell.projectIndex]
-                        print(context.project.getSetupPassed())
+                        context.baseProjectCopy = TMRProjectImpl(tuple: context.project.getTMRProjectTuple())
                         context.nextModel = .ViewProj
                     }
                 }
@@ -130,6 +133,6 @@ class TMRModelHome : TMRModel  {
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-        print("model home end")
+        
     }
 }

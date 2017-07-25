@@ -22,7 +22,7 @@ class TMRProjectTuple : EVObject {
     var displayDevice:String = ""
     var deviceOrientation:String = ""
     
-    var setupPassed:[Int] = [0,0,0,0,0,0,0] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual
+    var setupPassed:[Int] = [0,0,0,0,0,0,0,0] //0meta,1expdata,2timing,3expop,4cueingset,5auto,6manual,7settings
     
     var tmrResourceName:String = "default"
     var userAccountName : String = "Robert"
@@ -50,6 +50,8 @@ class TMRProjectTuple : EVObject {
     var cueTimeBegin2:String = ""
     var cueTimeEnd2:String = ""
     var subjectNapped:Int = 1
+    
+    var isAuto = true
 }
 
 
@@ -148,6 +150,13 @@ class TMRProjectImpl : TMRProject {
         findDisplayOrientation()
         setJSON(name: (projectTuple.guiSetting.getJSONVersion()))
         setSoftware(name: (projectTuple.guiSetting.getSoftwareVersion()))
+    }
+    
+    func setIsAuto(bool: Bool) {
+        projectTuple.isAuto = bool
+    }
+    func getIsAuto() -> Bool {
+        return projectTuple.isAuto
     }
     
     func getControlArray() -> [Double] {
@@ -1036,13 +1045,9 @@ class TMRProjectImpl : TMRProject {
             print("numOfBaseSoundSetForTargeted is \(numOfBaseSoundSetForTargeted)")
             var numOfIncrements = 0
             for (i,j) in zip(numOfBaseSoundSetForTargeted..<targetedIndexEntries.count, 0..<unSelectedResourceIndexEntries.count) {
-                print("i is \(i)")
-                print("j is \(j)")
                 let entryKey = targetedIndexEntries[i]
-                print("entryKey is \(entryKey)")
                 let tmrEntry = getTMREntry(entryKey)
                 let unSelectedSoundImageIndex = unSelectedResourceIndexEntries[j]
-                print("baseSoundIndex is \(unSelectedSoundImageIndex)")
                 tmrEntry?.setBaseSoundName(baseSoundName: tmrResource.getSoundName(index: unSelectedSoundImageIndex))
                 tmrEntry?.setBaseSoundNickname(unSelectedSoundImageIndex)
                 if ( numOfBaseSoundSetForTargeted + j + 1 >= targetedIndexEntries.count ) {

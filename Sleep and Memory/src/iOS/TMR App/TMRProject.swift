@@ -48,6 +48,9 @@ protocol TMRProject {
     func getSetupPassed()->[Int]
     func setSetupPassed(array:[Int])
     
+    func getIsAuto()->Bool
+    func setIsAuto(bool:Bool)
+    
     //Other Data
     func setExperimentCompleted()
     func getExperimentCompleted() -> Bool

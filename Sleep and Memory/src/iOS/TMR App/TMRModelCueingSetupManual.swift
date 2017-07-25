@@ -47,6 +47,16 @@ class TMRModelCueingSetupManual:TMRModel{
             cells.append(cell)
         }
         
+        if context.project.getSetupPassed()[6]==1{
+            for index in context.project.getTargetIndexEntries(){
+                for cell in cells{
+                    if cell.index == index{
+                        cell.isSelected = true
+                    }
+                }
+            }
+        }
+        
         //Gesture Recognizers
         let upGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target:self, action:#selector(self.swipe))
         upGesture.direction = .up
@@ -101,12 +111,40 @@ class TMRModelCueingSetupManual:TMRModel{
         for node in screen.children{
             if node.contains(position){
                 if node.name == "done"{
+                    let settings = context.project.getGuiSetting()
+                    let resource = context.project.getTMRResource()
+                    
                     var array = context.project.getSetupPassed()
                     array[6] = 1
                     context.project.setSetupPassed(array:array)
                     //set targetIDs
-                    context.project.setTargetIndexEntries(resourceIndexEntries: targetedIDs)
-                    //
+                    context.project.setResourceIndexEntries(resourceIndexEntries: targetedIDs)
+                    context.setResourceIndexList(resourceIndexList: targetedIDs)
+                    
+                    // create position list
+                    let posList = RandomNumberGenerator.generateRandomPositions(
+                        rangeX: (Int(screen.imgSize/2),Int(screen.width-screen.imgSize)),
+                        rangeY: (Int(screen.imgSize/2),Int(screen.height-screen.imgSize)),
+                        sampleSize: settings.getSampleSize())
+                    
+                    // set position list to project
+                    for (idx,(x,y)) in zip(targetedIDs,posList) {
+                        context.project.setPosition(resourceIndex: idx, posX: x, posY: y)
+                    }
+                    
+                    // create target list
+                    let targetIndexList = RandomNumberGenerator.generateRandomNumbers(
+                        range: targetedIDs.count,
+                        sampleSize: Int(Double(targetedIDs.count)*0.5))
+                    //0.5 maybe should be set manually?
+                    
+                    // set target list to project
+                    var targetList = [Int]();
+                    for i in 0..<targetIndexList.count {
+                        targetList.append(targetedIDs[targetIndexList[i]])
+                    }
+                    context.project.setTargetIndexEntries(resourceIndexEntries: targetList)
+                    
                     context.nextModel = .Settings
                 }
                 if node.name == "prev"{
@@ -148,6 +186,6 @@ class TMRModelCueingSetupManual:TMRModel{
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-        
+        print("ended")
     }
 }

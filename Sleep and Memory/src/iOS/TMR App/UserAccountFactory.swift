@@ -46,6 +46,7 @@ class UserAccountFactory {
         }
         
         let retAccount:UserAccount = UserAccount(tuple: tuple)
+        print("Tuple:\(tuple)")
         listUserAccount.append(retAccount)
         return retAccount;
     }

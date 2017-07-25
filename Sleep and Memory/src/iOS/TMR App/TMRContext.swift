@@ -27,7 +27,7 @@ class TMRContext {
     var selProjName : String = "default"
     
     var controlModel = 1
-    var isAuto = true
+    var baseProjectCopy:TMRProject = TMRProjectImpl()
     
     //resourceIndexList either get from project like training, or the shuffled one for testing
     var resourceIndexList = [Int]()
@@ -53,6 +53,32 @@ class TMRContext {
     
     init() {
         model  = TMRUserSignin() as TMRModel // initial model
+    }
+    
+    func getAllProjectNames()->[String]{
+        var array:[String] = []
+        for project in allProjects{
+            array.append(project.getTMRID())
+        }
+        return array
+    }
+    
+    func sortProjectByIndex(){
+        var sortedArray:[TMRProject] = []
+        for num in 0..<allProjects.count{
+            for project in allProjects{
+                if let new = Int(project.getTMRID().chopPrefix(4)){
+                    print(new)
+                    print(num)
+                    print()
+                    if new == num{
+                        sortedArray.append(project)
+                    }
+                }
+            }
+        }
+        allProjects = sortedArray
+        print(sortedArray)
     }
     
     func modelUpdate(screen : TMRScreen,view:SKView){
@@ -125,7 +151,6 @@ class TMRContext {
     
     func reset(){
         controlModel = 1
-        isAuto = true
         repeatCnt = 0
         curIdx = 0
     }
