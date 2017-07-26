@@ -1,4 +1,4 @@
-function [ out ] = startClassifier()
+function [ out ] = startClassifier(erps, classOfImage)
 
 global erps;
 global outputClasses;
