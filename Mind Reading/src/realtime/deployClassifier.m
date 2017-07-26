@@ -38,12 +38,15 @@ function deployClassifier()
     global houseimage;
     global faceimage;
     global sceneryimage;
+    global notextimage;
+    global notextimage2;
     
     weirdimage = imread('Weird.jpg');
     houseimage = imread('House.jpg');
     faceimage = imread('Face.jpg');
     sceneryimage = imread('Scenery.jpg');
-    
+   
+ 
     
     global p;
 
@@ -92,6 +95,12 @@ function deployClassifier()
     subplot( p.h( p.predictedImage ) );
     image(notextimage);
     p.h( p.predictedImage ) = get(gca,'Children');
+    
+    
+    notextimage2 = imread('notextimage2.jpg');
+    subplot( p.h( p.svmData ) );
+    image(notextimage2);
+    p.h( p.svmData ) = get(gca,'Children');
 
 %     
 %     figure;
