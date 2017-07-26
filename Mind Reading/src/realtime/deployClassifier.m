@@ -36,6 +36,7 @@ function deployClassifier()
     global nonfaceimage;
     global notextimage;
     global p;
+    global lastTimeClassImageWasPresented;
     
     fs = 1666;
     fc = 60;
@@ -82,6 +83,7 @@ function deployClassifier()
     subplot( p.h( p.predictedImage ) );
     image(notextimage);
     p.h( p.predictedImage ) = get(gca,'Children');
+    lastTimeClassImageWasPresented = 0;
 %     
 %     figure;
 %     subplot(1,3,1);

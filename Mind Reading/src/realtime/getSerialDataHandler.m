@@ -20,6 +20,7 @@ function [ out ] = getSerialDataHandler(varargin)
         global roi;
         
         
+        
         numberOfSeconds = 70;
         % numberOfSeconds = 60*8.1;
         fs = 1666;

@@ -27,6 +27,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         
         global correctimg;
         global incorrectimg;
+        global lastTimeClassImageWasPresented;
 
         numberOfSeconds = 60;
 
@@ -150,6 +151,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedOutputs = classifier.predictFcn(inputVector);
                                     predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
+                                    lastTimeClassImageWasPresented = (length(dataEEG)/12)/fs;
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
                                         set(p.h( p.predictedImage ),'CData',faceimage);
@@ -195,6 +197,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
 
                         lastProcessedIndex = lastProcessedIndex+ endOfProcessingBlock;
                        
+            end
+            if((((length(dataEEG)/12)/fs)-lastTimeClassImageWasPresented)>2)
+                set(p.h( p.predictedImage ),'CData',notextimage);
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
