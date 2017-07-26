@@ -206,7 +206,7 @@ function [ out ] = getSerialDataHandler(varargin)
 
                 clear serialEMG
                 clear t;
-                exit;
+                pause;
                 startClassifier( erps, classOfImage );
             end
         end
