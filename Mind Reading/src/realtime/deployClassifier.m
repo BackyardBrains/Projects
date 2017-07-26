@@ -32,6 +32,9 @@ function deployClassifier()
     global graphic;
     global classifier;
     global roiTime;
+    global faceimage;
+    global nonfaceimage;
+    global notextimage;
     global p;
     
     fs = 1666;
@@ -70,6 +73,15 @@ function deployClassifier()
     testingimg = imread('testing.jpg');
     subplot( p.h( p.image ) );
     p.h( p.image ) = image(testingimg);
+    p.h( p.image ) = get(gca,'Children');
+    
+    
+    faceimage = imread('facetext.jpg');;
+    nonfaceimage = imread('nonfacetext.jpg');;
+    notextimage = imread('notext.jpg');;
+    subplot( p.h( p.predictedImage ) );
+    image(notextimage);
+    p.h( p.predictedImage ) = get(gca,'Children');
 %     
 %     figure;
 %     subplot(1,3,1);

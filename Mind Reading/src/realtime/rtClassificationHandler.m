@@ -20,6 +20,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global zi;
         global roi;
         %global graphic;
+        global faceimage;
+        global nonfaceimage;
+        global notextimage;
         global p;
         
         global correctimg;
@@ -149,10 +152,13 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
+                                        set(p.h( p.predictedImage ),'CData',faceimage);
                                         %set( p.h( p.image ),'CData',faceimg);
                                         predictedOutputs
                                         if(correctClass ==1)
                                             disp('Correct: Face')
+                                            
+
                                             %set( p.h( p.image ),'CData',correctimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
                                         else
@@ -163,6 +169,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                         
                                     else
                                         disp('Predicted: Non Face')
+                                        set(p.h( p.predictedImage ),'CData',nonfaceimage);
                                         %set(p.h( p.image ),'CData',sceneimg);
                                         predictedOutputs
                                          if(correctClass ==1)
