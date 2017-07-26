@@ -33,7 +33,7 @@ global classifier
 
 classifier = trainedClassifier;
 disp('Deploy')
-deployClassifier;
+%deployClassifier;
 
 % 
 % %predict output for test data
