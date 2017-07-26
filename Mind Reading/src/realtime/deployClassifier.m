@@ -35,6 +35,7 @@ function deployClassifier()
     global faceimage;
     global nonfaceimage;
     global notextimage;
+    global notextimage2;
     global p;
     global lastTimeClassImageWasPresented;
     global PCAcoeff;
@@ -82,7 +83,14 @@ function deployClassifier()
     
     faceimage = imread('Face.jpg');;
     nonfaceimage = imread('Scenery.jpg');;
-    notextimage = imread('notext.jpg');;
+    notextimage = imread('notext.jpg');
+    notextimage2 = imread('notext2.jpg');
+    
+    subplot( p.h( p.predictedImage ) );
+    image(notextimage);
+    subplot( p.h (p.svmData ) );
+    image(notextimage2);
+    
     subplot( p.h( p.predictedImage ) );
     image(notextimage);
     p.h( p.predictedImage ) = get(gca,'Children');
