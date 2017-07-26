@@ -156,24 +156,24 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedClasses = [predictedClasses predictedOutputs];
                                     
                                     
-                                    subplot( p.h( p.svmData ) );
-                                    indexes = trainingPCADataOutputs==1;
-                                    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
-
-                                    hold on;
-                                    indexes = trainingPCADataOutputs~=1;
-                                    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
-
-                                    currentPCAVector = inputVector * PCAcoeff;
-                                     plot(currentPCAVector(1),currentPCAVector(3),'k*');
-                                     legend('Face','Non Face','Current');
-                                     if(predictedOutputs==1)
-                                        plot(currentPCAVector(1),currentPCAVector(3),'ro');
-                                        
-                                     else
-                                        plot(currentPCAVector(1),currentPCAVector(3),'go');
-                                     end
-                                    hold off;
+%                                     subplot( p.h( p.svmData ) );
+%                                     indexes = trainingPCADataOutputs==1;
+%                                     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
+% 
+%                                     hold on;
+%                                     indexes = trainingPCADataOutputs~=1;
+%                                     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
+% 
+%                                     currentPCAVector = inputVector * PCAcoeff;
+%                                      plot(currentPCAVector(1),currentPCAVector(3),'k*');
+%                                      legend('Face','Non Face','Current');
+%                                      if(predictedOutputs==1)
+%                                         plot(currentPCAVector(1),currentPCAVector(3),'ro');
+%                                         
+%                                      else
+%                                         plot(currentPCAVector(1),currentPCAVector(3),'go');
+%                                      end
+%                                     hold off;
                                     
                                     
                                     

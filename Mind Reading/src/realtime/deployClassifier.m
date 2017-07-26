@@ -88,16 +88,16 @@ function deployClassifier()
     p.h( p.predictedImage ) = get(gca,'Children');
     lastTimeClassImageWasPresented = 0;
     
-    subplot( p.h( p.svmData ) );
-    indexes = trainingPCADataOutputs==1;
-    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
-    
-    hold on;
-
-    indexes = trainingPCADataOutputs~=1;
-    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
-    legend('Face','Non Face')
-    hold off;
+%     subplot( p.h( p.svmData ) );
+%     indexes = trainingPCADataOutputs==1;
+%     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
+%     
+%     hold on;
+% 
+%     indexes = trainingPCADataOutputs~=1;
+%     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
+%     legend('Face','Non Face')
+%     hold off;
     
 %     
 %     figure;
