@@ -28,6 +28,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global correctimg;
         global incorrectimg;
         global lastTimeClassImageWasPresented;
+        global PCAcoeff;
+        global trainingPCADataInputs
+        global trainingPCADataOutputs
 
         numberOfSeconds = 60*6.1;
 
@@ -151,6 +154,32 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     predictedOutputs = classifier.predictFcn(inputVector);
                                     predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
+                                    
+                                    
+                                    subplot( p.h( p.svmData ) );
+                                    indexes = trainingPCADataOutputs==1;
+                                    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
+
+                                    hold on;
+                                    indexes = trainingPCADataOutputs~=1;
+                                    plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
+
+                                    currentPCAVector = inputVector * PCAcoeff;
+                                     plot(currentPCAVector(1),currentPCAVector(3),'k*');
+                                     legend('Face','Non Face','Current');
+                                     if(predictedOutputs==1)
+                                        plot(currentPCAVector(1),currentPCAVector(3),'ro');
+                                        
+                                     else
+                                        plot(currentPCAVector(1),currentPCAVector(3),'go');
+                                     end
+                                    hold off;
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                     lastTimeClassImageWasPresented = (length(dataEEG)/12)/fs;
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')

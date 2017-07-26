@@ -44,6 +44,18 @@ trainingOutputs = [ones(1, numberOfSelectedClassExample) zeros(1, numberOfSelect
 out.trainingInputs = trainingInputs;
 out.trainingOutputs = trainingOutputs;
 
+
+%make PCA for visualization
+global PCAcoeff
+global trainingPCADataInputs
+global trainingPCADataOutputs
+coeff = pca(out.trainingInputs);
+PCAcoeff = coeff(:,1:3);
+trainingPCADataInputs = out.trainingInputs * PCAcoeff;
+trainingPCADataOutputs = out.trainingOutputs;
+
+
+
 disp('Train SVM')
 %train network
 trainedClassifier = trainRTERP( out );
