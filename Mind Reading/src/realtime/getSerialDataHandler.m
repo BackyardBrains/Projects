@@ -18,6 +18,8 @@ function [ out ] = getSerialDataHandler(varargin)
         %global graphic;
         global p;
         global roi;
+        global faceimg
+        global scneneimg
         
         
         

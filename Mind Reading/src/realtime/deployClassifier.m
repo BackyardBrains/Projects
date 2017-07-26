@@ -77,8 +77,8 @@ function deployClassifier()
     p.h( p.image ) = get(gca,'Children');
     
     
-    faceimage = imread('facetext.jpg');;
-    nonfaceimage = imread('nonfacetext.jpg');;
+    faceimage = imread('Face.jpg');;
+    nonfaceimage = imread('Scenery.jpg');;
     notextimage = imread('notext.jpg');;
     subplot( p.h( p.predictedImage ) );
     image(notextimage);
