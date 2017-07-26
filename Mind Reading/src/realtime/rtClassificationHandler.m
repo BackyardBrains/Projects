@@ -135,10 +135,10 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     
                                     
                                     
-                                     %predict output for test data
-                                     disp('------------------------------')
-                                     disp('Decoding...')
-                                     disp(length(dataEEG)/(12*1666));
+                                    %predict output for test data
+                                    disp('------------------------------')
+                                    disp('Decoding...')
+                                    disp(length(dataEEG)/(12*1666));
                                     predictedOutputs = classifier.predictFcn(inputVector);
                                     predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
@@ -146,16 +146,16 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     
                                     switch predictedOutputs
                                         case 1
-                                            set(p.h( p.image ),'CData',faceimage);
+                                            set(p.h( p.predictedImage ),'CData',faceimage);
                                         case 2
-                                            set(p.h( p.image ),'CData',houseimage);
+                                            set(p.h( p.predictedImage ),'CData',houseimage);
                                         case 3
-                                            set(p.h( p.image ),'CData',sceneryimage);
+                                            set(p.h( p.predictedImage ),'CData',sceneryimage);
                                         case 4
-                                            set(p.h( p.image ),'CData',weirdimage);
+                                            set(p.h( p.predictedImage ),'CData',weirdimage);
                                     end
-
-                                     disp('------------------------------')
+                                    pause(0.00000001);%added so that image starts drawing
+                                    disp('------------------------------')
 
                                    
                        

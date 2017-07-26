@@ -1,4 +1,5 @@
-    
+function deployClassifier()
+
     if exist('serialEEG','var')
         fclose(serialEEG);
     end
@@ -31,19 +32,67 @@
     global graphic;
     global classifier;
     global roiTime;
-    global p;
+
+    
     global weirdimage;
     global houseimage;
     global faceimage;
     global sceneryimage;
+    
     weirdimage = imread('weirdtext.jpg');
     houseimage = imread('housetext.jpg');
     faceimage = imread('facetext.jpg');
     sceneryimage = imread('scenerytext.jpg');
     
+    
+    global p;
+
+    
+    fs = 1666;
+    fc = 60;
+    
+    clear top;
+    top.sp = [2 1];
+    top.h = [.5 .5];
+    top.c(1).sp = [1 2]; 
+    top.c(1).w = [0.25 0.75];
+    top.c(2).sp = [1 2];
+    top.c(2).w = [0.5 0.5];
+    top.c(1).c(2).sp = [5 1];
+   
+    roiTime = [-0.1, 0.5];
+    roi = ceil(roiTime*fs);    
+ 
+    %make portable position handles
+    p = [];
+    p.image               = 1;
+    p.eeg                 = 2:6;
+    p.svmData             = 7;
+    p.predictedImage      = 8;
+    p.h = subsubplot(top);
+    p.colors = {'g', 'y', 'c', [1 0 1], 'r', [1 0.375 0]};
+    p.lineWidth = 2;
+    p.timeForGraph = linspace(roiTime(1),roiTime(2),-roi(1)+roi(2)+1);
+   
+     
+    for iPlot = 1:5
+        subplot(  p.h( p.eeg(iPlot) ));
+        p.h( p.eeg(iPlot) ) = plot(p.timeForGraph, ones(1,length(p.timeForGraph)));
+        prettyPlots( p.h( p.eeg(iPlot) ), p.colors{iPlot} );
+    end
+     
     testingimg = imread('testing.jpg');
-    %subplot( p.h( p.image ) );
-    set(p.h( p.image ),'CData',testingimg);
+    subplot( p.h( p.image ) );
+    p.h( p.image ) = image(testingimg);
+    p.h( p.image ) = get(gca,'Children');
+    
+    
+ 
+    notextimage = imread('notextimage.jpg');
+    subplot( p.h( p.predictedImage ) );
+    image(notextimage);
+    p.h( p.predictedImage ) = get(gca,'Children');
+
 %     
 %     figure;
 %     subplot(1,3,1);
@@ -82,3 +131,17 @@
     set(timer2,'ExecutionMode','fixedRate');
     disp('Start decoding')
     start(timer2);
+    
+end
+
+function prettyPlots( pp, c )
+    global p;
+
+    set( gca, 'Color', 'k' );
+    set(gca, 'XTick', []);
+    set(gca, 'YTick', []);
+    set( pp, 'Color', c);
+   set( pp, 'LineWidth', p.lineWidth );
+   
+    
+end

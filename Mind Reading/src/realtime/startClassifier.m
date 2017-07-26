@@ -1,6 +1,12 @@
-function [ out ] = startClassifier( erps, outputClasses )
-
+function [ out ] = startClassifier()
 disp('Start Classifier')
+
+global erps;
+global outputClasses;
+global classOfImage;
+
+outputClasses = classOfImage;
+
 out = [];
 channels = [1 2 4];%we use only some of the channels
 

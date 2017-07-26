@@ -20,8 +20,9 @@ function [ out ] = getSerialDataHandler(varargin)
         global roi;
         
         
-        numberOfSeconds = 60;
-        % numberOfSeconds = 60*8.5;
+        
+        numberOfSeconds = 70;
+        % numberOfSeconds = 60*8.1;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -119,25 +120,10 @@ function [ out ] = getSerialDataHandler(varargin)
                                     m = mean(roiEEG,1);
                                     mMat = repmat(m, [size(roiEEG,1),1]);
                                     roiEEG = roiEEG - mMat; 
-                                    erps(erpsCounter,:,:) = roiEEG;
-                                    erpsCounter = erpsCounter+1;
-                                    
-                                    
-                                    
-                                    
-                                    %UNCOMMENT THIS BELOW IF YOU WANT TO
-                                    %ADD GRAY IMAGE AS A CLASS
-%------------------------------------------------------------------------------------------                                    
-%                                     
-%                                     %get gray image also
-%                                     roiEEG = double(EEGMatrix(1:5,allPositions(j)+roi(1)-ceil(0.6*fs):allPositions(j)+roi(2)-ceil(0.6*fs))');
-%                                     classOfImage = [classOfImage 0];
-%                                     m = mean(roiEEG,1);
-%                                     mMat = repmat(m, [size(roiEEG,1),1]);
-%                                     roiEEG = roiEEG - mMat; 
-%                                     erps(erpsCounter,:,:) = roiEEG;
-%                                     erpsCounter = erpsCounter+1;
-%------------------------------------------------------------------------------------------                                 
+
+
+                                erps(erpsCounter,:,:) = roiEEG;
+                                erpsCounter = erpsCounter+1;
                                 
                                 
                                 
@@ -146,7 +132,7 @@ function [ out ] = getSerialDataHandler(varargin)
                                 set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
                                 set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
                                 set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
-                                set( p.h( p.eeg(6)), 'ydata', encodingChannel);
+                                % set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                 
 
                                 
@@ -172,42 +158,53 @@ function [ out ] = getSerialDataHandler(varargin)
                 %figure;
                 %plot(EEGMatrix')
                 %title('Raw EEG data (Training)')
+                
+                
+                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
+                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
+                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
+                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
+                
+                yMax = max(max( [faceAverage; class2Aver;  class3Aver;  class4Aver ] ));
+                yMin = min(min( [faceAverage; class2Aver;  class3Aver;  class4Aver ] ));
+                
 
                 %figure;
                 subplot(  p.h( p.erp(1) ));
-                faceAverage = squeeze(mean(erps(classOfImage==1,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(1) ), faceAverage);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Face', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 
                 %title('Face ERP (Training)');
                 
                 subplot(  p.h( p.erp(2) ));
-                class2Aver = squeeze(mean(erps(classOfImage==2,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(2) ), class2Aver);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'House', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 %title('House ERP (Training)');
                 
                 subplot(  p.h( p.erp(3) ));
-                class3Aver = squeeze(mean(erps(classOfImage==3,:,:),1));
                 prettyPlotAverage(  p.h( p.erp(3) ), class3Aver);
-                Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
+                ylim( [yMin yMax] );
+                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Scenery', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 %plot(class3Aver);
                 %title('Nature ERP (Training)');
 
                 subplot(  p.h( p.erp(4) ));
-                class4Aver = squeeze(mean(erps(classOfImage==4,:,:),1));
                 %plot(class4Aver);
                 %title('Weird ERP (Training)');
                 prettyPlotAverage(  p.h( p.erp(4) ), class4Aver);
+                ylim( [yMin yMax] );
                 Ylim = get( gca, 'ylim' ); minY = Ylim(1); 
                 text( .2, 0.9 * range(Ylim) +  minY, 'Weird', 'FontName', 'Helvetica', 'FontSize', 20, 'FontWeight', 'bold', 'Color', 'w' );
                 
 
                 clear serialEMG
                 clear t;
+                exit;
                 startClassifier( erps, classOfImage );
             end
         end

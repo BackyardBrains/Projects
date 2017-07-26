@@ -15,9 +15,6 @@
     else ispc
     	serialEEG = serial('COM21', 'BaudRate', 2000000);
     end
-    
-       
-   
 
     serialEEG.ReadAsyncMode = 'continuous';
     serialEEG.InputBufferSize = 140000;
@@ -62,14 +59,14 @@
     top.c(2).w = [0.5 0.5];
     top.c(3).sp = [1 2];
     top.c(3).w = [0.5 0.5];
-    top.c(1).c(2).sp = [6 1];
+    top.c(1).c(2).sp = [5 1];
    
     global p;
     %make portable position handles
     p = [];
     p.image               = 1;
-    p.eeg                 = 2:7;
-    p.erp                 = 8:11;
+    p.eeg                 = 2:6;
+    p.erp                 = 7:10;
     p.h = subsubplot(top);
     p.colors = {'g', 'y', 'c', [1 0 1], 'r', [1 0.375 0]};
     p.lineWidth = 2;
@@ -80,7 +77,7 @@
     graphic.h21 = p.h( p.eeg(3) );
     graphic.h22 = p.h( p.eeg(4) );
     graphic.h31 = p.h( p.eeg(5) );
-    graphic.h32 = p.h( p.eeg(6) );
+%    graphic.h32 = p.h( p.eeg(6) );
     graphic.imageHandle = p.h( p.image );
     graphic.imageLabel = p.h( p.erp(1) );
 
@@ -112,10 +109,10 @@
     prettyPlots( p.h( p.eeg(5) ), p.colors{5} );
     %title(graphic.ax31, 'Fifth channel');
     
-    lengthOfSixth = fs+100+1;
-    subplot(  p.h( p.eeg(6) ));
-    p.h( p.eeg(6) ) = plot(linspace(-100/fs, 1,lengthOfSixth), zeros(1,lengthOfSixth));
-    prettyPlots( p.h( p.eeg(6) ), p.colors{6} );
+%     lengthOfSixth = fs+100+1;
+%     subplot(  p.h( p.eeg(6) ));
+%     p.h( p.eeg(6) ) = plot(linspace(-100/fs, 1,lengthOfSixth), zeros(1,lengthOfSixth));
+%     prettyPlots( p.h( p.eeg(6) ), p.colors{6} );
     %title(graphic.ax32, 'Sixth channel');   
     
     prettyPlots(  p.h( p.erp(1) ), 'k');
