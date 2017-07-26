@@ -1,9 +1,9 @@
-function [ out ] = startClassifier()
+function [ out ] = startClassifier(erps, classOfImage)
 disp('Start Classifier')
 
-global erps;
-global outputClasses;
-global classOfImage;
+% global erps;
+% global outputClasses;
+% global classOfImage;
 
 outputClasses = classOfImage;
 
