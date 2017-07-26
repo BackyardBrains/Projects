@@ -81,7 +81,7 @@ function deployClassifier()
         prettyPlots( p.h( p.eeg(iPlot) ), p.colors{iPlot} );
     end
      
-    testingimg = imread('testing.jpg');
+    testingimg = imread('Decoding.jpg');
     subplot( p.h( p.image ) );
     p.h( p.image ) = image(testingimg);
     p.h( p.image ) = get(gca,'Children');
