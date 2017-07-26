@@ -39,10 +39,10 @@ function deployClassifier()
     global faceimage;
     global sceneryimage;
     
-    weirdimage = imread('weirdtext.jpg');
-    houseimage = imread('housetext.jpg');
-    faceimage = imread('facetext.jpg');
-    sceneryimage = imread('scenerytext.jpg');
+    weirdimage = imread('Weird.jpg');
+    houseimage = imread('House.jpg');
+    faceimage = imread('Face.jpg');
+    sceneryimage = imread('Scenery.jpg');
     
     
     global p;
