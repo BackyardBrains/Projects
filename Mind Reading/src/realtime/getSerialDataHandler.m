@@ -23,7 +23,7 @@ function [ out ] = getSerialDataHandler(varargin)
         
         
         
-        numberOfSeconds = 70;
+        numberOfSeconds = 60*8.1;
         % numberOfSeconds = 60*8.1;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;

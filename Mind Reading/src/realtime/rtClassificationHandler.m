@@ -29,7 +29,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global incorrectimg;
         global lastTimeClassImageWasPresented;
 
-        numberOfSeconds = 60;
+        numberOfSeconds = 60*6.1;
 
         % numberOfSeconds = 60*6.1;
         fs = 1666;
