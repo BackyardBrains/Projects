@@ -32,7 +32,7 @@ function [ output_args ] = rtClassificationHandler(varargin)
         
         
 
-        numberOfSeconds = 30;
+        numberOfSeconds = 60*8.1;
 
         % numberOfSeconds = 60*6.25;
         fs = 1666;
