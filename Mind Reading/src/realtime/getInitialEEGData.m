@@ -121,10 +121,10 @@
     prettyPlots(  p.h( p.erp(4) ), 'k');
  
     %figure('Position', [100 100 622 622]);
-    global correctimg;
-    global incorrectimg;
-    correctimg = imread('correct.jpg');
-    incorrectimg = imread('incorrect.jpg');
+    global faceimg;
+    global sceneimg;
+    faceimg = imread('Face.jpg');
+    sceneimg = imread('Scenery.jpg');
     subplot( p.h( p.image ) );
     trainingimg = imread('training.jpg');
     p.h( p.image ) = image(trainingimg);

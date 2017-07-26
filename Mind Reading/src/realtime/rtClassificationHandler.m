@@ -20,13 +20,12 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global zi;
         global roi;
         %global graphic;
-        global faceimage;
-        global nonfaceimage;
+       
         global notextimage;
         global p;
         
-        global correctimg;
-        global incorrectimg;
+        global sceneimg;
+        global faceimg;
         global lastTimeClassImageWasPresented;
 
         numberOfSeconds = 60;
@@ -144,6 +143,10 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
                                     %set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                     
+                                    faceimg = imread('Face.jpg');
+                                    sceneimg = imread('Scenery.jpg');
+                                    
+                                    
                                     
                                      %predict output for test data
                                      disp('------------------------------')
@@ -155,34 +158,14 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
                                         set(p.h( p.predictedImage ),'CData',faceimage);
-                                        %set( p.h( p.image ),'CData',faceimg);
-                                        predictedOutputs
-                                        if(correctClass ==1)
-                                            disp('Correct: Face')
-                                            
-
-                                            %set( p.h( p.image ),'CData',correctimg);
-                                            %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
-                                        else
-                                            disp('Correct: Non Face')
-                                            %set( p.h( p.image ),'CData',incorrectimg);
-                                            %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Non Face') 
-                                        end
-                                        
+        
+                                     
                                     else
                                         disp('Predicted: Non Face')
-                                        set(p.h( p.predictedImage ),'CData',nonfaceimage);
+                                        set(p.h( p.predictedImage ),'CData',sceneimage);
                                         %set(p.h( p.image ),'CData',sceneimg);
                                         predictedOutputs
-                                         if(correctClass ==1)
-                                            disp('Correct: Face')
-                                            %set( p.h( p.image ),'CData',incorrectimg);
-                                            %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Face') 
-                                        else
-                                            disp('Correct: Non Face')
-                                            %set( p.h( p.image ),'CData',correctimg);
-                                            %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Non Face') 
-                                        end
+                                         
                                     end
                                     
                                     
