@@ -45,14 +45,7 @@ out.trainingInputs = trainingInputs;
 out.trainingOutputs = trainingOutputs;
 
 
-%make PCA for visualization
-global PCAcoeff
-global trainingPCADataInputs
-global trainingPCADataOutputs
-coeff = pca(out.trainingInputs);
-PCAcoeff = coeff(:,1:3);
-trainingPCADataInputs = out.trainingInputs * PCAcoeff;
-trainingPCADataOutputs = out.trainingOutputs;
+
 
 
 
@@ -63,6 +56,17 @@ trainedClassifier = trainRTERP( out );
 global classifier
 
 classifier = trainedClassifier;
+
+%make PCA for visualization
+global PCAcoeff
+global trainingPCADataInputs
+global trainingPCADataOutputs
+coeff = pca(out.trainingInputs);
+PCAcoeff = coeff(:,1:3);
+trainingPCADataInputs = out.trainingInputs * PCAcoeff;
+trainingPCADataOutputs = out.trainingOutputs;
+trainingPCADataOutputs = classifier.predictFcn(out.trainingInputs);
+
 disp('Deploy')
 deployClassifier;
 
