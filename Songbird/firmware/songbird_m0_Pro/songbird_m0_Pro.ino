@@ -84,6 +84,7 @@ void makeHeader(int totalAudioLen){
   const int totalDataLen = 44 + totalAudioLen - 8;
   if (totalDataLen % 2 == 1){
      myFile.write(0,1);
+     ++totalDataLen;
   }
   const int compressionType = 1;
   const int numOfChannels = 1;
