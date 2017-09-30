@@ -81,7 +81,7 @@ void sdInit(){
 
 //This function creates a header for the wav file and writes it to the 1st 44 bytes of the currently open file
 void makeHeader(int totalAudioLen){
-  const int totalDataLen = 44 + totalAudioLen;
+  const int totalDataLen = 44 + totalAudioLen - 8;
   const int compressionType = 1;
   const int numOfChannels = 1;
   const int byteRate = (sampleRate * numOfChannels * 16) / 8;
