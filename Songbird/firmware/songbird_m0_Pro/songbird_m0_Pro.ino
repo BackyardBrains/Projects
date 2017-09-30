@@ -5,6 +5,11 @@
 #include "Arduino.h"
 #include "wiring_private.h"
 #include <SD.h>
+#include "DHT.h"
+#define DHTPIN 3
+#define DHTTYPE DHT22
+#define recordPin 11
+DHT dht(DHTPIN, DHTTYPE);
 //
 
 #define PIN 10
@@ -53,12 +58,15 @@ bool fileOpen = 0;
 void sdInit(){
   Serial.begin(9600);
 
+  //Get Environmental Data
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
   //Loop ensures that files won't be overwritten on the card in the device is reset
   while(SD.exists(filename)){
     ++fileNum;
     filename = "BIRD" + (String)fileNum + ".WAV";
   }
-  ++fileNum;
 
   //Set file creation date and open for writing
   SdFile::dateTimeCallback(dateTime);
@@ -81,14 +89,70 @@ void sdInit(){
 
 //This function creates a header for the wav file and writes it to the 1st 44 bytes of the currently open file
 void makeHeader(int totalAudioLen){
-  const int totalDataLen = 44 + totalAudioLen - 8;
-  if (totalDataLen % 2 == 1){
-     myFile.write(0,1);
-     ++totalDataLen;
+  
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+
+  String temperature = (String)t;
+  String humidity = (String)h;
+ 
+  byte metaData[36];
+  metaData[0] = 'L';
+  metaData[1] = 'I';
+  metaData[2] = 'S';
+  metaData[3] = 'T';
+  metaData[4] = 0x1;
+  metaData[5] = 0x1C;
+  metaData[6] = 0;
+  metaData[7] = 0;
+  metaData[8] = 'I';
+  metaData[9] = 'N';
+  metaData[10] = 'F';
+  metaData[11] = 'O';
+  metaData[12] = 'T';
+  metaData[13] = 'E';
+  metaData[14] = 'M';
+  metaData[15] = 'P';
+  metaData[16] = 4;
+  metaData[17] = 0;
+  metaData[18] = 0;
+  metaData[19] = 0;
+  metaData[20] = 0;
+  metaData[21] = 0;
+  metaData[22] = 0;
+  metaData[23] = 0;
+  
+  int j=20;
+  for(int i=0; i<temperature.length(); ++i){
+    metaData[j] = temperature[i];
+    ++j;
   }
+  
+  metaData[24] = 'H';
+  metaData[25] = 'U';
+  metaData[26] = 'M';
+  metaData[27] = 'I';
+  metaData[28] = 4;
+  metaData[29] = 0;
+  metaData[30] = 0;
+  metaData[32] = 0;
+  metaData[33] = 0;
+  metaData[34] = 0;
+  metaData[35] = 0;
+
+  int k=32;
+  for(int l=0; l<humidity.length(); ++l){
+    metaData[k] = humidity[l];
+    ++k;
+  }
+  
+
+  myFile.write(metaData, 36);
+  
   const int compressionType = 1;
   const int numOfChannels = 1;
   const int byteRate = (sampleRate * numOfChannels * 16) / 8;
+  const int totalDataLen = myFile.size();
 
   byte header[44];
   header[0] = 'R';  // RIFF/WAVE header
@@ -266,6 +330,8 @@ void recordToggle(){
 
 void setup()
 {
+  dht.begin();
+  digitalWrite(recordPin, LOW);
   //Sets the rtc if it's not running
   if(!rtc.begin()){
     Serial.begin(9600);
@@ -279,6 +345,7 @@ void setup()
   //Initialize the sd card and the sd-activity led on pin 13
   pinMode(13, OUTPUT);
   digitalWrite(13,LOW);
+  digitalWrite(recordPin, LOW);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
@@ -332,9 +399,10 @@ void loop()
     //If the stop button (d12) has not been pressed it will open a new file for writing
     if(counter >= limit){
       if(!hasSaved || !doRecord){
-        makeHeader(myFile.size());
+        makeHeader(myFile.size()-44);
         myFile.flush();
         myFile.close();
+        digitalWrite(recordPin, LOW);
         fileOpen = 0;
         digitalWrite(13, !fileOpen);
         if(doRecord){
@@ -345,6 +413,7 @@ void loop()
     }
     //When less than 2 seconds of inactivity has passed this will write data from the buffer to the currently open file
     else{
+      digitalWrite(recordPin, HIGH);
       hasSaved = 0;
       int numBytes = anaHead - sdHead;
       if(numBytes >0){
