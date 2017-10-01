@@ -242,11 +242,11 @@ def basic_roc_plot(fpr, tpr, className):
     return roc_auc
 
 if __name__ == '__main__':
-    birds = ['bluejay_all', 'cardinal_song', 'chickadee_song', 'crow_all', 'goldfinch_song', 'robin_song', 'sparrow_song', 'titmouse_song']
-    birds = [os.path.join("/home/zach/Documents/bird_samples", bird + '_clean') for bird
-             in
-             birds]
-    birds.append("/home/zach/Documents/bird_samples/no_cat")
+    birds = ['Baeolophus_bicolor', 'Cardinalis_cardinalis', 'Corvus_brachyrhynchos', 'Cyanocitta_cristata',
+             'Passer_domesticus', 'Poecile_atricapillus', 'Spinus_tristis', 'Turdus_migratorius']
+    birds = [os.path.join("/run/media/zach/untitled/ML_Recordings/Cornell_trimmed_testing", bird, bird + '_clean')
+             for
+             bird in birds]
 
     #new_test = tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test")
     #new_test.test_model()
@@ -254,9 +254,14 @@ if __name__ == '__main__':
     print ''
     thresholds = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     tests = []
+    classifierType = 'randomforest'
+    modelName = "cornell"
+    # from TestandTrain import cornellTrain
+    # cornellTrain(classifierType=classifierType, modelName=modelName)
     for t in thresholds:
         tests.append(
-            tester(test_dirs=birds, model_dir="/home/zach/Documents/bird_samples", modelName="gradientboosting_Test",
+            tester(test_dirs=birds, model_dir='/home/zach/PycharmProjects/Projects/Songbird/machine_learning_and_dsp',
+                   classifierType=classifierType, modelName='_'.join([classifierType, modelName]),
                    level=t, verbose=True))
 
     for r in tests:
