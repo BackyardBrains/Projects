@@ -144,6 +144,7 @@ class classiFier:
                     raise
                 else:
                     tbl_create()
+                    cur.execute(query_text)
             except _mysql_exceptions.IntegrityError, e:
                 if e[0] != 1062:
                     raise
