@@ -1,4 +1,10 @@
-function [ out ] = startClassifier( erps, outputClasses )
+function [ out ] = startClassifier(erps, classOfImage)
+
+global erps;
+global outputClasses;
+global classOfImage;
+
+outputClasses = classOfImage;
 
 disp('Start Classifier')
 out = [];
@@ -38,6 +44,11 @@ trainingOutputs = [ones(1, numberOfSelectedClassExample) zeros(1, numberOfSelect
 out.trainingInputs = trainingInputs;
 out.trainingOutputs = trainingOutputs;
 
+
+
+
+
+
 disp('Train SVM')
 %train network
 trainedClassifier = trainRTERP( out );
@@ -45,6 +56,17 @@ trainedClassifier = trainRTERP( out );
 global classifier
 
 classifier = trainedClassifier;
+
+%make PCA for visualization
+global PCAcoeff
+global trainingPCADataInputs
+global trainingPCADataOutputs
+coeff = pca(out.trainingInputs);
+PCAcoeff = coeff(:,1:3);
+trainingPCADataInputs = out.trainingInputs * PCAcoeff;
+trainingPCADataOutputs = out.trainingOutputs;
+trainingPCADataOutputs = classifier.predictFcn(out.trainingInputs);
+
 disp('Deploy')
 deployClassifier;
 

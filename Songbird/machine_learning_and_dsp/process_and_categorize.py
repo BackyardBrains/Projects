@@ -13,6 +13,7 @@ import _mysql_exceptions
 import pathos.multiprocessing as mp
 from pathos.multiprocessing import Pool
 from pyAudioAnalysis import audioTrainTest as aT
+from pymediainfo import MediaInfo
 
 from config import *
 from noise_removal import noiseCleaner
@@ -52,7 +53,7 @@ class classiFier:
 
         wav_files = []
         for file in os.listdir(directory):
-            if file.endswith('.wav'):
+            if file.endswith('.wav') or file.endswith('.WAV'):
                 file = os.path.join(directory, file)
                 wav_files.append(file)
                 if not num_threads:
@@ -95,13 +96,31 @@ class classiFier:
 
         result_dict = sorted(result_dict.items(), key=lambda x: x[1], reverse=True)
 
-        sample_id = crc32(file)
+        with open(file, 'rb') as file_contents:
+            sample_id = crc32(file_contents.read())
+
         device_id = -1  # tbi
         latitude = -1  # tbi
         longitute = -1  # tbi
-        humidity = -1  # tbi
-        temp = -1  # tbi
+
+        file_metadata = MediaInfo.parse(file)
+        file_metadata = file_metadata.tracks[0]
+        assert file_metadata.track_type == 'General'
+        humidity = file_metadata.humi
+        temp = file_metadata.temp
+
+        if humidity == None:
+            humidity = -1
+        else:
+            humidity = float(humidity)
+
+        if temp == None:
+            temp = -1
+        else:
+            temp = float(temp)
+
         light = -1  # tbi
+
         type1 = '\'' + result_dict[0][0] + '\''
         type2 = '\'' + result_dict[1][0] + '\''
         type3 = '\'' + result_dict[2][0] + '\''
@@ -125,6 +144,7 @@ class classiFier:
                     raise
                 else:
                     tbl_create()
+                    cur.execute(query_text)
             except _mysql_exceptions.IntegrityError, e:
                 if e[0] != 1062:
                     raise

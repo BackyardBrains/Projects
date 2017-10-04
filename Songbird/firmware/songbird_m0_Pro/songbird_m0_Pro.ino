@@ -5,6 +5,11 @@
 #include "Arduino.h"
 #include "wiring_private.h"
 #include <SD.h>
+#include "DHT.h"
+#define DHTPIN 3
+#define DHTTYPE DHT22
+#define recordPin 11
+DHT dht(DHTPIN, DHTTYPE);
 //
 
 #define PIN 10
@@ -18,10 +23,10 @@ const uint32_t  PinMASK = (1ul << g_APinDescription[PIN].ulPin);
 #define TIMER_PRESCALER_DIV 64
 #define LED_PIN 2
 
-#define sampleRate 24000
-
 bool isLEDOn = false;
 
+//This sets the sample rate for analog sampling
+#define sampleRate 24000
 void setTimerFrequency(int frequencyHz) {
   int compareValue = (CPU_HZ / (TIMER_PRESCALER_DIV * frequencyHz)) - 1;
   TcCount16* TC = (TcCount16*) TC3;
@@ -32,8 +37,9 @@ void setTimerFrequency(int frequencyHz) {
   while (TC->STATUS.bit.SYNCBUSY == 1);
 }
 
+//Initializs the Real-time Clock
 RTC_DS1307 rtc;
-
+//Gets the current timestamp in a format that can be used later by the SD library
 void dateTime(uint16_t* date, uint16_t* time) {
  DateTime now = rtc.now();
  
@@ -48,14 +54,21 @@ String filename = "BIRD0.WAV";
 int fileNum = 0;
 bool fileOpen = 0;
 
+//Opens a new file on the sd-card for writing
 void sdInit(){
   Serial.begin(9600);
 
+  //Get Environmental Data
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
+  //Loop ensures that files won't be overwritten on the card in the device is reset
   while(SD.exists(filename)){
     ++fileNum;
     filename = "BIRD" + (String)fileNum + ".WAV";
   }
 
+  //Set file creation date and open for writing
   SdFile::dateTimeCallback(dateTime);
   myFile = SD.open(filename, FILE_WRITE);
 
@@ -64,20 +77,82 @@ void sdInit(){
     while(1);
   }
   else{
+    //The 1st 44 bytes of a wav file are the header, this will be written later
     myFile.seek(44);
     fileOpen = 1;
+    //Turn of the led connected to pin 13 to indicate that it is unsafe to remove the card
     digitalWrite(13, !fileOpen);
   }
 
   Serial.end();
 }
 
-
+//This function creates a header for the wav file and writes it to the 1st 44 bytes of the currently open file
 void makeHeader(int totalAudioLen){
-  const int totalDataLen = 44 + totalAudioLen;
+  
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+
+  String temperature = (String)t;
+  String humidity = (String)h;
+ 
+  byte metaData[36];
+  metaData[0] = 'L';
+  metaData[1] = 'I';
+  metaData[2] = 'S';
+  metaData[3] = 'T';
+  metaData[4] = 0x1;
+  metaData[5] = 0x1C;
+  metaData[6] = 0;
+  metaData[7] = 0;
+  metaData[8] = 'I';
+  metaData[9] = 'N';
+  metaData[10] = 'F';
+  metaData[11] = 'O';
+  metaData[12] = 'T';
+  metaData[13] = 'E';
+  metaData[14] = 'M';
+  metaData[15] = 'P';
+  metaData[16] = 4;
+  metaData[17] = 0;
+  metaData[18] = 0;
+  metaData[19] = 0;
+  metaData[20] = 0;
+  metaData[21] = 0;
+  metaData[22] = 0;
+  metaData[23] = 0;
+  
+  int j=20;
+  for(int i=0; i<temperature.length(); ++i){
+    metaData[j] = temperature[i];
+    ++j;
+  }
+  
+  metaData[24] = 'H';
+  metaData[25] = 'U';
+  metaData[26] = 'M';
+  metaData[27] = 'I';
+  metaData[28] = 4;
+  metaData[29] = 0;
+  metaData[30] = 0;
+  metaData[32] = 0;
+  metaData[33] = 0;
+  metaData[34] = 0;
+  metaData[35] = 0;
+
+  int k=32;
+  for(int l=0; l<humidity.length(); ++l){
+    metaData[k] = humidity[l];
+    ++k;
+  }
+  
+
+  myFile.write(metaData, 36);
+  
   const int compressionType = 1;
   const int numOfChannels = 1;
   const int byteRate = (sampleRate * numOfChannels * 16) / 8;
+  const int totalDataLen = myFile.size();
 
   byte header[44];
   header[0] = 'R';  // RIFF/WAVE header
@@ -145,6 +220,7 @@ void makeHeader(int totalAudioLen){
 This is a slightly modified version of the timer setup found at:
 https://github.com/maxbader/arduino_tools
  */
+//Function starts the timer which will trigger an interrupt at the set sample rate to sample from the analog pin
 void startTimer(int frequencyHz) {
   REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID (GCM_TCC2_TC3)) ;
   while ( GCLK->STATUS.bit.SYNCBUSY == 1 );
@@ -177,6 +253,7 @@ void startTimer(int frequencyHz) {
   while (TC->STATUS.bit.SYNCBUSY == 1);
 }
 
+//The buffer stores audio data until it can be written to the card
 #define BUFFER_SIZE 25000
 byte buffer[BUFFER_SIZE];
 byte *anaHead = &buffer[0];
@@ -188,6 +265,7 @@ const long limit = 2 * sampleRate;
 long counter = limit;
 bool saveToCard = 0;
 
+//Interrupt triggered by the timer at the set sample rate; Takes one analog sample and adds it to the buffer
 void TC3_Handler() {
   TcCount16* TC = (TcCount16*) TC3;
   // If this interrupt is due to the compare register matching the timer count
@@ -195,6 +273,8 @@ void TC3_Handler() {
   if (TC->INTFLAG.bit.MC0 == 1) {
     TC->INTFLAG.bit.MC0 = 1;
     //digitalWrite(2, HIGH);
+    
+    //Does a single read from the analog pin and adds it to the buffer
     anaVal = anaRead();
     
     *anaHead = anaVal&0xFF;
@@ -206,6 +286,9 @@ void TC3_Handler() {
     }
     
     //digitalWrite(2, LOW);
+    //reads from the activity detector (sound threshold) on pin 7 
+    //Increments a counter that will reach it's maximum value after 2 seconds of inactivity
+    //This will be used later to trigger the end of the recording
     saveToCard = digitalRead(7);
     if(!saveToCard){
       if (counter < limit){
@@ -240,12 +323,16 @@ uint32_t val = 0;           // variable to store the value read
 
 bool doRecord = 1;
 
+//Interrupt function to set the variable that determines whether we should continue recording after the current file
 void recordToggle(){
   doRecord = !doRecord;
 }
 
 void setup()
 {
+  dht.begin();
+  digitalWrite(recordPin, LOW);
+  //Sets the rtc if it's not running
   if(!rtc.begin()){
     Serial.begin(9600);
     Serial.println("RTC cannot start");
@@ -253,13 +340,17 @@ void setup()
   }
   if(!rtc.isrunning()){
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  } 
+  }
+  
+  //Initialize the sd card and the sd-activity led on pin 13
   pinMode(13, OUTPUT);
+  digitalWrite(13,LOW);
+  digitalWrite(recordPin, LOW);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
     Serial.end();
-    digitalWrite(13, LOW);
+    digitalWrite(13,HIGH);
     while(1);
   }
   
@@ -286,9 +377,11 @@ void setup()
   ADC->CTRLB.reg =  ctrlb     ; 
   anaRead();  //Discard first conversion after setup as ref changed
 
-
+  //Start reading from the activity detection pin and start sampling from the analog pin
   pinMode(7, INPUT);
   startTimer(sampleRate);
+  //Attaches an interrupt to the button on pin 12 to flip a variable that will tell the device not to open a new file after the current 
+  //one finishes, so the sd-card can be safely removed
   attachInterrupt(digitalPinToInterrupt(12), recordToggle, RISING);
 }
 
@@ -302,11 +395,14 @@ bool hasSaved = 1;
 void loop()
 {
   if(fileOpen){
+    //When 2 seconds of inactivity has passed this will finish the file by adding the header then closing the file
+    //If the stop button (d12) has not been pressed it will open a new file for writing
     if(counter >= limit){
       if(!hasSaved || !doRecord){
-        makeHeader(myFile.size());
+        makeHeader(myFile.size()-44);
         myFile.flush();
         myFile.close();
+        digitalWrite(recordPin, LOW);
         fileOpen = 0;
         digitalWrite(13, !fileOpen);
         if(doRecord){
@@ -315,7 +411,9 @@ void loop()
         hasSaved = 1;
       }
     }
+    //When less than 2 seconds of inactivity has passed this will write data from the buffer to the currently open file
     else{
+      digitalWrite(recordPin, HIGH);
       hasSaved = 0;
       int numBytes = anaHead - sdHead;
       if(numBytes >0){
@@ -340,6 +438,7 @@ void loop()
       }
     }
   }
+  //This should restart recording if the button on d12 is pressed again after recording has stopped
   else if(doRecord){
     sdInit();
   }
@@ -373,4 +472,5 @@ uint16_t anaRead() {
   return valueRead;
 }
 //##############################################################################
+
 

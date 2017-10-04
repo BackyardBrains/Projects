@@ -4,7 +4,7 @@ CREATE TABLE sampleInfo (
   added     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   latitude  FLOAT,
   longitude FLOAT,
-  humidity  INTEGER,
+  humidity  FLOAT,
   temp      FLOAT,
   light     FLOAT,
   type1     VARCHAR(40),

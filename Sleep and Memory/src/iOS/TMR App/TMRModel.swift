@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class TMRModel {
+class TMRModel:SKScene {
     func begin(screen : TMRScreen, context : TMRContext) {
         screen.timerInterval(interval: 0)
     }
@@ -24,6 +24,9 @@ class TMRModel {
     func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
     }
     
+    func touchEnd(screen : TMRScreen, context:TMRContext, position: CGPoint) {
+    }
+
     func end(screen : TMRScreen, context : TMRContext){
     }
 }

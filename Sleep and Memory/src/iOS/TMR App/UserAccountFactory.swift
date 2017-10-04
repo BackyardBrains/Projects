@@ -15,10 +15,11 @@ class UserAccountFactory {
         for i in 0..<listUserAccount.count{
             let account:UserAccount = listUserAccount[i]
             if ( account.getUserName() == userName ) {
+                print("old")
                 return account;
             }
         }
-        
+        print("new")
         let retAccount:UserAccount = UserAccount(userName:userName,password:password)
         listUserAccount.append(retAccount)
         return retAccount;
@@ -45,6 +46,7 @@ class UserAccountFactory {
         }
         
         let retAccount:UserAccount = UserAccount(tuple: tuple)
+        print("Tuple:\(tuple)")
         listUserAccount.append(retAccount)
         return retAccount;
     }
@@ -72,6 +74,7 @@ class UserAccountFactory {
     
     
     static func save(name:String,user: UserAccountTuple){
+        del(name: name)
         user.saveToDocuments(name+".user")
     }
     

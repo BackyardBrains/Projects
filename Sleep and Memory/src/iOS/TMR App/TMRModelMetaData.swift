@@ -17,12 +17,14 @@ class TMRModelMetaData:TMRModel{
     var subjectNameField = UITextField()
     var experimenterField = UITextField()
     var locationField = UITextField()
+    var x = SKSpriteNode()
     
-    var next = SKSpriteNode()
+    var nextt = SKSpriteNode()
+    
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
         screen.clearScreen()
-
+        
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Setup: If blank, default value is used", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
         screen.addChild(title)
         
@@ -46,7 +48,11 @@ class TMRModelMetaData:TMRModel{
         locationField.autocorrectionType = .no
         view.addSubview(locationField)
         
-        if context.setupPassed[0]{
+        x = SKSpriteNode(imageName: "quit", ySize: screen.frame.height/6-10, anchorPoint: CGPoint(x:0,y:1), position: CGPoint(x:5,y:screen.frame.height-5), zPosition: 3, alpha: 1)
+        x.name = "quit"
+        screen.addChild(x)
+        
+        if context.project.getSetupPassed()[0]==1{
             projectNameField.text = context.project.getTMRProjectName()
             subjectNameField.text = context.project.getSubject()
             experimenterField.text = context.project.getExperimenter()
@@ -54,9 +60,9 @@ class TMRModelMetaData:TMRModel{
         }
         
         
-        next = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
-        screen.addChild(next)
-
+        nextt = SKSpriteNode(imageName: "NextIcon", ySize: screen.frame.height/7, anchorPoint: CGPoint(x:0.5,y:0.5), position: CGPoint(x:screen.frame.width/2+screen.frame.height/14+10,y:screen.frame.height*0.3), zPosition: 2, alpha: 1)
+        screen.addChild(nextt)
+        
     }
     
     override func timerTick(screen : TMRScreen, context : TMRContext) {
@@ -64,9 +70,51 @@ class TMRModelMetaData:TMRModel{
     }
     
     override func touch(screen : TMRScreen, context:TMRContext, position: CGPoint) {
-        if next.contains(position){
-            context.userAccount = UserAccountFactory.createUserAccount(userName: "Robert", password: "")
-            context.project = TMRProjectFactory.getTMRProject(userAccount : context.userAccount)
+        if x.contains(position){
+            subjectNameField.removeFromSuperview()
+            locationField.removeFromSuperview()
+            experimenterField.removeFromSuperview()
+            projectNameField.removeFromSuperview()
+            context.reset()
+            if context.project.getSetupPassed()[7] != 1{
+                context.project.setSetupPassed(array: [0,0,0,0,0,0,0,0])
+            }
+            if context.project.getSetupPassed()[7] == 1{
+                context.project = context.baseProjectCopy
+            }
+            
+            context.nextModel = .Home
+        }
+        if nextt.contains(position){
+            if let name = projectNameField.text{
+                if name != ""{
+                    if context.project.getSetupPassed()[7] == 1{
+                        print(context.baseProjectCopy.getTMRProjectName())
+                        print(context.project.getTMRProjectName())
+                        context.project.setTMRProjectName(name: name)
+                        print(context.baseProjectCopy.getTMRProjectName())
+                        print(context.project.getTMRProjectName())
+                    }else{
+                        context.project = TMRProjectFactory.getTMRProject(projectName: name, ID:context.userAccount.getID(), userAccount: context.userAccount)
+                        context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    }
+                }else{
+                    if context.project.getSetupPassed()[7] == 1{
+                       context.project.setTMRProjectName(name: "Untitled")
+                    }else{
+                        context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled", ID:context.userAccount.getID(),userAccount: context.userAccount)
+                        context.userAccount.setID(ID: context.userAccount.getID()+1)
+                    }
+                }
+            }else{
+                if context.project.getSetupPassed()[0] == 1{
+                    context.project.setTMRProjectName(name: "Untitled")
+                }else{
+                    context.project = TMRProjectFactory.getTMRProject(projectName: "Untitled",ID:context.userAccount.getID(),userAccount: context.userAccount)
+                    context.userAccount.setID(ID: context.userAccount.getID()+1)
+                }
+            }
+            
             if let subject = subjectNameField.text{
                 if subject != ""{
                     context.project.setSubject(name: subject)
@@ -91,30 +139,19 @@ class TMRModelMetaData:TMRModel{
                 }
             }else{context.project.setExperimenter(name: "Not Set")}
             
-            if let name = projectNameField.text{
-                if name != ""{
-                    context.project.setTMRProjectName(name: name)
-                }else{
-                    context.project.setTMRProjectName(name: "Untitled")
-                }
-            }else{context.project.setTMRProjectName(name: "Untitled")}
-            
             subjectNameField.removeFromSuperview()
             locationField.removeFromSuperview()
             experimenterField.removeFromSuperview()
             projectNameField.removeFromSuperview()
             
-            context.setupPassed[0] = true
+            var array = context.project.getSetupPassed()
+            array[0] = 1
+            context.project.setSetupPassed(array:array)
             context.nextModel = .ExpData
-            
-            print(context.project.getSubject())
-            print(context.project.getExperimenter())
-            print(context.project.getLocation())
-            print(context.project.getTMRProjectName())
         }
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-
+        
     }
 }

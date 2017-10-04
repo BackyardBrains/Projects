@@ -20,14 +20,21 @@ function [ output_args ] = rtClassificationHandler(varargin)
         global zi;
         global roi;
         %global graphic;
+        global faceimage;
+        global nonfaceimage;
+        global notextimage;
         global p;
         
         global correctimg;
         global incorrectimg;
+        global lastTimeClassImageWasPresented;
+        global PCAcoeff;
+        global trainingPCADataInputs
+        global trainingPCADataOutputs
 
+        numberOfSeconds = 60*6.1;
 
-        numberOfSeconds = 60*8;
-        % numberOfSeconds = 60*6.25;
+        % numberOfSeconds = 60*6.1;
         fs = 1666;
         endOfRecording = numberOfSeconds * fs * 12;
 
@@ -138,40 +145,71 @@ function [ output_args ] = rtClassificationHandler(varargin)
                                     set( p.h( p.eeg(3)), 'ydata', roiEEG(:,3)');
                                     set( p.h( p.eeg(4)), 'ydata', roiEEG(:,4)');
                                     set( p.h( p.eeg(5)), 'ydata', roiEEG(:,5)');
-                                    set( p.h( p.eeg(6)), 'ydata', encodingChannel);
+                                    %set( p.h( p.eeg(6)), 'ydata', encodingChannel);
                                     
                                     
                                      %predict output for test data
                                      disp('------------------------------')
                                      disp('Decoding...')
                                     predictedOutputs = classifier.predictFcn(inputVector);
-                                    %predictedOutputs
+                                    predictedOutputs
                                     predictedClasses = [predictedClasses predictedOutputs];
+                                    
+                                    
+%                                     subplot( p.h( p.svmData ) );
+%                                     indexes = trainingPCADataOutputs==1;
+%                                     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'ro');
+% 
+%                                     hold on;
+%                                     indexes = trainingPCADataOutputs~=1;
+%                                     plot(trainingPCADataInputs(indexes,1),trainingPCADataInputs(indexes,3),'go');
+% 
+%                                     currentPCAVector = inputVector * PCAcoeff;
+%                                      plot(currentPCAVector(1),currentPCAVector(3),'k*');
+%                                      legend('Face','Non Face','Current');
+%                                      if(predictedOutputs==1)
+%                                         plot(currentPCAVector(1),currentPCAVector(3),'ro');
+%                                         
+%                                      else
+%                                         plot(currentPCAVector(1),currentPCAVector(3),'go');
+%                                      end
+%                                     hold off;
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    lastTimeClassImageWasPresented = (length(dataEEG)/12)/fs;
                                     if(predictedOutputs ==1)
                                         disp('Predicted: Face')
+                                        set(p.h( p.predictedImage ),'CData',faceimage);
                                         %set( p.h( p.image ),'CData',faceimg);
                                         predictedOutputs
                                         if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set( p.h( p.image ),'CData',correctimg);
+                                            
+
+                                            %set( p.h( p.image ),'CData',correctimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set( p.h( p.image ),'CData',incorrectimg);
+                                            %set( p.h( p.image ),'CData',incorrectimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Non Face') 
                                         end
                                         
                                     else
                                         disp('Predicted: Non Face')
-                                        % set(p.h( p.image ),'CData',sceneimg);
+                                        set(p.h( p.predictedImage ),'CData',nonfaceimage);
+                                        %set(p.h( p.image ),'CData',sceneimg);
                                         predictedOutputs
                                          if(correctClass ==1)
                                             disp('Correct: Face')
-                                            set( p.h( p.image ),'CData',incorrectimg);
+                                            %set( p.h( p.image ),'CData',incorrectimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Incorrect  - Correct: Face') 
                                         else
                                             disp('Correct: Non Face')
-                                            set( p.h( p.image ),'CData',correctimg);
+                                            %set( p.h( p.image ),'CData',correctimg);
                                             %set(p.h( p.predictionOutcome ), 'string', 'Match!  - Correct: Non Face') 
                                         end
                                     end
@@ -188,6 +226,9 @@ function [ output_args ] = rtClassificationHandler(varargin)
 
                         lastProcessedIndex = lastProcessedIndex+ endOfProcessingBlock;
                        
+            end
+            if((((length(dataEEG)/12)/fs)-lastTimeClassImageWasPresented)>2)
+                set(p.h( p.predictedImage ),'CData',notextimage);
             end
             if(length(dataEEG)>endOfRecording)
                 fclose(serialEEG);
