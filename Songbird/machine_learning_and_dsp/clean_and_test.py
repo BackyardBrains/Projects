@@ -8,7 +8,7 @@ import time
 
 from noise_removal import noiseCleaner
 from sanitize_filenames import sanatize_filenames
-from test_model import test_model
+from test_model import tester
 from twillio_test import send_notification
 
 
@@ -44,8 +44,9 @@ def clean_and_test(directory, model_file, classifierType, birds, verbose, skip_c
         model_dir, model_name = os.path.split(model_file)
         if not len(model_dir):
             model_dir = os.getcwd()
-        test_model(test_dirs, modelName=model_name, model_dir=model_dir, classifierType=classifierType,
-                   store_to_mySQL=True, verbose=verbose)
+        model_tester = tester(test_dirs, modelName=model_name, model_dir=model_dir, classifierType=classifierType,
+                              verbose=verbose)
+        model_tester.test_model()
     except Exception:
         send_notification("Clean and test process failed.")
         raise

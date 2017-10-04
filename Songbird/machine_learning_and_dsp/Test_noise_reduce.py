@@ -1,6 +1,7 @@
-from noise_removal import noiseCleaner
-
+import os
 if __name__ == '__main__':
-    rootdir = "D:\\ML Recordings\\Cornell_trimmed"
-    new_cleaner = noiseCleaner(verbose=True, num_threads=0)
-    new_cleaner.noise_removal_dir(rootdir)
+    rootdir = "F:\\bird_model_2\\WC_BIRDS_testing"
+    # new_cleaner = noiseCleaner(verbose=True)
+    # new_cleaner.noise_removal_dir(rootdir)
+    for root, dirs, files in os.walk(rootdir):
+        print dirs
