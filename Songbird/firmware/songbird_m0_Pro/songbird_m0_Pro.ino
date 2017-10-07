@@ -9,6 +9,7 @@
 #define DHTPIN 3
 #define DHTTYPE DHT22
 #define recordPin 11
+#define sdPin 13
 DHT dht(DHTPIN, DHTTYPE);
 //
 
@@ -81,7 +82,7 @@ void sdInit(){
     myFile.seek(44);
     fileOpen = 1;
     //Turn of the led connected to pin 13 to indicate that it is unsafe to remove the card
-    digitalWrite(13, !fileOpen);
+    digitalWrite(sdPin, !fileOpen);
   }
 
   Serial.end();
@@ -324,8 +325,12 @@ uint32_t val = 0;           // variable to store the value read
 bool doRecord = 1;
 
 //Interrupt function to set the variable that determines whether we should continue recording after the current file
+bool buttonPressed = 0; //Keeps track of whether the stop button has been pressed since the end of the last recording
 void recordToggle(){
-  doRecord = !doRecord;
+  if(!buttonPressed){
+    doRecord = !doRecord;
+    buttonPressed = 1;
+  }
 }
 
 void setup()
@@ -340,17 +345,19 @@ void setup()
   }
   if(!rtc.isrunning()){
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    //If the rtc loses power at any point it will reset back to the time when this sketch was compiled
   }
   
   //Initialize the sd card and the sd-activity led on pin 13
-  pinMode(13, OUTPUT);
-  digitalWrite(13,LOW);
+  pinMode(sdPin, OUTPUT);
+  pinMode(recordPin, OUTPUT);
+  digitalWrite(sdPin,LOW);
   digitalWrite(recordPin, LOW);
   if(!SD.begin(8)){
     Serial.begin(9600);
     Serial.println("Cannot connect to SD Card");
     Serial.end();
-    digitalWrite(13,HIGH);
+    digitalWrite(sdPin,HIGH);
     while(1);
   }
   
@@ -404,11 +411,12 @@ void loop()
         myFile.close();
         digitalWrite(recordPin, LOW);
         fileOpen = 0;
-        digitalWrite(13, !fileOpen);
+        digitalWrite(sdPin, !fileOpen);
         if(doRecord){
           sdInit();
         }
         hasSaved = 1;
+        buttonPressed = 0;
       }
     }
     //When less than 2 seconds of inactivity has passed this will write data from the buffer to the currently open file
@@ -441,6 +449,7 @@ void loop()
   //This should restart recording if the button on d12 is pressed again after recording has stopped
   else if(doRecord){
     sdInit();
+    buttonPressed = 0;
   }
 }
 
