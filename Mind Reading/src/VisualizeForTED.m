@@ -37,7 +37,7 @@ hold off;
 
 figure;
 hold on;
-ylim([-1 numberOfStimuli+1]);
+%ylim([-1 numberOfStimuli+1]);
 for i=1:size(ERPsFirst,1)
 h = plot(timeAxis,(0.5/mean(std(ERPsFirst)))*ERPsFirst(i,:)+i,'b');
 hold on;
@@ -46,6 +46,20 @@ end
 %xlim([1,numberOfStimuli]);
 xlabel({'Time [Seconds]'});
 ylabel({'Stimulus #'});
+title(titleText);
+
+hold off;
+
+figure;
+hold on;
+for i=1:size(ERPsFirst,1)
+h = plot(timeAxis,ERPsFirst(i,:),'b');
+hold on;
+end
+
+%xlim([1,numberOfStimuli]);
+xlabel({'Time [Seconds]'});
+ylabel({'EEG [Voltage]'});
 title(titleText);
 
 hold off;
