@@ -16,7 +16,7 @@ class TMRUserSignin : TMRModel  {
     
     override func begin(screen : TMRScreen, context : TMRContext,view:SKView) {
         super.begin(screen: screen, context: context)
-        print("model home begin")
+        print("model sign in begin")
         screen.clearScreen()
         
         let title = SKLabelNode(position: CGPoint(x:screen.frame.width/2,y:screen.frame.height-30), zPosition: 2, text: "Sign In", fontColor: UIColor(red:97/255,green:175/255,blue:175/255,alpha:1), fontName: "Arial Bold", fontSize: 30, verticalAlignmentMode: .top, horizontalAlignmentMode: .center)
@@ -35,14 +35,14 @@ class TMRUserSignin : TMRModel  {
         for node in screen.children{
             if node.name == "next"{
                 if let name = username.text{
-                    if name == "Robert"{
+                   // if name == "Robert"{
                         UserAccountFactory.importAllUserAccountssFromFiles()
                         context.userAccount = UserAccountFactory.createUserAccount(userName: name, password: "6")
                         UserAccountFactory.save(name: context.userAccount.getUserName(), user: context.userAccount.getUserAccountTuple())
                         context.nextModel = .Loading
                         context.userAccount.setUserName(userName: name)
                         username.removeFromSuperview()
-                    }
+                   // }
                 }
                 
             }
@@ -50,7 +50,7 @@ class TMRUserSignin : TMRModel  {
     }
     
     override func end(screen : TMRScreen, context : TMRContext){
-        print("model home end")
+        print("model sign in end")
     }
     
 }

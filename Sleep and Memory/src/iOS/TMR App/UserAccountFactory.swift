@@ -52,7 +52,7 @@ class UserAccountFactory {
     }
     
     static func importAllUserAccountssFromFiles() {
-        print("entering importAllProjectFromFiles")
+        print("entering importAllUserAccountssFromFiles")
         let files = getNameList()
         for file in files  {            
             let accountTuple = load(name: file)

@@ -144,6 +144,7 @@
 /* Begin PBXFileReference section */
 		3B1D324E675C86EB15D17F83 /* Pods-TMR App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMR App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TMR App/Pods-TMR App.debug.xcconfig"; sourceTree = "<group>"; };
 		4FEAB9389515C04501AC3437 /* Pods-TMR App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMR App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TMR App/Pods-TMR App.release.xcconfig"; sourceTree = "<group>"; };
+		850387FF22B3A555004A962D /* TMR Memory Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "TMR Memory Test.entitlements"; sourceTree = "<group>"; };
 		971BE6971EF7262700EBC37D /* TMRProjectFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRProjectFactory.swift; sourceTree = "<group>"; };
 		971BE69B1EF97B3100EBC37D /* TMRExportEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRExportEntry.swift; sourceTree = "<group>"; };
 		974975081EF4E7F4009A3BFF /* TMRProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMRProject.swift; sourceTree = "<group>"; };
@@ -343,6 +344,7 @@
 		E1BB36111EE5F90D000F3AF0 = {
 			isa = PBXGroup;
 			children = (
+				850387FF22B3A555004A962D /* TMR Memory Test.entitlements */,
 				E1BB361C1EE5F90D000F3AF0 /* TMR App */,
 				E1BB361B1EE5F90D000F3AF0 /* Products */,
 				D4BC2A3ABB1B8235DD32D19D /* Pods */,
@@ -502,7 +504,6 @@
 				E1BB36171EE5F90D000F3AF0 /* Frameworks */,
 				E1BB36181EE5F90D000F3AF0 /* Resources */,
 				B2C3DC60B4BEC7A2C0AF5F6F /* [CP] Embed Pods Frameworks */,
-				A50458DE24E19514D7B52C2C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -525,8 +526,19 @@
 				TargetAttributes = {
 					E1BB36191EE5F90D000F3AF0 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = NX68CWX2FV;
+						DevelopmentTeam = MLGRKD657P;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.HomeKit = {
+								enabled = 0;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -644,28 +656,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TMR App-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A50458DE24E19514D7B52C2C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TMR App/Pods-TMR App-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B2C3DC60B4BEC7A2C0AF5F6F /* [CP] Embed Pods Frameworks */ = {
@@ -674,13 +674,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TMR App/Pods-TMR App-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/EVReflection/EVReflection.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EVReflection.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TMR App/Pods-TMR App-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TMR App/Pods-TMR App-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -780,6 +783,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "TMR Memory Test.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -830,6 +834,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "TMR Memory Test.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -857,11 +862,12 @@
 			baseConfigurationReference = 3B1D324E675C86EB15D17F83 /* Pods-TMR App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NX68CWX2FV;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MLGRKD657P;
 				INFOPLIST_FILE = "TMR App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iLaunch.TMR-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.backyardbrains.tmr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -872,11 +878,12 @@
 			baseConfigurationReference = 4FEAB9389515C04501AC3437 /* Pods-TMR App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NX68CWX2FV;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MLGRKD657P;
 				INFOPLIST_FILE = "TMR App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iLaunch.TMR-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.backyardbrains.tmr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
